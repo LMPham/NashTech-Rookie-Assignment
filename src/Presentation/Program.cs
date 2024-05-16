@@ -1,9 +1,33 @@
+using Presentation;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
+
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddPresentationServices();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+// Remove this when done testing
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+//-----------------------------------
+
+// Remove this when done testing
+
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+//-----------------------------------
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -23,5 +47,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapEndpoints();
 
 app.Run();
