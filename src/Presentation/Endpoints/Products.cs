@@ -1,5 +1,5 @@
 ﻿using Application.UseCases.Products.Commands.CreateProduct;
-using Presentation.Infrastructure;
+using Application.UseCases.Products.Commands.DeleteProduct;
 
 namespace Presentation.Endpoints
 {
@@ -7,20 +7,20 @@ namespace Presentation.Endpoints
     {
         public override void Map(WebApplication app)
         {
-            //app.MapGroup(this)
-            //    .MapPost(CreateProduct);
             app.MapGroup(this)
-                .MapPost(CreateProduct);
+                .MapPost(CreateProduct)
+                .MapDelete(DeleteProduct, "{id}");
         }
         
         public Task<int> CreateProduct(ISender sender, CreateProductCommand command)
         {
             return sender.Send(command);
         }
-
-        public string Bello()
+       
+        public async Task<IResult> DeleteProduct(ISender sender, int id)
         {
-            return "Bello";
+            await sender.Send(new DeleteProductCommand { Id = id});
+            return Results.NoContent();
         }
     }
 }

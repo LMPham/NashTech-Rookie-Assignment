@@ -20,10 +20,7 @@
   <ItemGroup>
     <Folder Include="Common\Behaviors\" />
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="UseCases\Categories\Commands\CreateCategory\" />
-    <Folder Include="UseCases\Categories\Commands\DeleteCategory\" />
     <Folder Include="UseCases\Categories\Commands\UpdateCategory\" />
-    <Folder Include="UseCases\Products\Commands\DeleteProduct\" />
     <Folder Include="UseCases\Products\Commands\UpdateProduct\" />
   </ItemGroup>
 

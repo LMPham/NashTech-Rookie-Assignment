@@ -42,6 +42,8 @@ namespace Presentation
             //#endif
             //});
 
+            services.AddScoped<IMediator, Mediator>();
+
             return services;
         }
 

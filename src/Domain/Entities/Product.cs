@@ -7,7 +7,7 @@
     {
         public required string Name { get; set; }
         public required Category Category { get; set; }
-        public string Description { get; set; } = String.Empty;
+        public required string Description { get; set; }
         public required int Price {  get; set; }
         //public string? Image { get; set; }
     }

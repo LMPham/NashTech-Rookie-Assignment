@@ -7,7 +7,7 @@ namespace Application.UseCases.Products.Commands.CreateProduct
     {
         public required string Name { get; init; }
         public required Category Category { get; init; }
-        public string? Description { get; init; }
+        public string Description { get; init; } = String.Empty;
         public required int Price { get; init; }
         //public string? Image { get; set; }
     }
@@ -23,7 +23,7 @@ namespace Application.UseCases.Products.Commands.CreateProduct
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Product
+            var product = new Product
             {
                 Name = request.Name,
                 Category = request.Category,
@@ -31,17 +31,12 @@ namespace Application.UseCases.Products.Commands.CreateProduct
                 Price = request.Price,
             };
 
-            //entity.AddDomainEvent(...)
+            dbContext.Products.Add(product);
+            await dbContext.SaveChangesAsync(cancellationToken);
 
-            //dbContext.Products.Add(entity);
-            //await dbContext.SaveChangesAsync(cancellationToken);
+            //product.AddDomainEvent(...)
 
-            //return entity.Id;
-            Console.WriteLine(entity.Name);
-            Console.WriteLine(entity.Category);
-            Console.WriteLine(entity.Description);
-            Console.WriteLine(entity.Price);
-            return 1000000;
+            return product.Id;
         }
     }
 }
