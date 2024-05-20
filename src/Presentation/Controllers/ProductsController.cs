@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.Products.Commands.CreateProduct;
 using Application.UseCases.Products.Commands.DeleteProduct;
+using Application.UseCases.Products.Commands.UpdateProduct;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -19,6 +20,13 @@ namespace Presentation.Controllers
         public async Task<int> Post(CreateProductCommand command)
         {
             return await mediator.Send(command);
+        }
+
+        [HttpPatch(Name = "Swagger/UpdateProduct")]
+        public async Task<IResult> Patch(UpdateProductCommand command)
+        {
+            await mediator.Send(command);
+            return Results.NoContent();
         }
 
         [HttpDelete(Name = "Swagger/DeleteProduct")]

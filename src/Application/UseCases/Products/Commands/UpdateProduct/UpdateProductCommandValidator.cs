@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace Application.UseCases.Products.Commands.UpdateProduct
 {
-    internal class UpdateProductCommandValidator
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
     {
     }
 }

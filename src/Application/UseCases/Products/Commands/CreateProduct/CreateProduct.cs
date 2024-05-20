@@ -9,7 +9,7 @@ namespace Application.UseCases.Products.Commands.CreateProduct
         public required Category Category { get; init; }
         public string Description { get; init; } = String.Empty;
         public required int Price { get; init; }
-        //public string? Image { get; set; }
+        //public string? Image { get; init; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>

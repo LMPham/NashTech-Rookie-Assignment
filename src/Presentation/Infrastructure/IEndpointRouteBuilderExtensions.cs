@@ -34,6 +34,16 @@ namespace Presentation.Infrastructure
             return builder;
         }
 
+        public static IEndpointRouteBuilder MapPatch(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
+        {
+            Guard.Against.AnonymousMethod(handler);
+
+            builder.MapPatch(pattern, handler)
+                .WithName(handler.Method.Name);
+
+            return builder;
+        }
+
         public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern="")
         {
             Guard.Against.AnonymousMethod(handler);
