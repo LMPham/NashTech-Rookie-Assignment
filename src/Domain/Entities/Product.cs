@@ -5,10 +5,10 @@
     /// </summary>
     public class Product : BaseAuditableEntity<int>
     {
-        public required string Name { get; set; }
-        public required Category Category { get; set; }
-        public required string Description { get; set; }
-        public required int Price {  get; set; }
+        public string Name { get; set; } = String.Empty;
+        public Category Category { get; set; } = new Category();
+        public string Description { get; set; } = String.Empty;
+        public int Price {  get; set; } = 0;
         //public string? Image { get; set; }
     }
 }

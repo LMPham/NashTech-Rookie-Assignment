@@ -5,7 +5,7 @@
     /// </summary>
     public class Category : BaseAuditableEntity<int>
     {
-        public required string Name {  get; set; }
-        public required string Description { get; set; }
+        public string Name { get; set; } = String.Empty;
+        public string Description { get; set; } = String.Empty;
     }
 }

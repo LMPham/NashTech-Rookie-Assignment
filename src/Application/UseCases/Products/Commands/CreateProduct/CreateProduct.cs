@@ -1,5 +1,6 @@
 ﻿
 using Application.Common.Interfaces;
+using Ardalis.GuardClauses;
 
 namespace Application.UseCases.Products.Commands.CreateProduct
 {
@@ -23,10 +24,12 @@ namespace Application.UseCases.Products.Commands.CreateProduct
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
+
             var product = new Product
             {
                 Name = request.Name,
-                Category = request.Category,
+                Category = category ?? request.Category,
                 Description = request.Description,
                 Price = request.Price,
             };
