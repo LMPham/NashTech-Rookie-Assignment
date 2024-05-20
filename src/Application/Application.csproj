@@ -20,8 +20,6 @@
   <ItemGroup>
     <Folder Include="Common\Behaviors\" />
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="UseCases\Categories\Commands\UpdateCategory\" />
-    <Folder Include="UseCases\Products\Commands\UpdateProduct\" />
   </ItemGroup>
 
 </Project>
