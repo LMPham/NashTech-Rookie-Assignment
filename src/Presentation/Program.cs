@@ -4,11 +4,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
 
+// Injects depedencies
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPresentationServices();
 
-// Add services to the container.
+// Adds services to the container.
 builder.Services.AddControllersWithViews();
 
 
@@ -29,7 +30,7 @@ app.UseSwaggerUI();
 
 //-----------------------------------
 
-// Configure the HTTP request pipeline.
+// Configures the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

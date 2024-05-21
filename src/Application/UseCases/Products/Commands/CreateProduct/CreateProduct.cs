@@ -4,6 +4,9 @@ using Ardalis.GuardClauses;
 
 namespace Application.UseCases.Products.Commands.CreateProduct
 {
+    /// <summary>
+    /// Request to create a new Product.
+    /// </summary>
     public record CreateProductCommand : IRequest<int>
     {
         public required string Name { get; init; }
@@ -13,6 +16,9 @@ namespace Application.UseCases.Products.Commands.CreateProduct
         //public string? Image { get; init; }
     }
 
+    /// <summary>
+    /// Request handler for creating a new Product.
+    /// </summary>
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly IApplicationDbContext dbContext;
@@ -22,8 +28,15 @@ namespace Application.UseCases.Products.Commands.CreateProduct
             dbContext = _dbContext;
         }
 
+        /// <summary>
+        /// Creates a new Product and adds it into the database.
+        /// The new Product cannot contain a new Category having non-null Id
+        /// since the database does not allow identity inserting.
+        /// </summary>
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            // Checks if the Category of the Product exists in the database
+            // If the Category exists, replaces it with the record in the database to prevent creating duplicate records
             var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
 
             var product = new Product

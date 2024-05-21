@@ -2,8 +2,16 @@
 
 namespace Presentation.Infrastructure
 {
+    /// <summary>
+    /// Extension of the <see cref="WebApplication"/> class for
+    /// mapping API endpoints.
+    /// </summary>
     public static class WebApplicationExtensions
     {
+        /// <summary>
+        /// Maps the specified API endpoint group to a route,
+        /// which can be used to map the group's endpoints for easier management.
+        /// </summary>
         public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group)
         {
             var groupName = group.GetType().Name;
@@ -15,6 +23,9 @@ namespace Presentation.Infrastructure
                 .WithOpenApi();
         }
 
+        /// <summary>
+        /// Maps all endpoint groups in the executing assembly.
+        /// </summary>
         public static WebApplication MapEndpoints(this WebApplication app)
         {
             var endpointGroupType = typeof(EndpointGroupBase);

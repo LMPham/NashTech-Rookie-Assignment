@@ -4,6 +4,9 @@ using Application.UseCases.Products.Commands.UpdateProduct;
 
 namespace Presentation.Endpoints
 {
+    /// <summary>
+    /// Product API endpoint group for handling Product-related services
+    /// </summary>
     public class Products : EndpointGroupBase
     {
         public override void Map(WebApplication app)

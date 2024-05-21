@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace Infrastructure.Data
 {
+    /// <summary>
+    /// The application database context
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -15,7 +18,9 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // Apply all configurations in the Configurations folder
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

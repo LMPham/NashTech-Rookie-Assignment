@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
+    /// <summary>
+    /// Controller for managing Categories
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class CategoriesController : Controller

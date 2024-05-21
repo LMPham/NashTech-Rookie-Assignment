@@ -1,14 +1,19 @@
 ﻿using Application.Common.Interfaces;
-using Application.UseCases.Products.Commands.CreateProduct;
 
 namespace Application.UseCases.Categories.Commands.CreateCategory
 {
+    /// <summary>
+    /// Request to create a new Category.
+    /// </summary>
     public record CreateCategoryCommand : IRequest<int>
     {
         public required string Name { get; init; }
         public string Description { get; init; } = String.Empty;
     }
 
+    /// <summary>
+    /// Request handler for creating a new Category.
+    /// </summary>
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
     {
         private readonly IApplicationDbContext dbContext;
@@ -18,6 +23,9 @@ namespace Application.UseCases.Categories.Commands.CreateCategory
             dbContext = _dbContext;
         }
 
+        /// <summary>
+        /// Creates a new Category and adds it into the database.
+        /// </summary>
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = new Category

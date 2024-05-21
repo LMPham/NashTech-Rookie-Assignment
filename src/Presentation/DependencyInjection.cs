@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace Presentation
 {
+    /// <summary>
+    /// Extension of the <see cref="IServiceCollection"/> interface
+    /// for injecting the dependencies of the Presentation layer.
+    /// </summary>
     public static class DependencyInjection
     {
         public static IServiceCollection AddPresentationServices(this IServiceCollection services)

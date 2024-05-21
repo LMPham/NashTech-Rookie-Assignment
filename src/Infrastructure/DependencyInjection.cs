@@ -8,6 +8,10 @@ using System;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Extension of the <see cref="IServiceCollection"/> interface
+    /// for injecting the dependencies of the Infrastructure layer
+    /// </summary>
     public static class DependencyInjection
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)

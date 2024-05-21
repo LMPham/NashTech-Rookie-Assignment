@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace Application
 {
+    /// <summary>
+    /// Extension of the <see cref="IServiceCollection"/> interface
+    /// for injecting the dependencies of the Application layer
+    /// </summary>
     public static class DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
