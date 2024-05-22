@@ -1,7 +1,7 @@
 ﻿namespace Domain.Entities
 {
     /// <summary>
-    /// Category entity
+    /// Category entity.
     /// </summary>
     public class Category : BaseAuditableEntity<int>
     {

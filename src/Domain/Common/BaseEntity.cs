@@ -3,7 +3,7 @@
 namespace Domain.Common
 {
     /// <summary>
-    /// Base class for domain entities
+    /// Base class for domain entities.
     /// </summary>
     public abstract class BaseEntity<T>
     {
@@ -14,7 +14,7 @@ namespace Domain.Common
         public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
 
         /// <summary>
-        /// Adds a domain event to the entity
+        /// Adds a domain event to the entity.
         /// </summary>
         public void AddDomainEvent(BaseEvent domainEvent)
         {
@@ -22,7 +22,7 @@ namespace Domain.Common
         }
 
         /// <summary>
-        /// Removes a domain event from the entity
+        /// Removes a domain event from the entity.
         /// </summary>
         public void RemoveDomainEvent(BaseEvent domainEvent)
         {
@@ -30,7 +30,7 @@ namespace Domain.Common
         }
 
         /// <summary>
-        /// Removes all domain events from the entity
+        /// Removes all domain events from the entity.
         /// </summary>
         public void ClearDomainEvents()
         {

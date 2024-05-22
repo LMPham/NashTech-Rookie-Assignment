@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Data.Configurations
 {
     /// <summary>
-    /// Configurations for the Category entity
+    /// Configurations for the Category entity.
     /// </summary>
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

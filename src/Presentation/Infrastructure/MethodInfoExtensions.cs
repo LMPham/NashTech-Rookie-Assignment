@@ -5,7 +5,7 @@ namespace Presentation.Infrastructure
     /// <summary>
     /// Extensions of the <see cref="IGuardClause"/> interface 
     /// and <see cref="MethodInfo"/> class for checking and 
-    /// guarding against anonymous method
+    /// guarding against anonymous method.
     /// </summary>
     public static class MethodInfoExtensions
     {

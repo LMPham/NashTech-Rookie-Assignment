@@ -1,7 +1,7 @@
 ﻿namespace Domain.Common
 {
     /// <summary>
-    /// Base class for entities that can be audited
+    /// Base class for entities that can be audited.
     /// </summary>
     public abstract class BaseAuditableEntity<T> : BaseEntity<T>
     {

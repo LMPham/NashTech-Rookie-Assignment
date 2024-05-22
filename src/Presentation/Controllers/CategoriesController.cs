@@ -1,12 +1,13 @@
 ﻿using Application.UseCases.Categories.Commands.CreateCategory;
 using Application.UseCases.Categories.Commands.DeleteCategory;
 using Application.UseCases.Categories.Commands.UpdateCategory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
     /// <summary>
-    /// Controller for managing Categories
+    /// Controller for managing Categories.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -17,6 +18,13 @@ namespace Presentation.Controllers
         public CategoriesController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        // Testing auth
+        [HttpGet(Name = "Swagger/GetCategory"), Authorize]
+        public int Get()
+        {
+            return 69696;
         }
 
         [HttpPost(Name = "Swagger/CreateCategory")]

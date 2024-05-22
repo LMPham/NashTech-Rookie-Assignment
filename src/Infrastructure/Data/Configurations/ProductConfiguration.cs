@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Data.Configurations
 {
     /// <summary>
-    /// Configurations for the Product entity
+    /// Configurations for the Product entity.
     /// </summary>
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {

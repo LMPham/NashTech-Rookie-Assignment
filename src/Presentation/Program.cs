@@ -1,3 +1,4 @@
+using Infrastructure.Identity;
 using Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.MapIdentityApi<ApplicationUser>();
 
 //-----------------------------------
 
@@ -43,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

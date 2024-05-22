@@ -1,6 +1,8 @@
 ﻿namespace Application.Common.Interfaces
 {
-    // Base interface for application db context for interacting with the database.
+    /// <summary>
+    /// Base interface for application database contexts for interacting with the database.
+    /// </summary>
     public interface IApplicationDbContext
     {
         DbSet<Product> Products { get; }

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Common.Behaviors;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -6,7 +7,7 @@ namespace Application
 {
     /// <summary>
     /// Extension of the <see cref="IServiceCollection"/> interface
-    /// for injecting the dependencies of the Application layer
+    /// for injecting the dependencies of the Application layer.
     /// </summary>
     public static class DependencyInjection
     {
@@ -20,7 +21,7 @@ namespace Application
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 //cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-                //cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
                 //cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
                 //cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
             });

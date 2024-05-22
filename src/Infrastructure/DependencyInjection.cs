@@ -1,16 +1,19 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Constants;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.Net.Http.Headers;
 
 namespace Infrastructure
 {
     /// <summary>
     /// Extension of the <see cref="IServiceCollection"/> interface
-    /// for injecting the dependencies of the Infrastructure layer
+    /// for injecting the dependencies of the Infrastructure layer.
     /// </summary>
     public static class DependencyInjection
     {
@@ -29,34 +32,60 @@ namespace Infrastructure
                 options.UseSqlServer(connectionString);
             });
 
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
             //services.AddScoped<ApplicationDbContextInitialiser>();
 
-            //#if (UseApiOnly)
-            //    services.AddAuthentication()
-            //        .AddBearerToken(IdentityConstants.BearerScheme);
+            // Combines Bearer Token and Cookie Authentication
+            services.AddAuthentication(options =>
+                {
+                    // Custom scheme defined in .AddPolicyScheme() below
+                    options.DefaultScheme = "BEARER_OR_COOKIE";
+                    options.DefaultChallengeScheme = "BEARER_OR_COOKIE";
+                })
+                .AddCookie(IdentityConstants.ApplicationScheme, options =>
+                {
+                    //options.LoginPath = "/";
+                    //options.LogoutPath = "/";
+                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                })
+                .AddBearerToken(IdentityConstants.BearerScheme)
+                .AddPolicyScheme("BEARER_OR_COOKIE", "BEARER_OR_COOKIE", options =>
+                {
+                    // Filter auth type to choose Bearer auth or Cookie auth
+                    options.ForwardDefaultSelector = context =>
+                    {
+                        string? authorization = context.Request.Headers[HeaderNames.Authorization];
+                        if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+                        {
+                            // Returns Token auth
+                            return IdentityConstants.BearerScheme;
+                        }
+                        // Otherwise, returns Cookie auth
+                        return IdentityConstants.ApplicationScheme;
+                    };
+                });
 
-            //    services.AddAuthorizationBuilder();
+            services.AddAuthorizationBuilder();
 
-            //    services
-            //        .AddIdentityCore<ApplicationUser>()
-            //        .AddRoles<IdentityRole>()
-            //        .AddEntityFrameworkStores<ApplicationDbContext>()
-            //        .AddApiEndpoints();
-            //#else
-            //services
-            //    .AddDefaultIdentity<ApplicationUser>()
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-            //#endif
+            services
+                .AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddApiEndpoints();
 
             //services.AddSingleton(TimeProvider.System);
-            //services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
+            services.AddAuthorization();
             //services.AddAuthorization(options =>
             //    options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
+
+            //services.AddAuthorizationBuilder()
+            //  .AddPolicy("AtLeast21", policy =>
+            //  {
+            //  policy.Requirements.Add(new MinimumAgeRequirement(21)));
+            //  });
 
             return services;
         }

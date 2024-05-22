@@ -1,7 +1,7 @@
 ﻿namespace Domain.Common
 {
     /// <summary>
-    /// Base class for domain value objects
+    /// Base class for domain value objects.
     /// </summary>
     public abstract class ValueObject
     {

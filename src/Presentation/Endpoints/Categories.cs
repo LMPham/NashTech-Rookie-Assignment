@@ -5,7 +5,7 @@ using Application.UseCases.Categories.Commands.UpdateCategory;
 namespace Presentation.Endpoints
 {
     /// <summary>
-    /// Category API endpoint group for handling Category-related services
+    /// Category API endpoint group for handling Category-related services.
     /// </summary>
     public class Categories : EndpointGroupBase
     {

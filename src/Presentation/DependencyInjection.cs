@@ -1,6 +1,8 @@
-﻿using Azure.Identity;
+﻿using Application.Common.Interfaces;
+using Azure.Identity;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Services;
 using System.Collections.Generic;
 
 namespace Presentation
@@ -15,7 +17,7 @@ namespace Presentation
         {
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
-            //services.AddScoped<IUser, CurrentUser>();
+            services.AddScoped<IUser, CurrentUser>();
 
             services.AddHttpContextAccessor();
 

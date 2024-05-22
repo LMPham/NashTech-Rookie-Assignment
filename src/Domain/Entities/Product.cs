@@ -1,7 +1,7 @@
 ﻿namespace Domain.Entities
 {
     /// <summary>
-    /// Product entity
+    /// Product entity.
     /// </summary>
     public class Product : BaseAuditableEntity<int>
     {

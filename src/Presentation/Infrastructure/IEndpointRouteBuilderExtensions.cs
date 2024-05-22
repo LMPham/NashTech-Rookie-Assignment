@@ -4,12 +4,12 @@ namespace Presentation.Infrastructure
 {
     /// <summary>
     /// Extension of the <see cref="IEndpointRouteBuilder"/> interface
-    /// for mapping API endpoints
+    /// for mapping API endpoints.
     /// </summary>
     public static class IEndpointRouteBuilderExtensions
     {
         /// <summary>
-        /// Maps GET request endpoint
+        /// Maps GET request endpoint.
         /// </summary>
         public static IEndpointRouteBuilder MapGet(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
         {
@@ -22,7 +22,7 @@ namespace Presentation.Infrastructure
         }
 
         /// <summary>
-        /// Maps POST request endpoint
+        /// Maps POST request endpoint.
         /// </summary>
         public static IEndpointRouteBuilder MapPost(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
         {
@@ -35,7 +35,7 @@ namespace Presentation.Infrastructure
         }
 
         /// <summary>
-        /// Maps PUT request endpoint
+        /// Maps PUT request endpoint.
         /// </summary>
         public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern="")
         {
@@ -48,7 +48,7 @@ namespace Presentation.Infrastructure
         }
 
         /// <summary>
-        /// Maps PATCH request endpoint
+        /// Maps PATCH request endpoint.
         /// </summary>
         public static IEndpointRouteBuilder MapPatch(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
         {
@@ -61,7 +61,7 @@ namespace Presentation.Infrastructure
         }
 
         /// <summary>
-        /// Maps DELETE request endpoint
+        /// Maps DELETE request endpoint.
         /// </summary>
         public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern="")
         {

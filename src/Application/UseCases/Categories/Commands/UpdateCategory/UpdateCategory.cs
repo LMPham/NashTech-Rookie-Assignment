@@ -4,7 +4,7 @@ using Ardalis.GuardClauses;
 namespace Application.UseCases.Categories.Commands.UpdateCategory
 {
     /// <summary>
-    /// Request to update an existing Category
+    /// Request to update an existing Category.
     /// </summary>
     public class UpdateCategoryCommand : IRequest
     {
