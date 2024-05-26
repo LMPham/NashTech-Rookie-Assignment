@@ -22,9 +22,9 @@ namespace Presentation.Controllers
 
         // Testing auth
         [HttpGet(Name = "Swagger/GetCategory"), Authorize]
-        public int Get()
+        public string Get()
         {
-            return 69696;
+            return "This is a secret list of categories.";
         }
 
         [HttpPost(Name = "Swagger/CreateCategory")]
