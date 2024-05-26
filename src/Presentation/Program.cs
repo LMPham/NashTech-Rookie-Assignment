@@ -1,11 +1,39 @@
+using Infrastructure.Identity;
+using Infrastructure.Identity.Services;
+using Presentation;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//builder.Services.AddKeyVaultIfConfigured(builder.Configuration);
+
+// Injects depedencies
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddPresentationServices();
+
+// Adds services to the container.
 builder.Services.AddControllersWithViews();
+
+
+// Remove this when done testing
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+//-----------------------------------
+
+// Remove this when done testing
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapCustomIdentityApi<ApplicationUser>();
+
+//-----------------------------------
+
+// Configures the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -18,10 +46,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapEndpoints();
 
 app.Run();
