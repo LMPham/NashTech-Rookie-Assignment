@@ -2,12 +2,17 @@
 using Domain.Constants;
 using Infrastructure.Data;
 using Infrastructure.Identity;
+using Infrastructure.Identity.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using System.Text;
 
 namespace Infrastructure
 {
@@ -36,12 +41,12 @@ namespace Infrastructure
 
             //services.AddScoped<ApplicationDbContextInitialiser>();
 
-            // Combines Bearer Token and Cookie Authentication
+            // Combines JWT Token and Cookie Authentication
             services.AddAuthentication(options =>
                 {
                     // Custom scheme defined in .AddPolicyScheme() below
-                    options.DefaultScheme = "BEARER_OR_COOKIE";
-                    options.DefaultChallengeScheme = "BEARER_OR_COOKIE";
+                    options.DefaultScheme = "JWT_OR_COOKIE";
+                    options.DefaultChallengeScheme = "JWT_OR_COOKIE";
                 })
                 .AddCookie(IdentityConstants.ApplicationScheme, options =>
                 {
@@ -49,16 +54,28 @@ namespace Infrastructure
                     //options.LogoutPath = "/";
                     //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                 })
-                .AddBearerToken(IdentityConstants.BearerScheme)
-                .AddPolicyScheme("BEARER_OR_COOKIE", "BEARER_OR_COOKIE", options =>
+                .AddCustomJwtBearer(IdentityConstants.BearerScheme, options =>
                 {
-                    // Filter auth type to choose Bearer auth or Cookie auth
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = configuration["Jwt:Audience"],
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? "")),
+                    };
+                })
+                .AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
+                {
+                    // Filter auth type to choose JWT auth or Cookie auth
                     options.ForwardDefaultSelector = context =>
                     {
                         string? authorization = context.Request.Headers[HeaderNames.Authorization];
                         if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
                         {
-                            // Returns Token auth
+                            // Returns JWT auth
                             return IdentityConstants.BearerScheme;
                         }
                         // Otherwise, returns Cookie auth
