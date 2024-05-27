@@ -1,6 +1,7 @@
 ﻿
 using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
+using Domain.Events.Products;
 
 namespace Application.UseCases.Products.Commands.CreateProduct
 {
@@ -47,10 +48,11 @@ namespace Application.UseCases.Products.Commands.CreateProduct
                 Price = request.Price,
             };
 
-            dbContext.Products.Add(product);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            product.AddDomainEvent(new ProductCreatedEvent(product));
 
-            //product.AddDomainEvent(...)
+            dbContext.Products.Add(product);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
 
             return product.Id;
         }

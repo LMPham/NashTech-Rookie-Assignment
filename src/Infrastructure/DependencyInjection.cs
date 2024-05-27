@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Constants;
 using Infrastructure.Data;
+using Infrastructure.Data.Interceptors;
 using Infrastructure.Identity;
 using Infrastructure.Identity.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
@@ -28,12 +29,12 @@ namespace Infrastructure
 
             Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
 
-            //services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-            //services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                //options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+                options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
                 options.UseSqlServer(connectionString);
             });
 
@@ -91,7 +92,7 @@ namespace Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddApiEndpoints();
 
-            //services.AddSingleton(TimeProvider.System);
+            services.AddSingleton(TimeProvider.System);
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddAuthorization();

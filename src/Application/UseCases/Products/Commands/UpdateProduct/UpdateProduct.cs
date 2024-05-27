@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
+using Domain.Events.Products;
 
 namespace Application.UseCases.Products.Commands.UpdateProduct
 {
@@ -49,11 +50,13 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
                 Guard.Against.NotFound(request.Category.Id, category);
                 product.Category = category;
             }
+
             product.Description = request.Description ?? product.Description;
             product.Price = request.Price ?? product.Price;
-            await dbContext.SaveChangesAsync(cancellationToken);
 
-            //product.AddDomainEvent(...)
+            product.AddDomainEvent(new ProductUpdatedEvent(product));
+
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
+using Domain.Events.Categories;
 
 namespace Application.UseCases.Categories.Commands.DeleteCategory
 {
@@ -34,9 +35,10 @@ namespace Application.UseCases.Categories.Commands.DeleteCategory
             Guard.Against.NotFound(request.Id, category);
 
             dbContext.Categories.Remove(category);
-            await dbContext.SaveChangesAsync(cancellationToken);
 
-            //category.AddDomainEvent(...)
+            category.AddDomainEvent(new CategoryDeletedEvent(category));
+
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

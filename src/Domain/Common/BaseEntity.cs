@@ -8,17 +8,17 @@ namespace Domain.Common
     public abstract class BaseEntity<T>
     {
         public T? Id { get; set; }
-        private readonly List<BaseEvent> _domainEvents = new();
+        private readonly List<BaseEvent> domainEvents = new();
 
         [NotMapped]
-        public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<BaseEvent> DomainEvents => domainEvents.AsReadOnly();
 
         /// <summary>
         /// Adds a domain event to the entity.
         /// </summary>
         public void AddDomainEvent(BaseEvent domainEvent)
         {
-            _domainEvents.Add(domainEvent);
+            domainEvents.Add(domainEvent);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Domain.Common
         /// </summary>
         public void RemoveDomainEvent(BaseEvent domainEvent)
         {
-            _domainEvents.Remove(domainEvent);
+            domainEvents.Remove(domainEvent);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Domain.Common
         /// </summary>
         public void ClearDomainEvents()
         {
-            _domainEvents.Clear();
+            domainEvents.Clear();
         }
     }
 }

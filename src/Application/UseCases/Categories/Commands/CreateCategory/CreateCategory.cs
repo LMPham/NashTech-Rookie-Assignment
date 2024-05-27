@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Events.Categories;
 
 namespace Application.UseCases.Categories.Commands.CreateCategory
 {
@@ -34,10 +35,11 @@ namespace Application.UseCases.Categories.Commands.CreateCategory
                 Description = request.Description,
             };
 
-            dbContext.Categories.Add(category);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            category.AddDomainEvent(new CategoryCreatedEvent(category));
 
-            //category.AddDomainEvent(...)
+            dbContext.Categories.Add(category);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
 
             return category.Id;
         }
