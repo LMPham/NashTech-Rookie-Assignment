@@ -3,7 +3,7 @@ using Application.Common.Interfaces;
 using Application.Common.Security;
 using System.Reflection;
 
-namespace Application.Common.Behaviors
+namespace Application.Common.Behaviours
 {
     /// <summary>
     /// A pipeline behavior for authorizing user requests.
