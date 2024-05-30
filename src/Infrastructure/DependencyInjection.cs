@@ -51,9 +51,9 @@ namespace Infrastructure
                 })
                 .AddCookie(IdentityConstants.ApplicationScheme, options =>
                 {
-                    //options.LoginPath = "/";
-                    //options.LogoutPath = "/";
-                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                    options.LoginPath = "/Identity/Account/Login";
+                    options.LogoutPath = "/Identity/Account/Logout";
+                    //options.ExpireTimeSpan = TimeSpan.MaxValue;
                 })
                 .AddCustomJwtBearer(IdentityConstants.BearerScheme, options =>
                 {

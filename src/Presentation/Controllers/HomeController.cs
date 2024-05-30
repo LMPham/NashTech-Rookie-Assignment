@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using System.Diagnostics;
@@ -12,8 +13,13 @@ namespace Presentation.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
         {
             return View();
         }

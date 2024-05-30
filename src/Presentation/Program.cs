@@ -13,6 +13,7 @@ builder.Services.AddPresentationServices();
 
 // Adds services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 
 // Remove this when done testing
@@ -52,6 +53,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.MapEndpoints();
 

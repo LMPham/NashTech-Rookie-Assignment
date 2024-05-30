@@ -20,3 +20,58 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Layout*/
+.resizeselect {
+    background-color: #ebebeb;
+}
+
+    .resizeselect:hover {
+        background-color: #d2d2d2;
+    }
+
+option {
+    background-color: white;
+}
+
+.search-button {
+    background-color: #ebebeb;
+    color: black;
+}
+
+    .search-button:hover {
+        background-color: #d2d2d2;
+    }
+
+.nav-item {
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+    .nav-item:hover {
+        border: 1px solid white;
+    }
+
+/*AuthLayout*/
+.login-logout-card .card-header {
+    padding: 0px 0px 12px 0px;
+}
+
+.login-logout-card ul.nav-tabs {
+    margin: 0px 0px -12px 0px;
+}
+
+.login-logout-card li.nav-item {
+    width: 50%;
+}
+
+.login-logout-card a.nav-link {
+    font-size: 1rem;
+    color: #495057;
+    text-align: center;
+    padding: 1rem;
+}
+
+.login-logout-card .card-body {
+    padding: 10px 20px;
+}
