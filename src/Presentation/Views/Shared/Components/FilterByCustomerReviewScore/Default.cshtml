@@ -1,0 +1,43 @@
+﻿@*FilterByCustomerReviewScore's default view*@
+
+<p class="fw-bold m-0">Customer Reviews</p>
+<a class="row primary-hover" href="#">
+    <div class="col-auto pe-1">
+        <i class="fa-solid fa-chevron-left"></i>
+    </div>
+    Clear
+</a>
+@*5 stars*@
+<a class="row primary-hover filter-sub" href="#">
+    <div class="col-auto text-warning text-default pe-1">
+        @await Component.InvokeAsync("CustomerReviewScore", 5.0)
+    </div>
+</a>
+@*4 stars and up*@
+<a class="row primary-hover filter-sub" href="#">
+    <div class="col-auto text-warning text-default pe-1">
+        @await Component.InvokeAsync("CustomerReviewScore", 4.0)
+    </div>
+    & Up
+</a>
+@*3 stars and up*@
+<a class="row primary-hover filter-sub" href="#">
+    <div class="col-auto text-warning text-default pe-1">
+        @await Component.InvokeAsync("CustomerReviewScore", 3.0)
+    </div>
+    & Up
+</a>
+@*2 stars and up*@
+<a class="row primary-hover filter-sub" href="#">
+    <div class="col-auto text-warning text-default pe-1">
+        @await Component.InvokeAsync("CustomerReviewScore", 2.0)
+    </div>
+    & Up
+</a>
+@*1 star and up*@
+<a class="row primary-hover filter-sub" href="#">
+    <div class="col-auto text-warning text-default pe-1">
+        @await Component.InvokeAsync("CustomerReviewScore", 1.0)
+    </div>
+    & Up
+</a>

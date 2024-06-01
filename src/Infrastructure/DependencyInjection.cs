@@ -1,11 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Constants;
 using Infrastructure.Data;
 using Infrastructure.Data.Interceptors;
 using Infrastructure.Identity;
 using Infrastructure.Identity.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -39,8 +36,6 @@ namespace Infrastructure
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
-            //services.AddScoped<ApplicationDbContextInitialiser>();
 
             // Combines JWT Token and Cookie Authentication
             services.AddAuthentication(options =>

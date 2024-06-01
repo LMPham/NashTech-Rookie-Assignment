@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using System.Diagnostics;
@@ -7,21 +6,28 @@ namespace Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
+        private readonly IMediator mediator;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> _logger, IMediator _mediator)
         {
-            _logger = logger;
-        }
-        
-        public IActionResult Index()
-        {
-            return View();
+            logger = _logger;
+            mediator = _mediator;
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            GetProductsWithPaginationCommand command = new GetProductsWithPaginationCommand
+            {
+                CategoryId = 10,
+                PageNumber = 1,
+                PageSize = 2,
+            };
+
+            var products = await mediator.Send(command);
+
+            return View(products);
+
         }
 
         public IActionResult Privacy()

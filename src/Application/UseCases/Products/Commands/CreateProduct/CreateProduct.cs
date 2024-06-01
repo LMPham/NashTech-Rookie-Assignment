@@ -1,6 +1,4 @@
-﻿
-using Application.Common.Interfaces;
-using Ardalis.GuardClauses;
+﻿using Application.Common.Interfaces;
 using Domain.Events.Products;
 
 namespace Application.UseCases.Products.Commands.CreateProduct
