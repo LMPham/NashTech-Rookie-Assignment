@@ -21,18 +21,18 @@ namespace Application.UseCases.Products.Commands.GetProductsWithPagination
     /// </summary>
     public class GetProductsWithPaginationCommandHandler : IRequestHandler<GetProductsWithPaginationCommand, PaginatedList<ProductBriefDto>>
     {
-        private readonly IApplicationDbContext context;
+        private readonly IApplicationDbContext dbContext;
         private readonly IMapper mapper;
 
         public GetProductsWithPaginationCommandHandler(IApplicationDbContext _context, IMapper _mapper)
         {
-            context = _context;
+            dbContext = _context;
             mapper = _mapper;
         }
 
         public async Task<PaginatedList<ProductBriefDto>> Handle(GetProductsWithPaginationCommand request, CancellationToken cancellationToken)
         {
-            return await context.Products
+            return await dbContext.Products
                 .Where(product => product.Category.Id == request.CategoryId)
                 .OrderBy(product => product.Price)
                 .ProjectTo<ProductBriefDto>(mapper.ConfigurationProvider)

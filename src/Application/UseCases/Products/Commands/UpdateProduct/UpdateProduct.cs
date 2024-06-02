@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
-using Domain.Events.Products;
 
 namespace Application.UseCases.Products.Commands.UpdateProduct
 {
@@ -11,7 +10,6 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
     {
         public required int Id { get; init; }
         public string? Name { get; init; }
-        public Category? Category { get; init; }
         public string? Description { get; init; }
         public int? Price { get; init; }
         //public string? Image { get; init; }
@@ -41,15 +39,6 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
             Guard.Against.NotFound(request.Id, product);
 
             product.Name = request.Name ?? product.Name;
-            // Checks if the Category of the Product exists. If not, throws an exception.
-            // Otherwise, replaces it with the record in the database to prevent creating a new Category record
-            if (request.Category != null)
-            {
-                var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
-
-                Guard.Against.NotFound(request.Category.Id, category);
-                product.Category = category;
-            }
 
             product.Description = request.Description ?? product.Description;
             product.Price = request.Price ?? product.Price;

@@ -1,5 +1,14 @@
 ﻿global using Application;
+global using Application.UseCases.Categories.Commands.CreateCategory;
+global using Application.UseCases.Categories.Commands.DeleteCategory;
+global using Application.UseCases.Categories.Commands.UpdateCategory;
+global using Application.UseCases.Departments.Commands.CreateDepartment;
+global using Application.UseCases.Departments.Commands.UpdateDepartment;
+global using Application.UseCases.Departments.Commands.DeleteDepartment;
+global using Application.UseCases.Products.Commands.CreateProduct;
+global using Application.UseCases.Products.Commands.DeleteProduct;
 global using Application.UseCases.Products.Commands.GetProductsWithPagination;
+global using Application.UseCases.Products.Commands.UpdateProduct;
 global using Ardalis.GuardClauses;
 global using Infrastructure;
 global using MediatR;

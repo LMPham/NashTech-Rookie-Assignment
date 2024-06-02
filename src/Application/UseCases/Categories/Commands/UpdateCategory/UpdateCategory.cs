@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
-using Domain.Events.Categories;
 
 namespace Application.UseCases.Categories.Commands.UpdateCategory
 {

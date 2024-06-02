@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240601191434_UpdateProductTableAndAddDepartmentTable")]
+    partial class UpdateProductTableAndAddDepartmentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,7 +356,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Department", "Department")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -417,8 +420,6 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
                     b.Navigation("Categories");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,4 @@
-﻿using Application.UseCases.Categories.Commands.CreateCategory;
-using Application.UseCases.Categories.Commands.DeleteCategory;
-using Application.UseCases.Categories.Commands.UpdateCategory;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {

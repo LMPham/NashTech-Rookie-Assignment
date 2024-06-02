@@ -1,5 +1,6 @@
-﻿using Application.Common.Interfaces;
-using Domain.Events.Products;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
+using Ardalis.GuardClauses;
 
 namespace Application.UseCases.Products.Commands.CreateProduct
 {
@@ -9,6 +10,7 @@ namespace Application.UseCases.Products.Commands.CreateProduct
     public record CreateProductCommand : IRequest<int>
     {
         public required string Name { get; init; }
+        public required Department Department { get; init; }
         public required Category Category { get; init; }
         public string Description { get; init; } = String.Empty;
         public required int Price { get; init; }
@@ -29,26 +31,36 @@ namespace Application.UseCases.Products.Commands.CreateProduct
 
         /// <summary>
         /// Creates a new Product and adds it into the database.
-        /// The new Product cannot contain a new Category having non-null Id
-        /// since the database does not allow identity inserting.
+        /// The new Product must be in a existing Department and
+        /// have an existing Category that is in the respective Department
         /// </summary>
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            // Checks if the Category of the Product exists in the database
-            // If the Category exists, replaces it with the record in the database to prevent creating duplicate records
+            // Checks if the Category and Department of the Product exists in the database.
             var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
+            Guard.Against.NotFound(request.Category.Id, category);
+
+            var department = dbContext.Departments.Where(d => d.Id == request.Department.Id).FirstOrDefault();
+            Guard.Against.NotFound(request.Department.Id, department);
+
+            // Checks if the Category is in the Department
+            if (!department.Categories.Contains(category))
+            {
+                throw new BadRequestException();
+            }
 
             var product = new Product
             {
                 Name = request.Name,
-                Category = category ?? request.Category,
+                Department = department,
+                Category = category,
                 Description = request.Description,
                 Price = request.Price,
             };
 
             product.AddDomainEvent(new ProductCreatedEvent(product));
 
-            dbContext.Products.Add(product);
+            department.Products.Add(product);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -1,9 +1,4 @@
 ﻿using Application.Common.Models;
-using Application.UseCases.Products.Commands.CreateProduct;
-using Application.UseCases.Products.Commands.DeleteProduct;
-using Application.UseCases.Products.Commands.GetProductsWithPagination;
-using Application.UseCases.Products.Commands.UpdateProduct;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
@@ -16,16 +11,10 @@ namespace Presentation.Controllers
     {
         private readonly IMediator mediator;
 
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator _mediator)
         {
-            this.mediator = mediator;
+            mediator = _mediator;
         }
-
-        //[HttpGet(Name = "Swagger/GetProducts")]
-        //public async Task<PaginatedList<ProductBriefDto>> Get([FromBody] GetProductsWithPaginationCommand command)
-        //{
-        //    return await mediator.Send(command);
-        //}
 
         [HttpGet(Name = "Swagger/GetProducts")]
         public async Task<PaginatedList<ProductBriefDto>> Get([FromQuery] GetProductsWithPaginationCommand command)

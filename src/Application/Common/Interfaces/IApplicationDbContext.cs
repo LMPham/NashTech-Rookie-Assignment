@@ -7,6 +7,7 @@
     {
         DbSet<Product> Products { get; }
         DbSet<Category> Categories { get; }
+        DbSet<Department> Departments { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

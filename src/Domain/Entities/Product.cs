@@ -6,6 +6,7 @@
     public class Product : BaseAuditableEntity<int>
     {
         public string Name { get; set; } = String.Empty;
+        public Department Department { get; set; } = new Department();
         public Category Category { get; set; } = new Category();
         public string Description { get; set; } = String.Empty;
         public int Price {  get; set; } = 0;

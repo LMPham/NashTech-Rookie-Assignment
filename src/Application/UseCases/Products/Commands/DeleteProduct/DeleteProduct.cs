@@ -1,8 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Security;
 using Ardalis.GuardClauses;
-using Domain.Constants;
-using Domain.Events.Products;
 
 namespace Application.UseCases.Products.Commands.DeleteProduct
 {
