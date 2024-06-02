@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Ardalis.GuardClauses;
 
 namespace Application.UseCases.Categories.Commands.CreateCategory
 {
@@ -9,6 +10,7 @@ namespace Application.UseCases.Categories.Commands.CreateCategory
     {
         public required string Name { get; init; }
         public string Description { get; init; } = String.Empty;
+        public required Department Department { get; init; }
     }
 
     /// <summary>
@@ -25,19 +27,25 @@ namespace Application.UseCases.Categories.Commands.CreateCategory
 
         /// <summary>
         /// Creates a new Category and adds it into the database.
+        /// The Category must be in an existing department
         /// </summary>
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
+            // Checks if the Department exists in the database.
+            var department = dbContext.Departments.Where(d => d.Id == request.Department.Id).FirstOrDefault();
+            Guard.Against.NotFound(request.Department.Id, department);
+
             var category = new Category
             {
                 Name = request.Name,
                 Description = request.Description,
             };
 
-            dbContext.Categories.Add(category);
-            await dbContext.SaveChangesAsync(cancellationToken);
+            category.AddDomainEvent(new CategoryCreatedEvent(category));
 
-            //category.AddDomainEvent(...)
+            department.Categories.Add(category);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
 
             return category.Id;
         }

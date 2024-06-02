@@ -1,0 +1,62 @@
+﻿@*FilterByPrice's default view*@
+
+@model LookupDto
+
+<p class="fw-bold m-0">Price</p>
+
+@*Clear Filter*@
+@if (Model.HasFilterByPrice())
+{
+    <a class="row primary-hover" asp-controller="Home" asp-action="ClearFilterByPrice">
+        <div class="col-auto pe-1">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        Clear
+    </a>
+}
+
+<form class="input-group justify-content-around mt-1" asp-controller="Home" asp-action="FilterByPrice">
+    <div class="col-5">
+        <input type="number" id="minPrice" class="form-control filter-input" placeholder="&#8363 FROM" asp-for="MinPrice" onchange="ensurePrices()"/>
+    </div>
+    <div class="col text-center">
+        <p class="p-1 m-0">&#8212;</p>
+    </div>
+    <div class="col-5">
+        <input type="number" id="maxPrice" class="form-control filter-input" placeholder="&#8363 TO" asp-for="MaxPrice" onchange="ensurePrices()" />
+    </div>
+    <div class="col-12 mt-2">
+        <button class="btn filter-button shadow-sm w-100 round-border" type="submit">
+            <span>Go</span>
+        </button>
+    </div>
+</form>
+
+<script>
+    // JavaScript function to ensure MinPrice is less than or equal to MaxPrice
+    // and they are non-negative
+    function ensurePrices() {
+        // Gets the values of the minimum and maximum price fields
+        // and their respective elements
+        var minPrice = parseInt(document.getElementById('minPrice').value, 10);
+        var maxPrice = parseInt(document.getElementById('maxPrice').value, 10);
+
+        var minPriceInput = document.getElementById('minPrice');
+        var maxPriceInput = document.getElementById('maxPrice');
+
+        if (minPrice < 0) 
+        {
+            minPriceInput.value = 0;
+        }
+
+        if (maxPrice < 0)
+        {
+            maxPriceInput.value = 0;
+        }
+        
+        if (minPrice > maxPrice) 
+        {
+            maxPriceInput.value = minPrice;
+        }
+    }
+</script>

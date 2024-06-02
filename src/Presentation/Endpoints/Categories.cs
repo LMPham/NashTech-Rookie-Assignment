@@ -1,8 +1,4 @@
-﻿using Application.UseCases.Categories.Commands.CreateCategory;
-using Application.UseCases.Categories.Commands.DeleteCategory;
-using Application.UseCases.Categories.Commands.UpdateCategory;
-
-namespace Presentation.Endpoints
+﻿namespace Presentation.Endpoints
 {
     /// <summary>
     /// Category API endpoint group for handling Category-related services.

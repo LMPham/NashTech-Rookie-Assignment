@@ -1,0 +1,26 @@
+﻿@*Product's default view*@
+
+@model ProductBriefDto
+@{
+    // Formats the product's price for display
+    var format = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var priceFormat = String.Format(format, "{0:c0}", @Model.Price);
+    var price = priceFormat.Remove(priceFormat.Length - 2);
+    var currencySymbol = priceFormat[priceFormat.Length - 1];
+}
+
+<div class="card col-3 p-0 m-1" style="width: 15rem; height: 30rem">
+    <div class="card-image-container p-2">
+        <a href="#">
+            <img src="~/images/product.png" class="card-img-top" alt="image">
+        </a>
+    </div>
+
+    <div class="card-body">
+        <a class="card-product-name primary-hover m-0" href="#">@Model.Name</a>
+        <div class="ms-auto text-warning">
+            @await Component.InvokeAsync("CustomerReviewScore", 3.7)
+        </div>
+        <a class="card-product-price m-0" href="#">@price<sup>@currencySymbol</sup></a>
+    </div>
+</div>

@@ -40,9 +40,10 @@ namespace Application.UseCases.Categories.Commands.UpdateCategory
 
             category.Name = request.Name ?? category.Name;
             category.Description = request.Description ?? category.Description;
-            await dbContext.SaveChangesAsync(cancellationToken);
 
-            //category.AddDomainEvent(...)
+            category.AddDomainEvent(new CategoryUpdatedEvent(category));
+
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

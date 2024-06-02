@@ -1,0 +1,19 @@
+﻿@*CustomerReviewScore's default view*@
+
+@model double
+
+@for (int i = 1; i <= 5; i++)
+{
+    @if (i <= Model)
+    {
+        <i class="fa fa-star"></i>
+    }
+    else if (i - 1 < Model && Model < i)
+    {
+        <i class="fa fa-star-half-o"></i>
+    }
+    else
+    {
+        <i class="fa fa-star-o"></i>
+    }
+}

@@ -1,3 +1,10 @@
+:root {
+    --element-background-color: #ebebeb;
+    --element-hover-background-color: #d2d2d2;
+    --primary-hover-color: #c66d42;
+    --round-border-radius: 4px;
+}
+
 html {
   font-size: 14px;
 }
@@ -19,4 +26,135 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+.text-default {
+    font-size: 16px;
+}
+
+.round-left-border {
+    border-top-left-radius: var(--round-border-radius) !important;
+    border-bottom-left-radius: var(--round-border-radius) !important;
+}
+
+.round-right-border {
+    border-top-right-radius: var(--round-border-radius) !important;
+    border-bottom-right-radius: var(--round-border-radius) !important;
+}
+
+.round-border {
+    border-radius: var(--round-border-radius) !important;
+}
+
+/*Layout*/
+.resizeselect {
+    background-color: var(--element-background-color);
+}
+
+.resizeselect:hover {
+    background-color: var(--element-hover-background-color);
+}
+
+option {
+    background-color: white;
+}
+
+.search-button {
+    background-color: var(--element-background-color);
+    color: black;
+}
+
+.search-button:hover {
+    background-color: var(--element-hover-background-color);
+}
+
+.nav-item {
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+.nav-item:hover {
+    border: 1px solid white;
+}
+
+/*AuthLayout*/
+.login-logout-card .card-header {
+    padding: 0px 0px 12px 0px;
+}
+
+.login-logout-card ul.nav-tabs {
+    margin: 0px 0px -12px 0px;
+}
+
+.login-logout-card li.nav-item {
+    width: 50%;
+}
+
+.login-logout-card a.nav-link {
+    font-size: 1rem;
+    color: #495057;
+    text-align: center;
+    padding: 1rem;
+}
+
+.login-logout-card .card-body {
+    padding: 10px 20px;
+}
+
+/*Filters*/
+.filter-input {
+    font-size: 14px;
+}
+
+.filter-button {
+    background-color: white;
+    border-color: var(--element-background-color);
+    color: black;
+}
+
+.filter-button:hover {
+    background-color: var(--element-hover-background-color);
+}
+
+.filter-sub {
+    font-weight: bold;
+    font-size: 13px;
+    align-items: center;
+
+}
+
+/*Cards*/
+
+.card-image-container {
+    background-color: #ebebeb;
+}
+
+.card img {
+    object-fit: contain;
+}
+
+.card-product-name {
+    font-size: 18px;
+}
+
+.card-product-price {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.card-product-price sup {
+    font-size: 15px;
+}
+
+.primary-hover:hover {
+    color: var(--primary-hover-color);
 }

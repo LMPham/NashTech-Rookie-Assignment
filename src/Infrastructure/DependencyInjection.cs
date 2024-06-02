@@ -1,10 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Constants;
 using Infrastructure.Data;
+using Infrastructure.Data.Interceptors;
 using Infrastructure.Identity;
 using Infrastructure.Identity.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -28,18 +26,16 @@ namespace Infrastructure
 
             Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
 
-            //services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-            //services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                //options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+                options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
                 options.UseSqlServer(connectionString);
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
-            //services.AddScoped<ApplicationDbContextInitialiser>();
 
             // Combines JWT Token and Cookie Authentication
             services.AddAuthentication(options =>
@@ -50,9 +46,9 @@ namespace Infrastructure
                 })
                 .AddCookie(IdentityConstants.ApplicationScheme, options =>
                 {
-                    //options.LoginPath = "/";
-                    //options.LogoutPath = "/";
-                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                    options.LoginPath = "/Identity/Account/Login";
+                    options.LogoutPath = "/Identity/Account/Logout";
+                    //options.ExpireTimeSpan = TimeSpan.MaxValue;
                 })
                 .AddCustomJwtBearer(IdentityConstants.BearerScheme, options =>
                 {
@@ -91,7 +87,7 @@ namespace Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddApiEndpoints();
 
-            //services.AddSingleton(TimeProvider.System);
+            services.AddSingleton(TimeProvider.System);
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddAuthorization();

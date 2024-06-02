@@ -1,14 +1,12 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Security;
 using Ardalis.GuardClauses;
-using Domain.Constants;
 
 namespace Application.UseCases.Products.Commands.DeleteProduct
 {
     /// <summary>
     /// Request to delete an existing Product.
     /// </summary>
-    [Authorize(Roles = Roles.Administrator)]
+    //[Authorize(Roles = Roles.Administrator)]
     public class DeleteProductCommand : IRequest
     {
         public required int Id { get; init; }
@@ -37,9 +35,10 @@ namespace Application.UseCases.Products.Commands.DeleteProduct
             Guard.Against.NotFound(request.Id, product);
             
             dbContext.Products.Remove(product);
-            await dbContext.SaveChangesAsync(cancellationToken);
 
-            //product.AddDomainEvent(...)
+            product.AddDomainEvent(new ProductDeletedEvent(product));
+
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

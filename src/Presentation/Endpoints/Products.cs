@@ -1,6 +1,4 @@
-﻿using Application.UseCases.Products.Commands.CreateProduct;
-using Application.UseCases.Products.Commands.DeleteProduct;
-using Application.UseCases.Products.Commands.UpdateProduct;
+﻿using Application.Common.Models;
 
 namespace Presentation.Endpoints
 {
@@ -12,11 +10,17 @@ namespace Presentation.Endpoints
         public override void Map(WebApplication app)
         {
             app.MapGroup(this)
+                .MapGet(GetProductsWithPagination)
                 .MapPost(CreateProduct)
                 .MapPatch(UpdateProduct, "{id}")
                 .MapDelete(DeleteProduct, "{id}");
         }
         
+        public Task<PaginatedList<ProductBriefDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationCommand command)
+        {
+            return sender.Send(command);
+        }
+
         public Task<int> CreateProduct(ISender sender, CreateProductCommand command)
         {
             return sender.Send(command);
