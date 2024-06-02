@@ -2,6 +2,7 @@
     --element-background-color: #ebebeb;
     --element-hover-background-color: #d2d2d2;
     --primary-hover-color: #c66d42;
+    --round-border-radius: 4px;
 }
 
 html {
@@ -38,6 +39,20 @@ a:hover {
 
 .text-default {
     font-size: 16px;
+}
+
+.round-left-border {
+    border-top-left-radius: var(--round-border-radius) !important;
+    border-bottom-left-radius: var(--round-border-radius) !important;
+}
+
+.round-right-border {
+    border-top-right-radius: var(--round-border-radius) !important;
+    border-bottom-right-radius: var(--round-border-radius) !important;
+}
+
+.round-border {
+    border-radius: var(--round-border-radius) !important;
 }
 
 /*Layout*/

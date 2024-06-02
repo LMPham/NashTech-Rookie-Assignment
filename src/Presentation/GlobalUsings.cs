@@ -1,4 +1,6 @@
 ﻿global using Application;
+global using Application.Common.Interfaces;
+global using Application.Common.Models;
 global using Application.UseCases.Categories.Commands.CreateCategory;
 global using Application.UseCases.Categories.Commands.DeleteCategory;
 global using Application.UseCases.Categories.Commands.UpdateCategory;
@@ -10,6 +12,7 @@ global using Application.UseCases.Products.Commands.DeleteProduct;
 global using Application.UseCases.Products.Commands.GetProductsWithPagination;
 global using Application.UseCases.Products.Commands.UpdateProduct;
 global using Ardalis.GuardClauses;
+global using Domain.Entities;
 global using Infrastructure;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;

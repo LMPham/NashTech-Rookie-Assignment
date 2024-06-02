@@ -4,7 +4,6 @@
 
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Presentation.Areas.Identity.Pages.Account

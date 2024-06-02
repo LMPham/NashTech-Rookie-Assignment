@@ -1,0 +1,17 @@
+﻿@*SearchBar's default view.*@
+
+@model LookupDto
+
+<form class="input-group mx-1" asp-controller="Home" asp-action="FilterByDepartmentIdAndSearch">
+    <select class="form-select flex-grow-0 resizeselect round-left-border" aria-label="Search dropdown" asp-for="DepartmentId">
+        <option value="" selected>All</option>
+        @foreach(var department in ViewData["departments"] as List<Department>)
+        {
+            <option value="@department.Id">@department.Name</option>
+        }
+    </select>
+    <input type="text" class="form-control flex-grow-1" id="searchBar" placeholder="Search" asp-for="Search">
+    <button class="btn search-button round-right-border" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>

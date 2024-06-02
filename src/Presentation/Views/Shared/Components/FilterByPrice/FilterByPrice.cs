@@ -2,9 +2,9 @@
 {
     public class FilterByPrice : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(LookupDto queries)
         {
-            return View();
+            return View(queries);
         }
     }
 }

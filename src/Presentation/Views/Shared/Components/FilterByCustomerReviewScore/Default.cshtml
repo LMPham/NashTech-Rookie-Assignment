@@ -1,12 +1,20 @@
 ﻿@*FilterByCustomerReviewScore's default view*@
 
+@model LookupDto
+
 <p class="fw-bold m-0">Customer Reviews</p>
-<a class="row primary-hover" href="#">
-    <div class="col-auto pe-1">
-        <i class="fa-solid fa-chevron-left"></i>
-    </div>
-    Clear
-</a>
+
+@*Clear Filter*@
+@if (Model.HasFilterByCustomerReviewScore())
+{
+    <a class="row primary-hover" asp-controller="Home" asp-action="ClearFilterByCustomerReviewScore">
+        <div class="col-auto pe-1">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        Clear
+    </a>
+}
+
 @*5 stars*@
 <a class="row primary-hover filter-sub" href="#">
     <div class="col-auto text-warning text-default pe-1">
