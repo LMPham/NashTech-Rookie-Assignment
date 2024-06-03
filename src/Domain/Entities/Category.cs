@@ -6,6 +6,7 @@
     public class Category : BaseAuditableEntity<int>
     {
         public string Name { get; set; } = String.Empty;
+        public Department Department { get; set; } = new Department();
         public string Description { get; set; } = String.Empty;
     }
 }

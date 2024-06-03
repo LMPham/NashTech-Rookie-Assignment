@@ -1,6 +1,4 @@
-﻿
-
-namespace Presentation.Views.Shared.Components.SearchBar
+﻿namespace Presentation.Views.Shared.Components.SearchBar
 {
     public class SearchBar : ViewComponent
     {
@@ -13,7 +11,9 @@ namespace Presentation.Views.Shared.Components.SearchBar
 
         public IViewComponentResult Invoke(LookupDto queries)
         {
-            ViewData["departments"] = dbContext.Departments.ToList();
+            ViewData["departments"] = dbContext.Departments
+                .OrderBy(d => d.Name)
+                .ToList();
             return View(queries);
         }
     }

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace Domain.Common
 {
     /// <summary>
     /// Base class for domain entities.
     /// </summary>
-    public abstract class BaseEntity<T>
+    public abstract class BaseEntity<T> : IEquatable<BaseEntity<T>>
     {
         public T? Id { get; set; }
         private readonly List<BaseEvent> domainEvents = new();
@@ -35,6 +36,34 @@ namespace Domain.Common
         public void ClearDomainEvents()
         {
             domainEvents.Clear();
+        }
+
+        public bool Equals(BaseEntity<T>? other)
+        {
+            //Check whether the compared object is null. 
+            if (other == null)
+            {
+                return false;
+            }
+
+            //Check whether the compared object references the same data. 
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            // Check if both entities have ids
+            if (Id == null || other.Id == null)
+            {
+                return true;
+            }
+            //Check whether the entities' ids are equal.
+            return Id.Equals(other.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id == null ? 0 : Id.GetHashCode();
         }
     }
 }

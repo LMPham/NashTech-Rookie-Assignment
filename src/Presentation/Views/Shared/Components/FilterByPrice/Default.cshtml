@@ -2,35 +2,40 @@
 
 @model LookupDto
 
-<p class="fw-bold m-0">Price</p>
+<div class="row mb-3">
+    <p class="fw-bold m-0">Price</p>
 
-@*Clear Filter*@
-@if (Model.HasFilterByPrice())
-{
-    <a class="row primary-hover" asp-controller="Home" asp-action="ClearFilterByPrice">
-        <div class="col-auto pe-1">
-            <i class="fa-solid fa-chevron-left"></i>
+    @*Clear Filter*@
+    @if (Model.HasFilterByPrice())
+    {
+        <a class="row primary-hover" asp-controller="Home" asp-action="ClearFilterByPrice" asp-all-route-data="@Model.ToDictionary()">
+            <div class="col-auto pe-1">
+                <i class="fa-solid fa-chevron-left"></i>
+            </div>
+            Clear
+        </a>
+    }
+
+    <form class="input-group justify-content-around mt-1" asp-controller="Home" asp-action="Filter">
+        <div class="col-5">
+            <input type="number" id="minPrice" class="form-control filter-input" placeholder="&#8363 FROM" asp-for="MinPrice" onchange="ensurePrices()"/>
         </div>
-        Clear
-    </a>
-}
-
-<form class="input-group justify-content-around mt-1" asp-controller="Home" asp-action="FilterByPrice">
-    <div class="col-5">
-        <input type="number" id="minPrice" class="form-control filter-input" placeholder="&#8363 FROM" asp-for="MinPrice" onchange="ensurePrices()"/>
-    </div>
-    <div class="col text-center">
-        <p class="p-1 m-0">&#8212;</p>
-    </div>
-    <div class="col-5">
-        <input type="number" id="maxPrice" class="form-control filter-input" placeholder="&#8363 TO" asp-for="MaxPrice" onchange="ensurePrices()" />
-    </div>
-    <div class="col-12 mt-2">
-        <button class="btn filter-button shadow-sm w-100 round-border" type="submit">
-            <span>Go</span>
-        </button>
-    </div>
-</form>
+        <div class="col text-center">
+            <p class="p-1 m-0">&#8212;</p>
+        </div>
+        <div class="col-5">
+            <input type="number" id="maxPrice" class="form-control filter-input" placeholder="&#8363 TO" asp-for="MaxPrice" onchange="ensurePrices()" />
+        </div>
+        <div class="col-12 mt-2">
+            <button class="btn filter-button shadow-sm w-100 round-border" type="submit">
+                <span>Go</span>
+            </button>
+        </div>
+        <input type="hidden" asp-for="DepartmentId" />
+        <input type="hidden" asp-for="CategoryId" />
+        <input type="hidden" asp-for="Search" />
+    </form>
+</div>
 
 <script>
     // JavaScript function to ensure MinPrice is less than or equal to MaxPrice

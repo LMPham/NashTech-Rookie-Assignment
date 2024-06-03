@@ -142,6 +142,11 @@ option {
     object-fit: contain;
 }
 
+.card-product {
+    width: 15rem;
+    height: 30rem;
+}
+
 .card-product-name {
     font-size: 18px;
 }

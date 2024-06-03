@@ -38,13 +38,14 @@ namespace Application.UseCases.Products.Commands.GetProductsWithPagination
         public async Task<PaginatedList<ProductBriefDto>> Handle(GetProductsWithPaginationCommand request, CancellationToken cancellationToken)
         {
             return await dbContext.Products
-                .Where(product => 
-                    (request.DepartmentId == null || request.DepartmentId == product.Department.Id)
-                    && (request.CategoryId == null || request.CategoryId == product.Category.Id)
-                    && (request.MinPrice == null || product.Price >= request.MinPrice)
-                    && (request.MaxPrice == null || product.Price <= request.MaxPrice)
-                    && (request.Search == null || product.Name.Contains(request.Search) || product.Description.Contains(request.Search)))
-                .OrderBy(product => product.Price)
+                .Include(p => p.Category.Department)
+                .Where(p => 
+                    (request.DepartmentId == null || request.DepartmentId == p.Department.Id)
+                    && (request.CategoryId == null || request.CategoryId == p.Category.Id)
+                    && (request.MinPrice == null || p.Price >= request.MinPrice)
+                    && (request.MaxPrice == null || p.Price <= request.MaxPrice)
+                    && (request.Search == null || p.Name.Contains(request.Search) || p.Description.Contains(request.Search)))
+                .OrderBy(p => p.Price)
                 .ProjectTo<ProductBriefDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

@@ -1,6 +1,5 @@
 ﻿using Application.UseCases.Products.Commands.GetProductsWithPagination;
 using AutoMapper;
-using System.ComponentModel.DataAnnotations;
 
 namespace Application.Common.Models
 {
@@ -50,9 +49,49 @@ namespace Application.Common.Models
             MaxPrice = null;
         }
 
+        public void ClearFilterByCategoryId()
+        {
+            CategoryId = null;
+        }
+
         public void ClearFilterByCustomerReviewScore()
         {
             //
+        }
+
+        public IDictionary<string, string> ToDictionary()
+        {
+            IDictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            if (DepartmentId != null)
+            {
+                dictionary.Add("DepartmentId", DepartmentId.ToString());
+            }
+
+            if (CategoryId != null)
+            {
+                dictionary.Add("CategoryId", CategoryId.ToString());
+            }
+
+            if (MinPrice != null)
+            {
+                dictionary.Add("MinPrice", MinPrice.ToString());
+            }
+
+            if (MaxPrice != null)
+            {
+                dictionary.Add("MaxPrice", MaxPrice.ToString());
+            }
+
+            if (Search != null)
+            {
+                dictionary.Add("Search", Search);
+            }
+
+            dictionary.Add("PageNumber", PageNumber.ToString());
+            dictionary.Add("PageSize", PageSize.ToString());
+
+            return dictionary;
         }
 
         private class Mapping : Profile

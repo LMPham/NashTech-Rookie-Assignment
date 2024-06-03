@@ -1,5 +1,4 @@
 using AutoMapper;
-using Presentation.Models;
 using System.Diagnostics;
 
 namespace Presentation.Controllers
@@ -41,12 +40,7 @@ namespace Presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult FilterByDepartmentIdAndSearch(LookupDto queries)
-        {
-            return RedirectToAction("Index", queries);
-        }
-
-        public IActionResult FilterByPrice(LookupDto queries)
+        public IActionResult Filter(LookupDto queries)
         {
             return RedirectToAction("Index", queries);
         }
@@ -54,6 +48,12 @@ namespace Presentation.Controllers
         public IActionResult ClearFilterByPrice(LookupDto queries)
         {
             queries.ClearFilterByPrice();
+            return RedirectToAction("Index", queries);
+        }
+
+        public IActionResult ClearFilterByCategoryId(LookupDto queries)
+        {
+            queries.ClearFilterByCategoryId();
             return RedirectToAction("Index", queries);
         }
 

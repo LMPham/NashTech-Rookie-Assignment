@@ -1,0 +1,50 @@
+﻿@*FilterByCategoryId's default view*@
+
+@model LookupDto
+
+@functions {
+    public IDictionary<string, string> getRoute(Category category)
+    {
+        Model.CategoryId = category.Id;
+        return Model.ToDictionary();
+    }
+}
+
+@{
+    var categories = ViewData["categories"] as List<Category>;
+    // Only shows the filter section if there are Categories to filter
+    if (categories != null && categories.Any())
+    {
+        <div class="row mb-3">
+            <p class="fw-bold m-0">Categories</p>
+
+            @*Clear Filter*@
+            @if (Model.HasFilterByCategoryId())
+            {
+                <a class="row primary-hover" asp-controller="Home" asp-action="ClearFilterByCategoryId" asp-all-route-data="@Model.ToDictionary()">
+                    <div class="col-auto pe-1">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </div>
+                    Clear
+                </a>
+                var selectedCategory = ViewData["selectedCategory"] as Category;
+                if (selectedCategory != null)
+                {
+                    <div class="row ps-4">
+                        <p class="fw-bold">@selectedCategory.Name</p>
+                    </div>
+                }
+            }
+            else
+            {
+                foreach (var category in categories)
+                {
+                // <a class="row primary-hover">@category.Name</a>
+                    <div class="row ps-4">
+                        <a class="primary-hover" asp-controller="Home" asp-action="Filter" asp-all-route-data="@getRoute(category)">@category.Name</a>
+                    </div>
+                }
+            }
+        </div>
+    }
+}

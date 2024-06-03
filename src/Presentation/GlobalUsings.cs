@@ -17,3 +17,4 @@ global using Infrastructure;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Presentation.Infrastructure;
+global using Presentation.Models;
