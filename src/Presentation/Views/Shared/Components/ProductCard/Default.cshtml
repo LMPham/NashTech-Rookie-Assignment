@@ -9,18 +9,30 @@
     var currencySymbol = priceFormat[priceFormat.Length - 1];
 }
 
+@functions {
+    // Trims string
+    public string trim(string s, int maxLength)
+    {
+        if (s.Length > maxLength)
+        {
+            return s.Substring(0, maxLength) + " ...";
+        }
+        return s;
+    }
+}
+
 <div class="card card-product col-3 p-0 m-1">
-    <div class="card-image-container p-2">
-        <a href="#">
+    <div class="image-container p-2">
+        <a asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">
             <img src="~/images/product.png" class="card-img-top" alt="image">
         </a>
     </div>
 
     <div class="card-body">
-        <a class="card-product-name primary-hover m-0" href="#">@Model.Name</a>
+        <a class="card-product-name primary-hover m-0" asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">@trim(Model.Name, 50)</a>
         <div class="ms-auto text-warning">
             @await Component.InvokeAsync("CustomerReviewScore", 3.7)
         </div>
-        <a class="card-product-price m-0" href="#">@price<sup>@currencySymbol</sup></a>
+        <a class="product-price m-0" asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">@price<sup>@currencySymbol</sup></a>
     </div>
 </div>

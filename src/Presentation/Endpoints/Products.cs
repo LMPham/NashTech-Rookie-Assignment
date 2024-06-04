@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.UseCases.Products.Commands.GetProduct;
 
 namespace Presentation.Endpoints
 {
@@ -11,6 +11,7 @@ namespace Presentation.Endpoints
         {
             app.MapGroup(this)
                 .MapGet(GetProductsWithPagination)
+                .MapGet(GetProduct, "Detail/{id}")
                 .MapPost(CreateProduct)
                 .MapPatch(UpdateProduct, "{id}")
                 .MapDelete(DeleteProduct, "{id}");
@@ -18,6 +19,12 @@ namespace Presentation.Endpoints
         
         public Task<PaginatedList<ProductBriefDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationCommand command)
         {
+            return sender.Send(command);
+        }
+
+        public Task<ProductBriefDto> GetProduct(ISender sender, int id)
+        {
+            var command = new GetProductCommand { Id = id };
             return sender.Send(command);
         }
 

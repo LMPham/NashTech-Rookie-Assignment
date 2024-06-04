@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Presentation.Views.Shared.Components.FilterByCategory
 {
+    /// <summary>
+    /// A view component for rendering the filter-by-category in
+    /// the Home page.
+    /// </summary>
     public class FilterByCategoryId : ViewComponent
     {
         private readonly IApplicationDbContext dbContext;

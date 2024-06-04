@@ -9,6 +9,7 @@ global using Application.UseCases.Departments.Commands.UpdateDepartment;
 global using Application.UseCases.Departments.Commands.DeleteDepartment;
 global using Application.UseCases.Products.Commands.CreateProduct;
 global using Application.UseCases.Products.Commands.DeleteProduct;
+global using Application.UseCases.Products.Commands.GetProduct;
 global using Application.UseCases.Products.Commands.GetProductsWithPagination;
 global using Application.UseCases.Products.Commands.UpdateProduct;
 global using Ardalis.GuardClauses;

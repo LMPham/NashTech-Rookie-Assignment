@@ -6,7 +6,7 @@ namespace Presentation.Controllers
     /// Controller for managing Categories.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class CategoriesController : Controller
     {
         private readonly IMediator mediator;

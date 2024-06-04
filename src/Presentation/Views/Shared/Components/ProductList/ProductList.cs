@@ -1,7 +1,9 @@
-﻿using Application.Common.Models;
-
-namespace Presentation.Views.Shared.Components.ProductList
+﻿namespace Presentation.Views.Shared.Components.ProductList
 {
+    /// <summary>
+    /// A view component for rendering a list of products displayed in
+    /// the Home page.
+    /// </summary>
     public class ProductList : ViewComponent
     {
         public IViewComponentResult Invoke(PaginatedList<ProductBriefDto> products)

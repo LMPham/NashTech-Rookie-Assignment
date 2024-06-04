@@ -1,8 +1,8 @@
-﻿// Changes the size of select elements to dynamically fit
-// the currently selected option
-(function ($, window) {
+﻿(function ($, window) {
     $(function () {
-
+        // ------------------------ Select elements ------------------------
+        // Changes the size of select elements to dynamically fit
+        // the currently selected option
         $.fn.resizeselect = function (settings) {
             return this.each(function () {
 

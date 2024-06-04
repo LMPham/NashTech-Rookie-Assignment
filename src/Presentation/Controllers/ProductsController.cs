@@ -1,12 +1,10 @@
-﻿using Application.Common.Models;
-
-namespace Presentation.Controllers
+﻿namespace Presentation.Controllers
 {
     /// <summary>
     /// Controller for managing Products.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class ProductsController : Controller
     {
         private readonly IMediator mediator;
@@ -18,6 +16,13 @@ namespace Presentation.Controllers
 
         [HttpGet(Name = "Swagger/GetProducts")]
         public async Task<PaginatedList<ProductBriefDto>> Get([FromQuery] GetProductsWithPaginationCommand command)
+        {
+            return await mediator.Send(command);
+        }
+
+        [HttpGet(Name = "Swagger/GetProductDetail")]
+        [ActionName("GetDetail")]
+        public async Task<ProductBriefDto> GetDetail([FromQuery] GetProductCommand command)
         {
             return await mediator.Send(command);
         }

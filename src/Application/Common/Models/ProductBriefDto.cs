@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Application.UseCases.Products.Commands.GetProductsWithPagination
+namespace Application.Common.Models
 {
     public class ProductBriefDto
     {

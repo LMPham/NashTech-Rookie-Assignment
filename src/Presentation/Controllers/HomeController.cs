@@ -5,13 +5,11 @@ namespace Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> logger;
         private readonly IMediator mediator;
         private readonly IMapper mapper;
 
-        public HomeController(ILogger<HomeController> _logger, IMediator _mediator, IMapper _mapper)
+        public HomeController(IMediator _mediator, IMapper _mapper)
         {
-            logger = _logger;
             mediator = _mediator;
             mapper = _mapper;
         }

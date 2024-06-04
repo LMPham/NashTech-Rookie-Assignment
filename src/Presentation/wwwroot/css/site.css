@@ -1,8 +1,14 @@
 :root {
-    --element-background-color: #ebebeb;
-    --element-hover-background-color: #d2d2d2;
+    --primary-button-background-color: #ebebeb;
+    --primary-button-hover-background-color: #d2d2d2;
+    --secondary-button-background-color: #ffd814;
+    --secondary-button-hover-background-color: #f7ca00;
+    --tertiary-button-background-color: #ffa41c;
+    --tertiary-button-hover-background-color: #fa8900;
     --primary-hover-color: #c66d42;
     --round-border-radius: 4px;
+    --round-border-radius-l: 8px;
+    --round-border-radius-xl: 32px;
 }
 
 html {
@@ -37,6 +43,10 @@ a:hover {
     color: black;
 }
 
+img {
+    object-fit: contain;
+}
+
 .text-default {
     font-size: 16px;
 }
@@ -55,13 +65,21 @@ a:hover {
     border-radius: var(--round-border-radius) !important;
 }
 
+.round-border-l {
+    border-radius: var(--round-border-radius-l) !important;
+}
+
+.round-border-xl {
+    border-radius: var(--round-border-radius-xl) !important;
+}
+
 /*Layout*/
 .resizeselect {
-    background-color: var(--element-background-color);
+    background-color: var(--primary-button-background-color);
 }
 
 .resizeselect:hover {
-    background-color: var(--element-hover-background-color);
+    background-color: var(--primary-button-hover-background-color);
 }
 
 option {
@@ -69,12 +87,12 @@ option {
 }
 
 .search-button {
-    background-color: var(--element-background-color);
+    background-color: var(--primary-button-background-color);
     color: black;
 }
 
 .search-button:hover {
-    background-color: var(--element-hover-background-color);
+    background-color: var(--primary-button-hover-background-color);
 }
 
 .nav-item {
@@ -117,12 +135,12 @@ option {
 
 .filter-button {
     background-color: white;
-    border-color: var(--element-background-color);
+    border-color: var(--primary-button-background-color);
     color: black;
 }
 
 .filter-button:hover {
-    background-color: var(--element-hover-background-color);
+    background-color: var(--primary-button-hover-background-color);
 }
 
 .filter-sub {
@@ -134,12 +152,8 @@ option {
 
 /*Cards*/
 
-.card-image-container {
-    background-color: #ebebeb;
-}
-
-.card img {
-    object-fit: contain;
+.image-container {
+    background-color: var(--primary-button-background-color);
 }
 
 .card-product {
@@ -151,15 +165,57 @@ option {
     font-size: 18px;
 }
 
-.card-product-price {
+.product-price {
     font-size: 30px;
     font-weight: 400;
 }
 
-.card-product-price sup {
+.product-price sup {
     font-size: 15px;
 }
 
 .primary-hover:hover {
     color: var(--primary-hover-color);
+}
+
+/*Product detail*/
+.product-detail-name {
+    color: #565656
+}
+
+.customer-review-score {
+    font-size: 14px;
+    color: black;
+}
+
+.product-details ul {
+    padding-left: 20px;
+}
+
+.add-to-cart-button {
+    border-color: transparent;
+    background-color: var(--secondary-button-background-color);
+}
+
+.add-to-cart-button:hover {
+    border-color: transparent;
+    background-color: var(--secondary-button-hover-background-color);
+}
+
+.pay-now-button {
+    border-color: transparent;
+    background-color: var(--tertiary-button-background-color);
+}
+
+.pay-now-button:hover {
+    background-color: var(--tertiary-button-hover-background-color);
+}
+
+.stock-text {
+    color: #037803;
+}
+
+.stock-text span {
+    font-size: 70%;
+    font-weight: normal;
 }
