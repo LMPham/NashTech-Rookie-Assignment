@@ -5,8 +5,9 @@
 @functions {
     public IDictionary<string, string> getRoute(Category category)
     {
-        Model.CategoryId = category.Id;
-        return Model.ToDictionary();
+        var temp = new LookupDto(Model);
+        temp.CategoryId = category.Id;
+        return temp.ToDictionary();
     }
 }
 

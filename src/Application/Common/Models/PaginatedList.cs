@@ -10,6 +10,10 @@
         public int PageNumber { get; }
         public int TotalPages { get; }
         public int TotalCount { get; }
+        public int Count => Items.Count;
+
+        public int FirstItemNumber { get; }
+        public int LastItemNumber { get; }
 
         public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
         {
@@ -17,11 +21,19 @@
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
             Items = items;
+            FirstItemNumber = pageSize * (pageNumber - 1) + 1;
+            LastItemNumber = FirstItemNumber + Items.Count - 1;
         }
 
         public bool HasPreviousPage => PageNumber > 1;
 
         public bool HasNextPage => PageNumber < TotalPages;
+
+        //Get the number of pages after the current page
+        public int NextPages => TotalPages - PageNumber;
+
+        //Get the number of pages before the current page
+        public int PreviousPages => PageNumber - 1;
 
         /// <summary>
         /// Retrieves the items at the specified <paramref name="pageNumber"/>

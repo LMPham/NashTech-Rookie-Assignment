@@ -61,9 +61,19 @@ img {
     border-bottom-left-radius: var(--round-border-radius) !important;
 }
 
+.round-left-border-l {
+    border-top-left-radius: var(--round-border-radius-l) !important;
+    border-bottom-left-radius: var(--round-border-radius-l) !important;
+}
+
 .round-right-border {
     border-top-right-radius: var(--round-border-radius) !important;
     border-bottom-right-radius: var(--round-border-radius) !important;
+}
+
+.round-right-border-l {
+    border-top-right-radius: var(--round-border-radius-l) !important;
+    border-bottom-right-radius: var(--round-border-radius-l) !important;
 }
 
 .round-border {
@@ -245,3 +255,46 @@ option {
     background-color: var(--primary-button-background-color);
     border: 1px solid var(--secondary-text-color)
 }
+
+/*Pagination*/
+.pagination {
+    margin: 0;
+    border: 1px solid var(--primary-button-hover-background-color);
+    border-radius: var(--round-border-radius-l)
+}
+
+.page-link {
+    align-content: center;
+    background-color: white;
+    border: 1px solid transparent;
+    color: black;
+    text-align: center;
+    min-width: 3rem;
+    height: 3rem;
+}
+
+    .page-link:hover {
+        background-color: var(--primary-button-background-color);
+        color: black;
+    }
+
+.page-link-active {
+    border: 1px solid black !important;
+    font-weight: bold;
+    z-index: 4;
+}
+    
+    .page-link-active:hover {
+        background-color: white;
+        z-index: 4;
+    }
+
+.page-link-disabled {
+    border: 0px !important;
+    color: var(--secondary-text-color);
+}
+
+    .page-link-disabled:hover {
+    background-color: white;
+    color: var(--secondary-text-color);
+    }

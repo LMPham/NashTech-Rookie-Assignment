@@ -2,9 +2,9 @@
 
 namespace Application.UseCases.Products.Commands.GetProduct
 {
-    public class GetProductCommandValidation : AbstractValidator<GetProductCommand>
+    public class GetProductCommandValidator : AbstractValidator<GetProductCommand>
     {
-        public GetProductCommandValidation()
+        public GetProductCommandValidator()
         {
             //
         }

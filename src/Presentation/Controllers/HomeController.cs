@@ -1,3 +1,4 @@
+using Application.UseCases.Departments.Commands.GetDepartment;
 using AutoMapper;
 using System.Diagnostics;
 
@@ -23,6 +24,14 @@ namespace Presentation.Controllers
                 Products = products,
                 Queries = mapper.Map<GetProductsWithPaginationCommand, LookupDto>(command),
             };
+
+            if(products.Count == 0 && command.DepartmentId != null)
+            {
+                ViewData["selectedDepartment"] = await mediator.Send(new GetDepartmentCommand
+                {
+                    Id = (int) command.DepartmentId,
+                });
+            }
 
             return View(model);
         }

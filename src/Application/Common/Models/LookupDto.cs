@@ -14,6 +14,21 @@ namespace Application.Common.Models
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 50;
 
+        public LookupDto()
+        {
+        }
+
+        public LookupDto(LookupDto dto)
+        {
+            DepartmentId = dto.DepartmentId;
+            CategoryId = dto.CategoryId;
+            MinPrice = dto.MinPrice;
+            MaxPrice = dto.MaxPrice;
+            Search = dto.Search;
+            PageNumber = dto.PageNumber;
+            PageSize = dto.PageSize;
+        }
+
         public bool HasFilterByDepartmentId()
         {
             return DepartmentId != null;
