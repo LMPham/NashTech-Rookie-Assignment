@@ -1,0 +1,82 @@
+﻿@*ProductDetailSection's default view.*@
+
+@model ProductBriefDto
+
+@{
+    // Formats the product's price for display
+    var format = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var priceFormat = String.Format(format, "{0:c0}", @Model.Price);
+    var price = priceFormat.Remove(priceFormat.Length - 2);
+    var currencySymbol = priceFormat[priceFormat.Length - 1];
+}
+
+<div class="row mt-5 px-2">
+    <div class="col-4">
+        <div class="row">
+            <div class="col-2 ps-4 pe-0">
+                <div class="row mb-3">
+                    <img src="~/images/product.png" class="card card-img-top" alt="image">
+                </div>
+                <div class="row mb-3">
+                    <img src="~/images/product2.png" class="card card-img-top" alt="image">
+                </div>
+                <div class="row mb-3">
+                    <img src="~/images/product3.png" class="card card-img-top" alt="image">
+                </div>
+                <div class="row mb-3">
+                    <img src="~/images/product4.png" class="card card-img-top" alt="image">
+                </div>
+                <div class="row mb-3">
+                    <img src="~/images/product.png" class="card card-img-top" alt="image">
+                </div>
+            </div>
+
+            @*Product image*@
+            <div class="col-10 px-4">
+                <div class="image-container p-2">
+                    <img src="~/images/product.png" class="card-img-top" alt="image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8 product-details d-flex">
+        <div class="row flex-grow-1 justify-content-between">
+            <div class="col-8">
+                @*Product name*@
+                <h4 class="secondary-text-color">@Model.Name</h4>
+                <div class="ms-auto text-warning">
+                    <span class="customer-review-score">3.7</span>
+                    @await Component.InvokeAsync("CustomerReviewScore", 3.7)
+                </div>
+
+                @*Other details*@
+                <hr/>
+                <p class="product-price">@price<sup>@currencySymbol</p>
+                <h5>About this product</h5>
+                <ul>
+                    <li>@Model.Description</li>
+                </ul>
+            </div>
+
+            @*Purchase details*@
+            <form class="col-3 d-flex">
+                <div class="card flex-grow-1 round-border-l">
+                    <div class="card-body d-flex flex-column justify-content-start">
+                        <p class="product-price">@price<sup>@currencySymbol</p>
+                    
+                        <h5 class="stock-text">In Stock <span>(999999 available)</span></h5>
+
+                        <div class="input-group align-items-center mb-2">
+                            <span>Quantity:</span>
+                            <input type="number" id="quantity" class="form-control round-border-l mx-1"/>
+                        </div>
+
+                        <button class="secondary-button round-border-xl w-100 mb-2" type="submit">Add to Cart</button>
+                        <button class="tertiary-button round-border-xl w-100" type="submit">Pay Now</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

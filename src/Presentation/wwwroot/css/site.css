@@ -9,6 +9,7 @@
     --round-border-radius: 4px;
     --round-border-radius-l: 8px;
     --round-border-radius-xl: 32px;
+    --secondary-text-color: #565656;
 }
 
 html {
@@ -39,9 +40,9 @@ a {
     color: black;
 }
 
-a:hover {
-    color: black;
-}
+    a:hover {
+        color: black;
+    }
 
 img {
     object-fit: contain;
@@ -49,6 +50,10 @@ img {
 
 .text-default {
     font-size: 16px;
+}
+
+.fs-0 {
+    font-size: 0px;
 }
 
 .round-left-border {
@@ -73,6 +78,35 @@ img {
     border-radius: var(--round-border-radius-xl) !important;
 }
 
+.primary-button {
+    background-color: white;
+    border-color: var(--primary-button-background-color);
+    color: black;
+}
+
+    .primary-button:hover {
+        background-color: var(--primary-button-hover-background-color);
+    }
+
+.secondary-button {
+    border-color: transparent;
+    background-color: var(--secondary-button-background-color);
+}
+
+    .secondary-button:hover {
+        border-color: transparent;
+        background-color: var(--secondary-button-hover-background-color);
+    }
+
+.tertiary-button {
+    border-color: transparent;
+    background-color: var(--tertiary-button-background-color);
+}
+
+    .tertiary-button:hover {
+        background-color: var(--tertiary-button-hover-background-color);
+    }
+
 /*Layout*/
 .resizeselect {
     background-color: var(--primary-button-background-color);
@@ -91,18 +125,18 @@ option {
     color: black;
 }
 
-.search-button:hover {
-    background-color: var(--primary-button-hover-background-color);
-}
+    .search-button:hover {
+        background-color: var(--primary-button-hover-background-color);
+    }
 
 .nav-item {
     border: 1px solid transparent;
     border-radius: 2px;
 }
 
-.nav-item:hover {
-    border: 1px solid white;
-}
+    .nav-item:hover {
+        border: 1px solid white;
+    }
 
 /*AuthLayout*/
 .login-logout-card .card-header {
@@ -131,16 +165,6 @@ option {
 /*Filters*/
 .filter-input {
     font-size: 14px;
-}
-
-.filter-button {
-    background-color: white;
-    border-color: var(--primary-button-background-color);
-    color: black;
-}
-
-.filter-button:hover {
-    background-color: var(--primary-button-hover-background-color);
 }
 
 .filter-sub {
@@ -174,13 +198,13 @@ option {
     font-size: 15px;
 }
 
-.primary-hover:hover {
-    color: var(--primary-hover-color);
-}
+    .primary-hover:hover {
+        color: var(--primary-hover-color);
+    }
 
 /*Product detail*/
-.product-detail-name {
-    color: #565656
+.secondary-text-color {
+    color: var(--secondary-text-color)
 }
 
 .customer-review-score {
@@ -188,27 +212,13 @@ option {
     color: black;
 }
 
+.customer-review-score-l {
+    font-size: 18px;
+    color: black;
+}
+
 .product-details ul {
     padding-left: 20px;
-}
-
-.add-to-cart-button {
-    border-color: transparent;
-    background-color: var(--secondary-button-background-color);
-}
-
-.add-to-cart-button:hover {
-    border-color: transparent;
-    background-color: var(--secondary-button-hover-background-color);
-}
-
-.pay-now-button {
-    border-color: transparent;
-    background-color: var(--tertiary-button-background-color);
-}
-
-.pay-now-button:hover {
-    background-color: var(--tertiary-button-hover-background-color);
 }
 
 .stock-text {
@@ -218,4 +228,20 @@ option {
 .stock-text span {
     font-size: 70%;
     font-weight: normal;
+}
+
+/*Customer review*/
+.customer-icon {
+    font-size: 30px;
+}
+
+.customer-review-headline {
+    font-size: 18px;
+    color: black;
+    font-weight: 500;
+}
+
+.progress {
+    background-color: var(--primary-button-background-color);
+    border: 1px solid var(--secondary-text-color)
 }

@@ -1,10 +1,10 @@
 ﻿namespace Presentation.Views.Shared.Components.ProductDetail
 {
     /// <summary>
-    /// A view component for displaying the product displayed in
+    /// A view component for rendering the product displayed in
     /// the ProductDetail page.
     /// </summary>
-    public class ProductDetail : ViewComponent
+    public class ProductDetailSection : ViewComponent
     {
         public IViewComponentResult Invoke(ProductBriefDto product)
         {

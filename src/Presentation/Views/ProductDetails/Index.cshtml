@@ -1,5 +1,7 @@
 ﻿@model ProductDetailsIndexModel
 
-<div class="row mt-5 px-2">
-    @await Component.InvokeAsync("ProductDetail", Model.Product)
-</div>
+@await Component.InvokeAsync("ProductDetailSection", Model.Product)
+
+<hr/>
+
+@await Component.InvokeAsync("CustomerReviewSection")
