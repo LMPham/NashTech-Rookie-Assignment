@@ -6,7 +6,7 @@
     /// </summary>
     public class ProductList : ViewComponent
     {
-        public IViewComponentResult Invoke(PaginatedList<ProductBriefDto> products)
+        public IViewComponentResult Invoke(PaginatedList<ProductDto> products)
         {
             return View(products);
         }

@@ -1,18 +1,21 @@
 ﻿@*CustomerReview's default view.*@
+
+@model CustomerReview
+
 <div class="ms-auto d-flex align-items-center mt-4">
     <i class="fa fa-user-circle customer-icon" aria-hidden="true"></i>
-    <span class="ps-2">User</span>
+    <span class="ps-2">@Model.CreatedByUserName</span>
 </div>
 
 <div class="ms-auto text-warning d-flex align-items-center">
-    @await Component.InvokeAsync("CustomerReviewScore", 3.7)
-    <span class="customer-review-headline ps-2">The only shorts I'll every buy again</span>
+    @await Component.InvokeAsync("CustomerReviewScore", (double) Model.Score)
+    <span class="customer-review-headline ps-2">@Model.Headline</span>
 </div>
 
 <span class="secondary-text-color">
-    Reviewed on September 24, 2023
+    Reviewed on @Model.Created.ToLocalTime().ToString("MMMM d, yyyy")
 </span>
 
-<p>
-    These shorts are my favorite EVER. I’ve bought sooo many school shorts for my son who is 6 and has to wear uniforms at his school. They all end up looking so dingy after 5 washes. These look brand new after being washed 20 times. They look SO clean and tidy on him. They don’t wrinkle or get stains on them, and they fit really well. He looks so nice in these shorts. This material is hard to find. I searched and searched for ones like this after getting ones that were hand me downs from a different brand. For the price, these are definitely worth it.
+<p class="mb-0">
+    @Model.Comment
 </p>

@@ -2,22 +2,21 @@
 using Application.Common.Models;
 using Ardalis.GuardClauses;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 
 namespace Application.UseCases.Products.Commands.GetProduct
 {
     /// <summary>
-    /// Request for getting an existing product.
+    /// Request for getting an existing Product.
     /// </summary>
-    public class GetProductCommand : IRequest<ProductBriefDto>
+    public class GetProductCommand : IRequest<ProductDto>
     {
         public required int Id { get; init; }
     }
 
     /// <summary>
-    /// Request handler for getting an existing product.
+    /// Request handler for getting an existing Product.
     /// </summary>
-    public class GetProductCommandHandler : IRequestHandler<GetProductCommand, ProductBriefDto>
+    public class GetProductCommandHandler : IRequestHandler<GetProductCommand, ProductDto>
     {
         private readonly IApplicationDbContext dbContext;
         private readonly IMapper mapper;
@@ -28,14 +27,18 @@ namespace Application.UseCases.Products.Commands.GetProduct
             mapper = _mapper;
         }
 
-        public async Task<ProductBriefDto> Handle(GetProductCommand request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(GetProductCommand request, CancellationToken cancellationToken)
         {
-            var product = dbContext.Products.Where(p => p.Id == request.Id).FirstOrDefault();
+            var product = dbContext.Products
+                .Include(p => p.CustomerReviews)
+                .Include(p => p.Details)
+                .Where(p => p.Id == request.Id)
+                .FirstOrDefault();
 
             // Checks if the Product exists. If not, throws an exception
             Guard.Against.NotFound(request.Id, product);
 
-            return mapper.Map<Product, ProductBriefDto>(product);
+            return mapper.Map<Product, ProductDto>(product);
         }
     }
 }

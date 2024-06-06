@@ -6,6 +6,7 @@ namespace Application.UseCases.Categories.Commands.DeleteCategory
     /// <summary>
     /// Request to delete an existing Category.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class DeleteCategoryCommand : IRequest
     {
         public required int Id { get; init; }

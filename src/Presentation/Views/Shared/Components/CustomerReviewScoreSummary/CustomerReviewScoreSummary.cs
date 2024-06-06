@@ -6,9 +6,9 @@
     /// </summary>
     public class CustomerReviewScoreSummary : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(Domain.Common.CustomerReviewScoreSummary scoreSummary)
         {
-            return View();
+            return View(scoreSummary);
         }
     }
 }

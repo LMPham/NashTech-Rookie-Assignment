@@ -17,12 +17,12 @@ namespace Presentation.Endpoints
                 .MapDelete(DeleteProduct, "{id}");
         }
         
-        public Task<PaginatedList<ProductBriefDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationCommand command)
+        public Task<PaginatedList<ProductDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationCommand command)
         {
             return sender.Send(command);
         }
 
-        public Task<ProductBriefDto> GetProduct(ISender sender, int id)
+        public Task<ProductDto> GetProduct(ISender sender, int id)
         {
             var command = new GetProductCommand { Id = id };
             return sender.Send(command);

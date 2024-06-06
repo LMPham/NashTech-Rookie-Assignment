@@ -1,115 +1,117 @@
 ﻿@*CustomerReviewSection's default view.*@
 
-<div class="row px-2 justify-content-between">
-    <div class="col-3">
-        <div class="row">
-            <h4>Customer reviews</h4>
-            <div class="ms-auto text-warning d-flex align-items-center">
-                @await Component.InvokeAsync("CustomerReviewScore", 3.7)
-                <span class="customer-review-score-l ps-2">3.7 out of 5</span>
-            </div>
-        </div>
-
-        @await Component.InvokeAsync("CustomerReviewScoreSummary")
-    
-        <hr />
-
-        <div class="row">
-            <h5>Review this product</h5>
-            <span>Share your thoughts with other customers</span>
-            <button class="btn primary-button shadow-sm w-100 round-border-l mt-4" data-bs-toggle="modal" data-bs-target="#customerReviewModal">
-                Write a customer review
-            </button>
-        </div>
-
-        @*Review modal*@
-        <div class="modal fade" id="customerReviewModal" tabindex="-1" aria-labelledby="customerReviewModal" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-3 fw-bold" id="customerReviewModalLabel">Create Review</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+@{
+    var product = ViewData["product"] as ProductDto;
+    var user = ViewData["user"] as IUser;
+    if (product != null && user != null)
+    {
+        <div class="row px-2 justify-content-between">
+            <div class="col-3">
+                <div class="row">
+                    <h4>Customer reviews</h4>
+                    <div class="ms-auto text-warning d-flex align-items-center">
+                        @await Component.InvokeAsync("CustomerReviewScore", product.ScoreSummary.AverageScore)
+                        <span class="customer-review-score-l ps-2">@product.ScoreSummary.AverageScore out of 5</span>
                     </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-2">
-                                    <img src="~/images/product3.png" class="card card-img-top" alt="image">
-                                </div>
-                                <div class="col-10">
-                                    <span class="fs-5 fw-bold secondary-text-color">SanDisk 128GB microSDXC Card, Licensed for Nintendo Switch - SDSQXAO-128G-GNCZN</span>
-                                </div>
-                            </div>
+                </div>
 
-                            <hr class="mb-0 mt-2"/>
+                @await Component.InvokeAsync("CustomerReviewScoreSummary", product.ScoreSummary)
 
-                            <div class="mb-3">
-                                <label for="review-score" class="col-form-label fs-5 fw-bold">Overall rating</label>
-                                <div class="rating ms-auto text-warning fs-0" id="review-score">
-                                    <i class="fa fa-star-o fs-1" data-rating="1"></i>
-                                    <i class="fa fa-star-o fs-1" data-rating="2"></i>
-                                    <i class="fa fa-star-o fs-1" data-rating="3"></i>
-                                    <i class="fa fa-star-o fs-1" data-rating="4"></i>
-                                    <i class="fa fa-star-o fs-1" data-rating="5"></i>
-                                </div>
-                            </div>
+                <hr />
 
-                            <hr class="mb-0" />
+                <div class="row">
+                    <h5>Review this product</h5>
+                    <span>Share your thoughts with other customers</span>
+                    <button type="button" class="btn primary-button shadow-sm w-100 round-border-l mt-4" id="writeReviewButton">
+                        Write a customer review
+                    </button>
+                </div>
 
-                            <div class="mb-3">
-                                <label for="review-headline" class="col-form-label fs-5 fw-bold">Add a headline</label>
-                                <input type="text" class="form-control" id="review-headline" placeholder="What's most important to know?">
+                @*Review modal*@
+                <div class="modal fade" id="customerReviewModal" tabindex="-1" aria-labelledby="customerReviewModal" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-3 fw-bold" id="customerReviewModalLabel">Create Review</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            
-                            <hr class="mb-0"/>
-                            <div class="mb-3">
-                                <label for="review-comment" class="col-form-label fs-5 fw-bold">Add a written review</label>
-                                <textarea class="form-control" id="review-comment" placeholder="What did you like or dislike? What did you use this product for?"></textarea>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="~/images/product3.png" class="card card-img-top" alt="image">
+                                        </div>
+                                        <div class="col-10">
+                                            <span class="fs-5 fw-bold secondary-text-color">@product.Name</span>
+                                        </div>
+                                    </div>
+
+                                    <hr class="mb-0 mt-2" />
+
+                                    <div class="mb-3">
+                                        <label for="review-score" class="col-form-label fs-5 fw-bold">Overall rating</label>
+                                        <div class="rating ms-auto text-warning fs-0" id="review-score">
+                                            <i class="fa fa-star-o fs-1" data-rating="1"></i>
+                                            <i class="fa fa-star-o fs-1" data-rating="2"></i>
+                                            <i class="fa fa-star-o fs-1" data-rating="3"></i>
+                                            <i class="fa fa-star-o fs-1" data-rating="4"></i>
+                                            <i class="fa fa-star-o fs-1" data-rating="5"></i>
+                                        </div>
+                                    </div>
+
+                                    <hr class="mb-0" />
+
+                                    <div class="mb-3">
+                                        <label for="review-headline" class="col-form-label fs-5 fw-bold">Add a headline</label>
+                                        <input type="text" class="form-control" id="review-headline" placeholder="What's most important to know?">
+                                    </div>
+
+                                    <hr class="mb-0" />
+                                    <div class="mb-3">
+                                        <label for="review-comment" class="col-form-label fs-5 fw-bold">Add a written review</label>
+                                        <textarea class="form-control" id="review-comment" placeholder="What did you like or dislike? What did you use this product for?"></textarea>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn secondary-button round-border-l" id="submitReviewButton">Submit</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn secondary-button round-border-l" id="submitReviewButton">Submit</button>
+                </div>
+
+                @*Notification modal*@
+                <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-3 fw-bold" id="notificationModalLabel">Review created</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Thank you for your feedback. We're constantly trying to improve our services, so your input is valuable. We'll look closely at what you've said and see how we can improve things.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        @*Notification modal*@
-        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-3 fw-bold" id="notificationModalLabel">Review created</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Thank you for your feedback. We're constantly trying to improve our services, so your input is valuable. We'll look closely at what you've said and see how we can improve things.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+            <div class="col-6">
+                <div class="row">
+                    @await Component.InvokeAsync("CustomerReviewList", product.CustomerReviews)
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-6">
-        <div class="row">
-            <h5>Top reviews</h5>
-            @await Component.InvokeAsync("CustomerReview")
-            @await Component.InvokeAsync("CustomerReview")
-            @await Component.InvokeAsync("CustomerReview")
-            @await Component.InvokeAsync("CustomerReview")
-            @await Component.InvokeAsync("CustomerReview")
+            <div class="col-2">
+                @*Empty column*@
+            </div>
         </div>
-    </div>
-
-    <div class="col-2">
-        @*Empty column*@
-    </div>
-</div>
+    }
+}
 
 <script>
     var currentRating = 0;
@@ -156,9 +158,62 @@
 </script>
 
 <script>
+    // Opens the customerReviewModal when the user clicks WriteAReview
+    // If the user is not authenticated, redirect to Login Page
+    document.getElementById('writeReviewButton').addEventListener('click', function () {
+        if("@user.Id" === "") {
+            var currentUrl = window.location.href;
+            window.location.href = "/Identity/Account/Login?returnUrl=" + encodeURIComponent(currentUrl);
+            return;
+        }
+        $('#customerReviewModal').modal('show');
+    });
+</script>
+
+<script>
     // Closes the customerReviewModal and opens the notificationModal
     // when the user clicks Submit
     document.getElementById('submitReviewButton').addEventListener('click', function () {
+        var reviewHeadline = document.getElementById('review-headline').value;
+        var reviewComment = document.getElementById('review-comment').value;
+
+        if (reviewHeadline == "" || reviewComment == "" || currentRating == 0) {
+            alert("Please complete the form before submitting.");
+            return;
+        }
+
+        var createCustomerReviewCommand = {
+            score: 5,
+            headline: reviewHeadline,
+            comment: reviewComment,
+            product: {
+                id: @product.Id
+            }
+        }
+
+        fetch('https://localhost:7067/api/CustomerReviews', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(createCustomerReviewCommand)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Parse the JSON response
+            })
+            .then(data => {
+                // Handle the JSON response data
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle errors
+                alert("Oops");
+                console.error('Oops something wrong happened', error);
+            });
+
         // Dismiss the first modal
         $('#customerReviewModal').modal('hide');
         $('#notificationModal').modal('show');

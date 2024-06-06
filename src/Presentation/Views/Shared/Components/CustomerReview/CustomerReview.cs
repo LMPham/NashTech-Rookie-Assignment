@@ -1,4 +1,6 @@
-﻿namespace Presentation.Views.Shared.Components.CustomerReview
+﻿using Presentation.Services;
+
+namespace Presentation.Views.Shared.Components.CustomerReview
 {
     /// <summary>
     /// A view component for rendering a customer review
@@ -6,9 +8,17 @@
     /// </summary>
     public class CustomerReview : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly IUser user;
+
+        public CustomerReview(IUser _user)
         {
-            return View();
+            user = _user;
+        }
+
+        public IViewComponentResult Invoke(Domain.Entities.CustomerReview customerReview)
+        {
+            ViewData["user"] = user;
+            return View(customerReview);
         }
     }
 }

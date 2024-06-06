@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
+﻿
 namespace Presentation.Controllers
 {
     /// <summary>
@@ -16,20 +15,15 @@ namespace Presentation.Controllers
             this.mediator = mediator;
         }
 
-        // Testing auth
-        [HttpGet(Name = "Swagger/GetCategory"), Authorize]
-        public string Get()
-        {
-            return "This is a secret list of categories.";
-        }
-
         [HttpPost(Name = "Swagger/CreateCategory")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<int> Post(CreateCategoryCommand command)
         {
             return await mediator.Send(command);
         }
 
         [HttpPatch(Name = "Swagger/UpdateCategory")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IResult> Patch(UpdateCategoryCommand command)
         {
             await mediator.Send(command);
@@ -37,6 +31,7 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete(Name = "Swagger/DeleteCategory")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<IResult> Delete(DeleteCategoryCommand command)
         {
             await mediator.Send(command);

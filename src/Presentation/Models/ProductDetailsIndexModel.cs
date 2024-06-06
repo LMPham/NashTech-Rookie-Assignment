@@ -5,6 +5,6 @@
     /// </summary>
     public record ProductDetailsIndexModel : BaseModel
     {
-        public ProductBriefDto Product { get; init; } = new ProductBriefDto();
+        public ProductDto Product { get; init; } = new ProductDto();
     }
 }

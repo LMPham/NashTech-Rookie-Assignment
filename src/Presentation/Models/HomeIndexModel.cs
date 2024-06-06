@@ -5,7 +5,7 @@
     /// </summary>
     public record HomeIndexModel : BaseModel
     {
-        public PaginatedList<ProductBriefDto> Products { get; init; } = new PaginatedList<ProductBriefDto>([], 0, 1, 50);
+        public PaginatedList<ProductDto> Products { get; init; } = new PaginatedList<ProductDto>([], 0, 1, 50);
         
     }
 }

@@ -231,13 +231,17 @@ option {
     padding-left: 20px;
 }
 
-.stock-text {
+.in-stock-text {
     color: #037803;
 }
 
-.stock-text span {
-    font-size: 70%;
-    font-weight: normal;
+    .in-stock-text span {
+        font-size: 70%;
+        font-weight: normal;
+    }
+
+.out-of-stock-text {
+    color: #b50505
 }
 
 /*Customer review*/

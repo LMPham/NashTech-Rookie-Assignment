@@ -52,9 +52,11 @@ namespace Infrastructure.Data.Interceptors
                     if (entry.State == EntityState.Added)
                     {
                         entry.Entity.CreatedBy = user.Id;
+                        entry.Entity.CreatedByUserName = user.UserName;
                         entry.Entity.Created = utcNow;
                     }
                     entry.Entity.LastModifiedBy = user.Id;
+                    entry.Entity.LastModifiedByUserName = user.UserName;
                     entry.Entity.LastModified = utcNow;
                 }
             }

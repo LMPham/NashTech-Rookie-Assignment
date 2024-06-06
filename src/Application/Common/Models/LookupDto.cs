@@ -11,6 +11,7 @@ namespace Application.Common.Models
 
         public int? MaxPrice { get; set; }
         public string? Search { get; set; }
+        public int? MinCustomerReviewScore {  get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 50;
 
@@ -47,7 +48,7 @@ namespace Application.Common.Models
         }
         public bool HasFilterByCustomerReviewScore()
         {
-            return false;
+            return MinCustomerReviewScore != null;
         }
         public bool HasFilter()
         {
@@ -71,7 +72,7 @@ namespace Application.Common.Models
 
         public void ClearFilterByCustomerReviewScore()
         {
-            //
+            MinCustomerReviewScore = null;
         }
 
         public IDictionary<string, string> ToDictionary()
@@ -101,6 +102,11 @@ namespace Application.Common.Models
             if (Search != null)
             {
                 dictionary.Add("Search", Search);
+            }
+
+            if(MinCustomerReviewScore != null)
+            {
+                dictionary.Add("MinCustomerReviewScore", MinCustomerReviewScore.ToString());
             }
 
             dictionary.Add("PageNumber", PageNumber.ToString());

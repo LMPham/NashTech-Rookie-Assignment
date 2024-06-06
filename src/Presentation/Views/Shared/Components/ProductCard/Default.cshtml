@@ -1,6 +1,6 @@
 ﻿@*Product's default view*@
 
-@model ProductBriefDto
+@model ProductDto
 @{
     // Formats the product's price for display
     var format = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
@@ -31,7 +31,8 @@
     <div class="card-body">
         <a class="card-product-name primary-hover m-0" asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">@trim(Model.Name, 50)</a>
         <div class="ms-auto text-warning">
-            @await Component.InvokeAsync("CustomerReviewScore", 3.7)
+            @await Component.InvokeAsync("CustomerReviewScore", Model.ScoreSummary.AverageScore)
+            <span class="customer-review-score"><i class="fa fa-chevron-down fs-6"></i> @Model.ScoreSummary.TotalReviews</span>
         </div>
         <a class="product-price m-0" asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">@price<sup>@currencySymbol</sup></a>
     </div>

@@ -16,5 +16,21 @@ namespace Presentation.Services
         }
 
         public string? Id => httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        public string? UserName => httpContextAccessor.HttpContext?.User?.Identity?.Name;
+
+        public bool IsInRole(string roleName)
+        {
+            var httpContext = httpContextAccessor.HttpContext;
+            if (httpContext != null)
+            {
+                var user = httpContext.User;
+                if(user != null && user.Identity != null && user.Identity.IsAuthenticated)
+                {
+                    return user.IsInRole(roleName);
+                }
+            }
+            return false;
+        }
     }
 }

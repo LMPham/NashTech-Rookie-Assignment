@@ -6,6 +6,7 @@ namespace Application.UseCases.Categories.Commands.CreateCategory
     /// <summary>
     /// Request to create a new Category.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public record CreateCategoryCommand : IRequest<int>
     {
         public required string Name { get; init; }

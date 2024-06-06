@@ -6,6 +6,7 @@ namespace Application.UseCases.Departments.Commands.DeleteDepartment
     /// <summary>
     /// Request to delete an existing Department.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class DeleteDepartmentCommand : IRequest
     {
         public required int Id { get; init; }

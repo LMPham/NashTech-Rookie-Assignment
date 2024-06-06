@@ -2,6 +2,15 @@
 
 @model LookupDto
 
+@functions {
+    public IDictionary<string, string> getRoute(int score)
+    {
+        var temp = new LookupDto(Model);
+        temp.MinCustomerReviewScore = score;
+        return temp.ToDictionary();
+    }
+}
+
 <div class="row mb-3">
     <p class="fw-bold m-0">Customer Reviews</p>
 
@@ -14,40 +23,47 @@
             </div>
             Clear
         </a>
-    }
 
-    @*5 stars*@
-    <a class="row primary-hover filter-sub" href="#">
-        <div class="col-auto text-warning text-default ps-4 pe-1">
-            @await Component.InvokeAsync("CustomerReviewScore", 5.0)
-        </div>
-    </a>
-    @*4 stars and up*@
-    <a class="row primary-hover filter-sub" href="#">
-        <div class="col-auto text-warning text-default ps-4 pe-1">
-            @await Component.InvokeAsync("CustomerReviewScore", 4.0)
-        </div>
-        & Up
-    </a>
-    @*3 stars and up*@
-    <a class="row primary-hover filter-sub" href="#">
-        <div class="col-auto text-warning text-default ps-4 pe-1">
-            @await Component.InvokeAsync("CustomerReviewScore", 3.0)
-        </div>
-        & Up
-    </a>
-    @*2 stars and up*@
-    <a class="row primary-hover filter-sub" href="#">
-        <div class="col-auto text-warning text-default ps-4 pe-1">
-            @await Component.InvokeAsync("CustomerReviewScore", 2.0)
-        </div>
-        & Up
-    </a>
-    @*1 star and up*@
-    <a class="row primary-hover filter-sub" href="#">
-        <div class="col-auto text-warning text-default ps-4 pe-1">
-            @await Component.InvokeAsync("CustomerReviewScore", 1.0)
-        </div>
-        & Up
-    </a>
+        if(Model.MinCustomerReviewScore < 5)
+        {
+            <div class="row filter-sub">
+                <div class="col-auto text-warning text-default ps-4 pe-1">
+                    @await Component.InvokeAsync("CustomerReviewScore", (double) Model.MinCustomerReviewScore)
+                </div>
+                & Up
+            </div>
+        }
+        else
+        {
+            <div class="row filter-sub">
+                <div class="col-auto text-warning text-default ps-4 pe-1">
+                    @await Component.InvokeAsync("CustomerReviewScore", (double)Model.MinCustomerReviewScore)
+                </div>
+                & Up
+            </div>
+        }
+    }
+    else
+    {
+        for (int i = 5; i > 0; i--)
+        {
+            if (i < 5)
+            {
+                <a class="row primary-hover filter-sub" asp-controller="Home" asp-action="Filter" asp-all-route-data="@getRoute(i)">
+                    <div class="col-auto text-warning text-default ps-4 pe-1">
+                        @await Component.InvokeAsync("CustomerReviewScore", (double)i)
+                    </div>
+                    & Up
+                </a>
+            }
+            else
+            {
+                <a class="row primary-hover filter-sub" asp-controller="Home" asp-action="Filter" asp-all-route-data="@getRoute(i)">
+                    <div class="col-auto text-warning text-default ps-4 pe-1">
+                        @await Component.InvokeAsync("CustomerReviewScore", (double)i)
+                    </div>
+                </a>
+            }
+        }
+    }
 </div>

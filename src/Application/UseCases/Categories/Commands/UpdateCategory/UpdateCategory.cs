@@ -6,6 +6,7 @@ namespace Application.UseCases.Categories.Commands.UpdateCategory
     /// <summary>
     /// Request to update an existing Category.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class UpdateCategoryCommand : IRequest
     {
         public required int Id { get; init; }

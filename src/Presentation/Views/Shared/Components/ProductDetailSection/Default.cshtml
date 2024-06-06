@@ -1,6 +1,6 @@
 ﻿@*ProductDetailSection's default view.*@
 
-@model ProductBriefDto
+@model ProductDto
 
 @{
     // Formats the product's price for display
@@ -40,43 +40,74 @@
         </div>
     </div>
 
-    <div class="col-8 product-details d-flex">
-        <div class="row flex-grow-1 justify-content-between">
+    <div class="col-8 product-details">
+        <div class="row justify-content-between">
             <div class="col-8">
                 @*Product name*@
                 <h4 class="secondary-text-color">@Model.Name</h4>
                 <div class="ms-auto text-warning">
-                    <span class="customer-review-score">3.7</span>
-                    @await Component.InvokeAsync("CustomerReviewScore", 3.7)
+                    <span class="customer-review-score">@Model.ScoreSummary.AverageScore</span>
+                    @await Component.InvokeAsync("CustomerReviewScore", Model.ScoreSummary.AverageScore)
                 </div>
 
-                @*Other details*@
-                <hr/>
-                <p class="product-price">@price<sup>@currencySymbol</p>
-                <h5>About this product</h5>
-                <ul>
-                    <li>@Model.Description</li>
-                </ul>
+                <hr />
+                <p class="product-price">@price<sup>@currencySymbol</sup></p>
+
+                @*Product details*@
+                <h5>Product details</h5>
+                @foreach (var detail in Model.Details)
+                {
+                    <div class="row">
+                        <div class="col-4">
+                            <span><b>@detail.Name</b></span>
+                        </div>
+                        <div class="col-8">
+                            <span>@detail.Description</span>
+                        </div>
+                    </div>
+                }
+                
+                <hr />
             </div>
 
-            @*Purchase details*@
+            @*Purchase descriptions*@
             <form class="col-3 d-flex">
                 <div class="card flex-grow-1 round-border-l">
                     <div class="card-body d-flex flex-column justify-content-start">
-                        <p class="product-price">@price<sup>@currencySymbol</p>
-                    
-                        <h5 class="stock-text">In Stock <span>(999999 available)</span></h5>
+                        <p class="product-price">@price<sup>@currencySymbol</sup></p>
 
-                        <div class="input-group align-items-center mb-2">
-                            <span>Quantity:</span>
-                            <input type="number" id="quantity" class="form-control round-border-l mx-1"/>
-                        </div>
+                        @if (Model.Quantity > 0)
+                        {
+                            <h5 class="in-stock-text">In Stock <span>(@Model.Quantity available)</span></h5>
 
-                        <button class="secondary-button round-border-xl w-100 mb-2" type="submit">Add to Cart</button>
-                        <button class="tertiary-button round-border-xl w-100" type="submit">Pay Now</button>
+                            <div class="input-group align-items-center mb-2">
+                                <span>Quantity:</span>
+                                <input type="number" id="quantity" class="form-control round-border-l mx-1" />
+                            </div>
+
+                            <button class="secondary-button round-border-xl w-100 mb-2" type="submit">Add to Cart</button>
+                            <button class="tertiary-button round-border-xl w-100" type="submit">Pay Now</button>
+                        }
+                        else
+                        {
+                            <h5 class="out-of-stock-text">Out Of Stock</h5>
+                        }
                     </div>
                 </div>
             </form>
         </div>
+        <div class="row">
+            <div class="col-8">
+                @*Product descriptions*@
+                <h5>About this item</h5>
+                <ul>
+                    @foreach (var description in Model.Descriptions)
+                    {
+                        <li>@description</li>
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
+

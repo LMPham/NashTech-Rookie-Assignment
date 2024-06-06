@@ -7,12 +7,16 @@ namespace Application.UseCases.Products.Commands.CreateProduct
     /// <summary>
     /// Request to create a new Product.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public record CreateProductCommand : IRequest<int>
     {
         public required string Name { get; init; }
         public required Department Department { get; init; }
         public required Category Category { get; init; }
-        public string Description { get; init; } = String.Empty;
+        public List<string> Descriptions { get; init; } = [];
+        public List<ProductDetail> Details { get; init; } = [];
+        public List<CustomerReview> CustomerReviews { get; init; } = new List<CustomerReview>();
+        public int Quantity { get; init; }
         public required int Price { get; init; }
         //public string? Image { get; init; }
     }
@@ -54,7 +58,10 @@ namespace Application.UseCases.Products.Commands.CreateProduct
                 Name = request.Name,
                 Department = department,
                 Category = category,
-                Description = request.Description,
+                Descriptions = request.Descriptions,
+                Details = request.Details,
+                CustomerReviews = request.CustomerReviews,
+                Quantity = request.Quantity,
                 Price = request.Price,
             };
 

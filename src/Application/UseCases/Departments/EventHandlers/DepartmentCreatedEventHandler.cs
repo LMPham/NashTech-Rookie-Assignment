@@ -1,5 +1,4 @@
-﻿using Application.UseCases.Categories.EventHandlers;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.Departments.EventHandlers
 {

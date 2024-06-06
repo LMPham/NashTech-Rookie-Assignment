@@ -1,6 +1,4 @@
-﻿using Domain.Events.Categories;
-using Domain.Events.Products;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.Products.EventHandlers
 {

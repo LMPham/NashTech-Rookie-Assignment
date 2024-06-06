@@ -1,9 +1,9 @@
 ﻿@* ProductList's default view *@
 
-@model PaginatedList<ProductBriefDto>
+@model PaginatedList<ProductDto>
 
 <div class="row gy-2">
-    @foreach (ProductBriefDto product in @Model.Items)
+    @foreach (ProductDto product in @Model.Items)
     {
         @await Component.InvokeAsync("ProductCard", product)
     }

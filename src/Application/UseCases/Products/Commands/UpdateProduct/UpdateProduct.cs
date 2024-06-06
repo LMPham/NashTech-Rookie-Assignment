@@ -6,11 +6,15 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
     /// <summary>
     /// Request to update an existing Product.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class UpdateProductCommand : IRequest
     {
         public required int Id { get; init; }
         public string? Name { get; init; }
-        public string? Description { get; init; }
+        public List<string>? Descriptions { get; init; }
+        public List<ProductDetail>? Details { get; set; }
+        public List<CustomerReview>? CustomerReviews { get; set; }
+        public int? Quantity { get; set; }
         public int? Price { get; init; }
         //public string? Image { get; init; }
     }
@@ -39,8 +43,10 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
             Guard.Against.NotFound(request.Id, product);
 
             product.Name = request.Name ?? product.Name;
-
-            product.Description = request.Description ?? product.Description;
+            product.Descriptions = request.Descriptions ?? product.Descriptions;
+            product.Details = request.Details ?? product.Details;
+            product.CustomerReviews = request.CustomerReviews ?? product.CustomerReviews;
+            product.Quantity = request.Quantity ?? product.Quantity;
             product.Price = request.Price ?? product.Price;
 
             product.AddDomainEvent(new ProductUpdatedEvent(product));

@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace Presentation.Controllers
 {
+    /// <summary>
+    /// Controller for Home page.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly IMediator mediator;

@@ -1,0 +1,34 @@
+﻿@*CustomerReviewList's default view*@
+
+@model List<CustomerReview>
+
+@{
+    var user = ViewData["user"] as IUser;
+
+    if(user == null)
+    {
+        // Something wrong must have happened
+    }
+    else
+    {
+        <h5>Your reviews</h5>
+        @foreach (CustomerReview customerReview in Model)
+        {
+            if (customerReview.CreatedBy == user.Id)
+            {
+                @await Component.InvokeAsync("CustomerReview", customerReview)
+            }
+        }
+
+        <hr class="mt-2"/>
+
+        <h5>Top reviews</h5>
+        @foreach (CustomerReview customerReview in Model)
+        {
+            if (customerReview.CreatedBy != user.Id)
+            {
+                @await Component.InvokeAsync("CustomerReview", customerReview)
+            }
+        }
+    }
+}

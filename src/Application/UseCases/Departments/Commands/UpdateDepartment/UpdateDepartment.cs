@@ -6,6 +6,7 @@ namespace Application.UseCases.Departments.Commands.UpdateDepartment
     /// <summary>
     /// Request to update an existing Department.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class UpdateDepartmentCommand : IRequest
     {
         public required int Id { get; init; }

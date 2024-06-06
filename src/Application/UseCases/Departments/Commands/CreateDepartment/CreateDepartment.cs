@@ -5,6 +5,7 @@ namespace Application.UseCases.Departments.Commands.CreateDepartment
     /// <summary>
     /// Request to create a new Department.
     /// </summary>
+    [Authorize(Roles = Roles.Administrator)]
     public class CreateDepartmentCommand : IRequest<int>
     {
         public required string Name { get; init; }

@@ -6,9 +6,18 @@
     /// </summary>
     public class CustomerReviewSection : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly IUser user;
+
+        public CustomerReviewSection(IUser _user)
         {
-            return View();
+            user = _user;
+        }
+
+        public IViewComponentResult Invoke(ProductDto product)
+        {
+            ViewData["product"] = product;
+            ViewData["user"] = user;
+            return View(); 
         }
     }
 }

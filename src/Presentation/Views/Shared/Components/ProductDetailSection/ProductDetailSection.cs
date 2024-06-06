@@ -6,7 +6,7 @@
     /// </summary>
     public class ProductDetailSection : ViewComponent
     {
-        public IViewComponentResult Invoke(ProductBriefDto product)
+        public IViewComponentResult Invoke(ProductDto product)
         {
             return View(product);
         }

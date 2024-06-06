@@ -5,7 +5,7 @@
     /// </summary>
     public class ProductCard : ViewComponent
     {
-        public IViewComponentResult Invoke(ProductBriefDto product)
+        public IViewComponentResult Invoke(ProductDto product)
         {
             return View(product);
         }
