@@ -13,6 +13,7 @@ namespace Application.Common.Models
         public List<ProductDetail> Details { get; set; } = [];
         public List<CustomerReview> CustomerReviews { get; set; } = [];
         public CustomerReviewScoreSummary ScoreSummary { get; set; } = new CustomerReviewScoreSummary();
+        public List<Image> Images { get; set; } = [];
         public int Quantity { get; set; }
         public int Price { get; init; }
 

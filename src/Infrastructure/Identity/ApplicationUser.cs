@@ -7,5 +7,8 @@ namespace Infrastructure.Identity
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
+        // The mode that the user is using.
+        // E.g Admin or Customer mode.
+        public string? Mode { get; set; }
     }
 }

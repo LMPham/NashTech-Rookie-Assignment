@@ -13,6 +13,6 @@
         public List<CustomerReview> CustomerReviews { get; set; } = new List<CustomerReview>();
         public int Quantity { get; set; }
         public int Price {  get; set; } = 0;
-        //public string? Image { get; set; }
+        public List<Image> Images { get; set; } = [];
     }
 }

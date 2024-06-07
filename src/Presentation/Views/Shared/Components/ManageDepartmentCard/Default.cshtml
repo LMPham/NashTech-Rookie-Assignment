@@ -1,0 +1,55 @@
+﻿@*ManageDepartmentCard's default view*@
+
+@model Department
+
+<div class="row justify-content-center my-4">
+    <div class="card col-11 border-3 primary-border-color">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-11">
+                    <h4 class="card-title">@Model.Name</h4>
+                    <p class="mb-2">Created by @Model.CreatedByUserName on @Model.Created.ToLocalTime().ToString("MMMM d, yyyy")</p>
+                    <p class="mb-2">Last modified by @Model.LastModifiedByUserName on @Model.LastModified.ToLocalTime().ToString("MMMM d, yyyy")</p>
+                </div>
+
+                <div class="col-1 d-flex justify-content-end">
+                    <button 
+                        class="btn primary-button manage-button round-right-border ms-2 edit-department-button" 
+                        type="button"
+                        department-id="@Model.Id"
+                        department-name="@Model.Name"
+                        department-description="@Model.Description"
+                    >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+
+                    <button 
+                        class="btn primary-button manage-button round-right-border ms-2 delete-department-button" 
+                        type="button"
+                        id="@Model.Id"
+                        name="@Model.Name"
+                        confirmation-message="Are you sure you want to delete department &quot;@Model.Name&quot;? All data of the department will be deleted. Deleted data cannot be restored.">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row">
+                @foreach (Category category in Model.Categories)
+                {
+                    @await Component.InvokeAsync("ManageCategoryCard", category)
+                }
+            </div>
+
+            <div class="row">
+                <button 
+                    class="btn primary-button round-right-border flex-grow-1 border-3 primary-border-color add-category-button" 
+                    type="button"
+                    department-id="@Model.Id"
+                >
+                    <span class="fs-6 fw-bold">Add Category</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

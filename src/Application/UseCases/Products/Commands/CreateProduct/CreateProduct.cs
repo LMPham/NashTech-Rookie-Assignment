@@ -16,9 +16,9 @@ namespace Application.UseCases.Products.Commands.CreateProduct
         public List<string> Descriptions { get; init; } = [];
         public List<ProductDetail> Details { get; init; } = [];
         public List<CustomerReview> CustomerReviews { get; init; } = new List<CustomerReview>();
-        public int Quantity { get; init; }
+        public required int Quantity { get; init; }
         public required int Price { get; init; }
-        //public string? Image { get; init; }
+        public List<Image> Images { get; set; } = [];
     }
 
     /// <summary>
@@ -63,6 +63,7 @@ namespace Application.UseCases.Products.Commands.CreateProduct
                 CustomerReviews = request.CustomerReviews,
                 Quantity = request.Quantity,
                 Price = request.Price,
+                Images = request.Images,
             };
 
             product.AddDomainEvent(new ProductCreatedEvent(product));

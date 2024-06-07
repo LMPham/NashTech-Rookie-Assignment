@@ -1,4 +1,6 @@
-﻿namespace Presentation.Controllers
+﻿using Infrastructure.Identity;
+
+namespace Presentation.Controllers
 {
     /// <summary>
     /// Controller for ProductDetails page.
@@ -6,39 +8,34 @@
     public class ProductDetailsController : Controller
     {
         private readonly IMediator mediator;
+        private readonly IUser user;
+        private readonly IIdentityService identityService;
 
-        public ProductDetailsController(IMediator _mediator)
+        public ProductDetailsController(IMediator _mediator, IUser _user, IIdentityService _identityService)
         {
             mediator = _mediator;
+            user = _user;
+            identityService = _identityService;
         }
 
         [HttpGet]
         [Route("[controller]/{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
+            if (user.Id != null && IUser.Mode == null)
+            {
+                IUser.Mode = await identityService.GetUserModeAsync(user.Id);
+            }
+
             var product = await mediator.Send(new GetProductCommand { Id = id});
 
             var model = new ProductDetailsIndexModel
             {
                 Product = product,
+                User = user,
             };
 
             return View(model);
-        }
-
-        public IActionResult Display([FromQuery] ProductDto product)
-        {
-            var model = new ProductDetailsIndexModel
-            {
-                Product = product,
-            };
-
-            return View("Index", model);
-        }
-
-        public IActionResult Test([FromQuery] CreateCustomerReviewCommand command)
-        {
-            return View(command);
         }
     }
 }

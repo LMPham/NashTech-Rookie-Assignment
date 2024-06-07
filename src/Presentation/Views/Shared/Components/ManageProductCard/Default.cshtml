@@ -1,0 +1,68 @@
+﻿@*ManageProductCard's default view*@
+
+@model Product
+
+@{
+    CustomerReviewScoreSummary scoreSummary = CustomerReviewScoreSummary.Summarize(Model);
+    var productDescriptions = JsonSerializer.Serialize(Model.Descriptions);
+    var productDetails = JsonSerializer.Serialize(Model.Details);
+
+    // Process images to pass it to the button attribute
+    List<string> imageDataBase64List = Model.Images.Select(i => Convert.ToBase64String(i.Data)).ToList();
+    string concatenatedImageData = string.Join(",", imageDataBase64List);
+}
+
+<div class="card my-4 border-3 primary-border-color">
+    <div class="card-body row justify-content-between">
+        <div class="col-11">
+            <h6 class="card-title mb-2">@Model.Name</h6>
+            <div class="ms-auto text-warning">
+                <span class="customer-review-score">@scoreSummary.AverageScore</span>
+                @await Component.InvokeAsync("CustomerReviewScore", scoreSummary.AverageScore)
+                <span class="customer-review-score">@scoreSummary.TotalReviews reviews</span>
+            </div>
+            <p class="mb-2">Created by @Model.CreatedByUserName on @Model.Created.ToLocalTime().ToString("MMMM d, yyyy")</p>
+            <p class="mb-2">Last modified by @Model.LastModifiedByUserName on @Model.LastModified.ToLocalTime().ToString("MMMM d, yyyy")</p>
+        </div>
+        <div class="col-1 d-flex justify-content-end">
+            <button 
+                class="btn primary-button manage-button round-right-border ms-2 view-product-button" 
+                type="button"
+                images="@concatenatedImageData"
+                product-name="@Model.Name"
+                product-quantity="@Model.Quantity"
+                product-price="@Model.Price"
+                product-details="@productDetails"
+                product-descriptions="@productDescriptions"
+            >
+                <i class="fa-solid fa-eye"></i>
+            </button>
+            
+            <button 
+                class="btn primary-button manage-button round-right-border ms-2 edit-product-button"
+                type="button"
+                category-id="@Model.Category.Id"
+                department-id="@Model.Department.Id"
+                images="@concatenatedImageData"
+                product-id="@Model.Id"
+                product-name="@Model.Name"
+                product-quantity="@Model.Quantity"
+                product-price="@Model.Price"
+                product-details="@productDetails"
+                product-descriptions="@productDescriptions"
+            >
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            
+            <button 
+                class="btn primary-button manage-button round-right-border ms-2 delete-product-button" 
+                type="button"
+                id="@Model.Id"
+                name="@Model.Name"
+                confirmation-message="Are you sure you want to delete product &quot;@Model.Name&quot;? Deleted data cannot be restored."
+            >
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>
+    </div>
+</div>

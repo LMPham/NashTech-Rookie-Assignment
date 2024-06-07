@@ -23,6 +23,7 @@ namespace Presentation.Areas.Identity.Pages.Account
         {
             await signInManager.SignOutAsync();
             logger.LogInformation("User logged out.");
+            IUser.Mode = null;
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

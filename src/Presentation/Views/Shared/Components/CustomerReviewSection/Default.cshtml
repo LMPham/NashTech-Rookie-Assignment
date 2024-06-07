@@ -22,24 +22,32 @@
                 <div class="row">
                     <h5>Review this product</h5>
                     <span>Share your thoughts with other customers</span>
-                    <button type="button" class="btn primary-button shadow-sm w-100 round-border-l mt-4" id="writeReviewButton">
+                    <button type="button" class="btn primary-button shadow-sm w-100 round-border-l mt-4" id="write-review-button">
                         Write a customer review
                     </button>
                 </div>
 
                 @*Review modal*@
-                <div class="modal fade" id="customerReviewModal" tabindex="-1" aria-labelledby="customerReviewModal" aria-hidden="true">
+                <div class="modal fade" id="customer-review-modal" tabindex="-1" aria-labelledby="customer-review-modal" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-3 fw-bold" id="customerReviewModalLabel">Create Review</h1>
+                                <h1 class="modal-title fs-3 fw-bold" id="customer-review-modal-label">Create Review</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form>
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="~/images/product3.png" class="card card-img-top" alt="image">
+                                            @if(product.Images.Any())
+                                            {
+                                                // Take the first image as the representative image
+                                                <img src="@ImageDataHelper.GetImageSource(product.Images.First().Data)" class="card card-img-top" alt="product-image">
+                                            }
+                                            else
+                                            {
+                                                <img src="#" class="card card-img-top" alt="product-image">
+                                            }
                                         </div>
                                         <div class="col-10">
                                             <span class="fs-5 fw-bold secondary-text-color">@product.Name</span>
@@ -75,18 +83,18 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn secondary-button round-border-l" id="submitReviewButton">Submit</button>
+                                <button type="button" class="btn secondary-button round-border-l" id="submit-review-button">Submit</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 @*Notification modal*@
-                <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModal" aria-hidden="true">
+                <div class="modal fade" id="notification-modal" tabindex="-1" aria-labelledby="notification-modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-3 fw-bold" id="notificationModalLabel">Review created</h1>
+                                <h1 class="modal-title fs-3 fw-bold" id="notification-modal-label">Review created</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -160,20 +168,20 @@
 <script>
     // Opens the customerReviewModal when the user clicks WriteAReview
     // If the user is not authenticated, redirect to Login Page
-    document.getElementById('writeReviewButton').addEventListener('click', function () {
+    document.getElementById('write-review-button').addEventListener('click', function () {
         if("@user.Id" === "") {
             var currentUrl = window.location.href;
             window.location.href = "/Identity/Account/Login?returnUrl=" + encodeURIComponent(currentUrl);
             return;
         }
-        $('#customerReviewModal').modal('show');
+        $('#customer-review-modal').modal('show');
     });
 </script>
 
 <script>
     // Closes the customerReviewModal and opens the notificationModal
     // when the user clicks Submit
-    document.getElementById('submitReviewButton').addEventListener('click', function () {
+    document.getElementById('submit-review-button').addEventListener('click', function () {
         var reviewHeadline = document.getElementById('review-headline').value;
         var reviewComment = document.getElementById('review-comment').value;
 
@@ -202,20 +210,18 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json(); // Parse the JSON response
+                return response.statusText;
             })
             .then(data => {
-                // Handle the JSON response data
-                console.log(data);
+                // Customer review added successfully
+                // Dismisss the first modal
+                $('#customer-review-modal').modal('hide');
+                $('#notification-modal').modal('show');
             })
             .catch(error => {
                 // Handle errors
-                alert("Oops");
-                console.error('Oops something wrong happened', error);
+                alert("Oops something wrong happened " + error);
+                console.error('Create customer review error: ', error);
             });
-
-        // Dismiss the first modal
-        $('#customerReviewModal').modal('hide');
-        $('#notificationModal').modal('show');
     });
 </script>

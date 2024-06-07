@@ -5,7 +5,9 @@
     /// </summary>
     public interface IUser
     {
-        string? Id { get; }
-        string? UserName { get; }
+        public string? Id { get; }
+        public string? UserName { get; }
+        public static string? Mode { get; set; }
+        public bool IsInRole(string roleName);
     }
 }

@@ -3,7 +3,6 @@ using Application.Common.Mappings;
 using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain.Common;
 
 namespace Application.UseCases.Products.Commands.GetProductsWithPagination
 {
@@ -47,8 +46,8 @@ namespace Application.UseCases.Products.Commands.GetProductsWithPagination
                     && (request.MinPrice == null || p.Price >= request.MinPrice)
                     && (request.MaxPrice == null || p.Price <= request.MaxPrice)
                     && (request.Search == null || p.Name.Contains(request.Search) 
-                        || p.Descriptions.Exists(d => d.Contains(request.Search)) 
-                        || p.Details.Exists(d => d.Description.Contains(request.Search)))
+                        || p.Descriptions.Any(d => d.Contains(request.Search)) 
+                        || p.Details.Any(d => d.Description.Contains(request.Search)))
                     && (request.MinCustomerReviewScore == null
                         || (!p.CustomerReviews.Any() && request.MinCustomerReviewScore == 0)
                         || (p.CustomerReviews.Any() && p.CustomerReviews.Average(cr => cr.Score) >= request.MinCustomerReviewScore)))

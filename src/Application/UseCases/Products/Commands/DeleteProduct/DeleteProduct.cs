@@ -33,7 +33,13 @@ namespace Application.UseCases.Products.Commands.DeleteProduct
             
             // Checks if the Product exists. If not, throws an exception
             Guard.Against.NotFound(request.Id, product);
-            
+
+            List<ProductDetail> productDetails = dbContext.ProductDetails.Where(pd => pd.ProductId == product.Id).ToList();
+            dbContext.ProductDetails.RemoveRange(productDetails);
+
+            List<Image> productImages = dbContext.Images.Where(i => i.ProductId == product.Id).ToList();
+            dbContext.Images.RemoveRange(productImages);
+
             dbContext.Products.Remove(product);
 
             product.AddDomainEvent(new ProductDeletedEvent(product));

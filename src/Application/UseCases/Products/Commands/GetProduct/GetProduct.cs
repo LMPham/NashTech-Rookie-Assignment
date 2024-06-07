@@ -32,6 +32,7 @@ namespace Application.UseCases.Products.Commands.GetProduct
             var product = dbContext.Products
                 .Include(p => p.CustomerReviews)
                 .Include(p => p.Details)
+                .Include(p => p.Images)
                 .Where(p => p.Id == request.Id)
                 .FirstOrDefault();
 

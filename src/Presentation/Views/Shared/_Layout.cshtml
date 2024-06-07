@@ -29,19 +29,54 @@
                     <ul class="navbar-nav flex-grow-1">
                         @* User *@
                         <partial name="_LoginPartial.cshtml"/>
-                        @* Orders *@
-                        <li class="nav-item mx-1">
-                            <a class="nav-link text-white" href="#">
-                                Orders
-                            </a>
-                        </li>
-                        @* Cart *@
-                        <li class="nav-item mx-1">
-                            <a class="nav-link text-white text-nowrap" href="#">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <span>Cart</span>
-                            </a>
-                        </li>
+
+                        @* Switch To Admin*@
+                        @if (Model.User.IsInRole(Roles.Administrator))
+                        {
+                            if(IUser.Mode == Modes.Customer)
+                            {
+                                <li class="nav-item mx-1 text-nowrap">
+                                    <a class="nav-link text-white" asp-controller="Home" asp-action="SwitchMode" asp-route-newMode="@Modes.Administrator">
+                                        Switch To Admin
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item mx-1 text-nowrap">
+                                    <a class="nav-link text-white" asp-controller="Home" asp-action="SwitchMode" asp-route-newMode="@Modes.Customer">
+                                        Switch To Customer
+                                    </a>
+                                </li>
+                            }
+                        }
+
+                        @if(IUser.Mode != null && IUser.Mode == Modes.Administrator)
+                        {
+                            @* Orders *@
+                            <li class="nav-item mx-1 text-nowrap">
+                                <a class="nav-link text-white" asp-controller="Admin" asp-action="Index">
+                                    Manage Items
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            @* Orders *@
+                            <li class="nav-item mx-1 text-nowrap">
+                                <a class="nav-link text-white" href="#">
+                                    Orders
+                                </a>
+                            </li>
+
+                            @* Cart *@
+                            <li class="nav-item mx-1 text-nowrap">
+                                <a class="nav-link text-white text-nowrap" href="#">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    <span>Cart</span>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

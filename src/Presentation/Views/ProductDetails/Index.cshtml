@@ -1,4 +1,8 @@
-﻿@model ProductDetailsIndexModel
+﻿@{
+    ViewData["Title"] = "Product Details Page";
+}
+
+@model ProductDetailsIndexModel
 
 @await Component.InvokeAsync("ProductDetailSection", Model.Product)
 

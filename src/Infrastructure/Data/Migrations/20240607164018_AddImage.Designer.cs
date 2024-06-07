@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607164018_AddImage")]
+    partial class AddImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,12 +171,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Images");
                 });
@@ -478,13 +476,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Image", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", null)
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId");
-                });
-
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "Category")
@@ -574,8 +565,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("CustomerReviews");
 
                     b.Navigation("Details");
-
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,7 +24,15 @@
 <div class="card card-product col-3 p-0 m-1">
     <div class="image-container p-2">
         <a asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">
-            <img src="~/images/product.png" class="card-img-top" alt="image">
+            @if(Model.Images.Any())
+            {
+                // Take the first image as the representative image
+                <img src="@ImageDataHelper.GetImageSource(Model.Images.First().Data)" class="card-img-top" alt="product-image">
+            }
+            else
+            {
+                <img src="#" class="card-img-top" alt="product-image">
+            }
         </a>
     </div>
 

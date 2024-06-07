@@ -8,6 +8,8 @@ namespace Application.Common.Interfaces
     public interface IIdentityService
     {
         Task<string?> GetUserNameAsync(string userId);
+        Task<string?> GetUserModeAsync(string userId);
+        Task UpdateUserModeAsync(string userId, string mode);
 
         Task<bool> IsInRoleAsync(string userId, string role);
 

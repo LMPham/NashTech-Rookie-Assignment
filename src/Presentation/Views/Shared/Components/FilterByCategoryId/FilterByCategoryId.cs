@@ -1,5 +1,4 @@
 ﻿using Domain.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Presentation.Views.Shared.Components.FilterByCategory
 {

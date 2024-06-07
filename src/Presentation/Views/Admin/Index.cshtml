@@ -1,0 +1,1072 @@
+﻿@{
+    ViewData["Title"] = "Admin Page";
+}
+
+@model AdminIndexModel
+
+@*Department list*@
+<div>
+    @foreach (Department department in Model.Departments)
+    {
+        @await Component.InvokeAsync("ManageDepartmentCard", department)
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-11 d-flex px-0">
+            <button class="btn primary-button round-right-border flex-grow-1 border-3 primary-border-color add-department-button" type="button">
+                <span class="fs-6 fw-bold">Add Department</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@*Product Modal*@
+<div class="modal fade" id="product-modal" tabindex="-1" aria-labelledby="product-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3 fw-bold" id="product-modal-label">View Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="product-name" class="col-form-label fs-5 fw-bold">Product Name</label>
+                    <textarea class="form-control" id="product-name" placeholder="Product name"></textarea>
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <label for="product-quantity" class="col-form-label fs-5 fw-bold">Product Quantity</label>
+                    <input type="number" class="form-control" id="product-quantity" placeholder="Product quantity">
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <label for="product-price" class="col-form-label fs-5 fw-bold">Product Price</label>
+                    <input type="number" class="form-control" id="product-price" placeholder="Product price">
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <p class="col-form-label fs-5 fw-bold">Product Details</p>
+                    <div id="product-details">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-11 d-flex">
+                                <div class="row flex-grow-1">
+                                    <div class="col-4">
+                                        <textarea class="form-control" placeholder="Detail name"></textarea>
+                                    </div>
+                                    <div class="col-8">
+                                        <textarea class="form-control" placeholder="Detail description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <button class="btn primary-button round-right-border" type="button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 d-flex">
+                            <button class="btn primary-button round-right-border flex-grow-1" type="button" id="add-product-detail">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <p class="col-form-label fs-5 fw-bold">Product Descriptions</p>
+                    <div id="product-descriptions">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-11">
+                                <textarea class="form-control" placeholder="Product description"></textarea>
+                            </div>
+                            <div class="col-1">
+                                <button class="btn primary-button round-right-border" type="button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex">
+                            <button class="btn primary-button round-right-border flex-grow-1" type="button" id="add-product-description">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <p class="col-form-label fs-5 fw-bold">Product Images</p>
+                    <div id="product-images">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-2 d-flex">
+                                <img class="img-fluid" src="#" alt="Preview Image">
+                            </div>
+                            <div class="col-9">
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="col-1">
+                                <button class="btn primary-button round-right-border" type="button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 d-flex">
+                            <button class="btn primary-button round-right-border flex-grow-1" type="button" id="add-product-image">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn secondary-button round-border-l" id="submit-product">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Category modal*@
+<div class="modal fade" id="category-modal" tabindex="-1" aria-labelledby="category-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3 fw-bold" id="category-modal-label">View Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="category-name" class="col-form-label fs-5 fw-bold">Category Name</label>
+                    <textarea class="form-control" id="category-name" placeholder="Category name"></textarea>
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <label for="category-description" class="col-form-label fs-5 fw-bold">Category Description</label>
+                    <textarea class="form-control" id="category-description" placeholder="Category description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn secondary-button round-border-l" id="submit-category">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Department modal*@
+<div class="modal fade" id="department-modal" tabindex="-1" aria-labelledby="department-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3 fw-bold" id="department-modal-label">View Department</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="department-name" class="col-form-label fs-5 fw-bold">Department Name</label>
+                    <textarea class="form-control" id="department-name" placeholder="Department name"></textarea>
+                </div>
+
+                <hr class="mb-0" />
+
+                <div class="mb-3">
+                    <label for="department-description" class="col-form-label fs-5 fw-bold">Department Description</label>
+                    <textarea class="form-control" id="department-description" placeholder="Department description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn round-border-l btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn secondary-button round-border-l" id="submit-department">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*DeleteConfirmation modal*@
+<div class="modal fade" id="delete-confirmation-modal" tabindex="-1" aria-labelledby="delete-confirmation-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3 fw-bold" id="delete-confirmation-modal-label">Delete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="delete-confirmation-message" class="col-form-label fs-5 fw-bold">Are you sure?</label>
+                    <p class="form-control" id="delete-confirmation-message">Are you sure?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn secondary-button round-border-l" id="confirm-delete">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // --------------------------- Sets up buttons and modals --------------------------
+        // ----------------------- Sets up product buttons and modal -----------------------
+        // Adds onclick events to the button to fill the modal data with the button's data
+        // and show it
+
+        // Function to fill the product modal with the specified button's data and show it
+        function fillAndShowProductModal(button, disabled, onSubmit) {
+            // Fills product name
+            var productName = button.getAttribute('product-name');
+            var productNameTextArea = document.getElementById('product-name');
+            productNameTextArea.value = productName;
+            productNameTextArea.disabled = disabled;
+
+            // Fills product quantity
+            var productQuantity = button.getAttribute('product-quantity');
+            var productQuantityInput = document.getElementById('product-quantity');
+            productQuantityInput.value = productQuantity;
+            productQuantityInput.disabled = disabled;
+
+            // Fills product price
+            var productPrice = button.getAttribute('product-price');
+            var productPriceInput = document.getElementById('product-price');
+            productPriceInput.value = productPrice;
+            productPriceInput.disabled = disabled;
+
+            // Clears product details
+            var productDetailsContainer = document.getElementById('product-details');
+            while (productDetailsContainer.firstChild) {
+                productDetailsContainer.removeChild(productDetailsContainer.firstChild);
+            }
+
+            // Fills product details
+            var productDetails = JSON.parse(button.getAttribute('product-details'));
+            if(productDetails != null) {
+                for (var productDetail of productDetails) {
+                    var productDetailContainer = document.createElement("div");
+                    productDetailContainer.classList.add("row", "align-items-center", "mb-2");
+                    productDetailContainer.innerHTML = `
+                        <div class="col-11 d-flex">
+                            <div class="row flex-grow-1">
+                                <div class="col-4">
+                                    <textarea class="form-control" placeholder="Detail name"></textarea>
+                                </div>
+                                <div class="col-8">
+                                    <textarea class="form-control" placeholder="Detail description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn primary-button round-right-border" type="button">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    var productDetailNameTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail name"]');
+                    productDetailNameTextArea.value = productDetail.Name;
+                    productDetailNameTextArea.disabled = disabled;
+
+                    var productDetailDescriptionTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail description"]');
+                    productDetailDescriptionTextArea.value = productDetail.Description;
+                    productDetailDescriptionTextArea.disabled = disabled;
+
+                    var removeProductDetailButton = productDetailContainer.querySelector(".btn");
+                    removeProductDetailButton.disabled = disabled;
+                    removeProductDetailButton.onclick = (function (container) {
+                        return function () {
+                            container.remove();
+                        };
+                    })(productDetailContainer);
+
+                    productDetailsContainer.appendChild(productDetailContainer);
+                }
+            }
+            var addProductDetailButton = document.getElementById('add-product-detail');
+            addProductDetailButton.disabled = disabled;
+
+            // Clear product descriptions
+            var productDescriptionsContainer = document.getElementById('product-descriptions');
+            while (productDescriptionsContainer.firstChild) {
+                productDescriptionsContainer.removeChild(productDescriptionsContainer.firstChild);
+            }
+
+            // Fill product descriptions
+            var productDescriptions = JSON.parse(button.getAttribute('product-descriptions'));
+            if (productDescriptions != null) {
+                for (var productDescription of productDescriptions) {
+                    var productDescriptionContainer = document.createElement("div");
+                    productDescriptionContainer.classList.add("row", "align-items-center", "mb-2");
+                    productDescriptionContainer.innerHTML = `
+                        <div class="col-11">
+                            <textarea class="form-control" placeholder="Product description"></textarea>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn primary-button round-right-border" type="button">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    var productDescriptionTextArea = productDescriptionContainer.querySelector('textarea[placeholder="Product description"]');
+                    productDescriptionTextArea.value = productDescription;
+                    productDescriptionTextArea.disabled = disabled;
+
+                    var removeProductDescriptionButton = productDescriptionContainer.querySelector(".btn");
+                    removeProductDescriptionButton.disabled = disabled;
+                    removeProductDescriptionButton.onclick = (function (container) {
+                        return function () {
+                            container.remove();
+                        };
+                    })(productDescriptionContainer);
+
+                    productDescriptionsContainer.appendChild(productDescriptionContainer);
+                }
+            }
+            var addProductDescriptionButton = document.getElementById('add-product-description');
+            addProductDescriptionButton.disabled = disabled;
+
+            // Clear product images
+            var productImagesContainer = document.getElementById('product-images');
+            while (productImagesContainer.firstChild) {
+                productImagesContainer.removeChild(productImagesContainer.firstChild);
+            }
+
+            // Fill product images
+            var concatenatedImageData = button.getAttribute('images');
+            if (concatenatedImageData !== "" && concatenatedImageData != null) {
+                var productImages = concatenatedImageData.split(',');
+                if (productImages != null) {
+                    productImages.forEach(function(productImage, index) {
+                        var productImageContainer = document.createElement("div");
+                        productImageContainer.classList.add("row", "align-items-center", "mb-2");
+                        productImageContainer.innerHTML = `
+                            <div class="col-2 d-flex">
+                                <img class="img-fluid" src="#" alt="Preview Image">
+                            </div>
+                            <div class="col-9">
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="col-1">
+                                <button class="btn primary-button round-right-border" type="button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        `;
+
+                        // Adds image data
+                        var image = productImageContainer.querySelector("img.img-fluid");
+                        var input = productImageContainer.querySelector("input[type=file]");
+
+                        image.src = 'data:image/jpeg;base64,' + productImage;
+
+                        var blob = base64ToBlob(productImage);
+                        var file = blobToFile(blob, 'image' + index + '.jpg');
+                        var dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        input.files = dataTransfer.files;
+
+                        // Adds event to input file to change the image when the user selects a file
+                        input.addEventListener('change', function () {
+
+                            var imageFile = input.files[0];
+                            if (imageFile) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+
+                                    image.src = e.target.result;
+                                    image.style.display = 'block';
+                                };
+                                reader.readAsDataURL(imageFile);
+                            } else {
+                                image.src = "#";
+                                image.style.display = 'none';
+                            }
+                        })
+                        input.disabled = disabled;
+
+                        var removeProductImageButton = productImageContainer.querySelector(".btn");
+                        removeProductImageButton.disabled = disabled;
+                        removeProductImageButton.onclick = (function (container) {
+                            return function () {
+                                container.remove();
+                            };
+                        })(productImageContainer);
+
+                        productImagesContainer.appendChild(productImageContainer);
+                    });
+                }
+            }
+            var addProductImageButton = document.getElementById('add-product-image');
+            addProductImageButton.disabled = disabled;
+
+            // If disabled, hides the submit button
+            // Otherwise, shows it
+            var submitProductButton = document.getElementById('submit-product');
+            if (disabled) {
+                submitProductButton.style.display = "none";
+            } else {
+                submitProductButton.style.display = "";
+                submitProductButton.onclick = function () {
+                    var productId = button.getAttribute('product-id');
+                    var categoryId = button.getAttribute('category-id');
+                    var departmentId = button.getAttribute('department-id');
+                    onSubmit(productId, categoryId, departmentId, productName);
+                }
+            }
+
+            // Shows the modal
+            $(productModal).modal('show');
+        }
+
+        var productModal = document.getElementById('product-modal');
+
+        // Adds onclick event to viewProduct buttons
+        var viewProductButtons = document.querySelectorAll('.view-product-button');
+        viewProductButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowProductModal(button, true);
+                
+                // Change modal's title
+                var productModalLabel = document.getElementById("product-modal-label");
+                productModalLabel.textContent = "View Product";
+            });
+        });
+
+        // Adds onclick event to editProduct buttons
+        var editProductButtons = document.querySelectorAll('.edit-product-button');
+        editProductButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowProductModal(button, false, onEditProductSubmit);
+
+                // Change modal's title
+                var productModalLabel = document.getElementById("product-modal-label");
+                productModalLabel.textContent = "Edit Product";
+            });
+        });
+
+        // Adds onclick event to addProduct buttons
+        var addProductButtons = document.querySelectorAll('.add-product-button');
+        addProductButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowProductModal(button, false, onAddProductSubmit);
+
+                // Change modal's title
+                var productModalLabel = document.getElementById("product-modal-label");
+                productModalLabel.textContent = "Add Product";
+                
+            });
+        });
+
+        // Adds onclick event to addProductDetail
+        var addProductDetailButton = document.getElementById('add-product-detail');
+        addProductDetailButton.addEventListener('click', function () {
+            var productDetailsContainer = document.getElementById('product-details');
+            var productDetailContainer = document.createElement("div");
+            productDetailContainer.classList.add("row", "align-items-center", "mb-2");
+            productDetailContainer.innerHTML = `
+                <div class="col-11 d-flex">
+                    <div class="row flex-grow-1">
+                        <div class="col-4">
+                            <textarea class="form-control" placeholder="Detail name"></textarea>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="form-control" placeholder="Detail description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button class="btn primary-button round-right-border" type="button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `;
+
+            var removeProductDetailButton = productDetailContainer.querySelector(".btn");
+            removeProductDetailButton.onclick = (function (container) {
+                return function () {
+                    container.remove();
+                };
+            })(productDetailContainer);
+
+            productDetailsContainer.appendChild(productDetailContainer);
+        })
+
+        // Adds onclick event to addProductDescription
+        var addProductDescriptionButton = document.getElementById('add-product-description');
+        addProductDescriptionButton.addEventListener('click', function () {
+            var productDescriptionsContainer = document.getElementById('product-descriptions');
+            var productDescriptionContainer = document.createElement("div");
+            productDescriptionContainer.classList.add("row", "align-items-center", "mb-2");
+            productDescriptionContainer.innerHTML = `
+                <div class="col-11">
+                    <textarea class="form-control" placeholder="Product description"></textarea>
+                </div>
+                <div class="col-1">
+                    <button class="btn primary-button round-right-border" type="button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `;
+
+            var removeProductDescriptionButton = productDescriptionContainer.querySelector(".btn");
+            removeProductDescriptionButton.onclick = (function (container) {
+                return function () {
+                    container.remove();
+                };
+            })(productDescriptionContainer);
+
+            productDescriptionsContainer.appendChild(productDescriptionContainer);
+        })
+
+        // Adds onclick event to addProductImage
+        var addProductImageButton = document.getElementById('add-product-image');
+        addProductImageButton.addEventListener('click', function () {
+            var productImagesContainer = document.getElementById('product-images');
+            var productImageContainer = document.createElement("div");
+            productImageContainer.classList.add("row", "align-items-center", "mb-2");
+            productImageContainer.innerHTML = `
+                <div class="col-2 d-flex">
+                    <img class="img-fluid" src="#" alt="Preview Image">
+                </div>
+                <div class="col-9">
+                    <input type="file" class="form-control">
+                </div>
+                <div class="col-1">
+                    <button class="btn primary-button round-right-border" type="button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `;
+
+            var image = productImageContainer.querySelector("img.img-fluid");
+            var input = productImageContainer.querySelector("input[type=file]");
+
+            input.addEventListener('change', function () {
+
+                var imageFile = input.files[0];
+                if (imageFile) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        image.src = e.target.result;
+                        image.style.display = 'block';
+                    };
+                    reader.readAsDataURL(imageFile);
+                } else {
+                    image.src = "#";
+                    image.style.display = 'none';
+                }
+            })
+
+            var removeProductImageButton = productImageContainer.querySelector(".btn");
+            removeProductImageButton.onclick = (function (container) {
+                return function () {
+                    container.remove();
+                };
+            })(productImageContainer);
+
+            productImagesContainer.appendChild(productImageContainer);
+        })
+
+        // ----------------------- Sets up category buttons and modal -----------------------
+        // Adds onclick events to the button to fill the modal data with the button's data
+        // and show it
+
+        // Function to fill the category modal with the specified button's data and show it
+        function fillAndShowCategoryModal(button, disabled, onSubmit) {
+            var categoryName = button.getAttribute('category-name');
+            var categoryNameTextArea = document.getElementById('category-name');
+            categoryNameTextArea.value = categoryName;
+            categoryNameTextArea.disabled = disabled;
+
+            var categoryDescription = button.getAttribute('category-description');
+            var categoryDescriptionTextArea = document.getElementById('category-description');
+            categoryDescriptionTextArea.value = categoryDescription;
+            categoryDescriptionTextArea.disabled = disabled;
+
+            var submitCategoryButton = document.getElementById('submit-category');
+            submitCategoryButton.onclick = function() {
+                var categoryId = button.getAttribute('category-id');
+                var departmentId = button.getAttribute('department-id');
+                onSubmit(categoryId, departmentId, categoryName);
+            }
+
+            // Shows modal
+            $(categoryModal).modal('show');
+        }
+
+        var categoryModal = document.getElementById('category-modal');
+
+        // Adds onclick event to editCategory buttons
+        var editCategoryButtons = document.querySelectorAll('.edit-category-button');
+        editCategoryButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowCategoryModal(button, false, onEditCategorySubmit);
+
+                // Change modal's title
+                var categoryModalLabel = document.getElementById("category-modal-label");
+                categoryModalLabel.textContent = "Edit Category";
+            });
+        });
+
+        // Adds onclick event to addCategory buttons
+        var addCategoryButtons = document.querySelectorAll('.add-category-button');
+        addCategoryButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowCategoryModal(button, false, onAddCategorySubmit);
+
+                // Change modal's title
+                var categoryModalLabel = document.getElementById("category-modal-label");
+                categoryModalLabel.textContent = "Add Category";
+            });
+        });
+
+        // ---------------------- Sets up department buttons and modal ----------------------
+        // Adds onclick events to the button to fill the modal data with the button's data
+        // and show it
+
+        // Function to fill the department modal with the specified button's data and show it
+        function fillAndShowDepartmentModal(button, disabled, onSubmit) {
+            var departmentName = button.getAttribute('department-name');
+            var departmentNameTextArea = document.getElementById('department-name');
+            departmentNameTextArea.value = departmentName;
+            departmentNameTextArea.disabled = disabled;
+
+            var departmentDescription = button.getAttribute('department-description');
+            var departmentDescriptionTextArea = document.getElementById('department-description');
+            departmentDescriptionTextArea.value = departmentDescription;
+            departmentDescriptionTextArea.disabled = disabled;
+
+            var submitDepartmentButton = document.getElementById('submit-department');
+            submitDepartmentButton.onclick = function() {
+                var departmentId = button.getAttribute('department-id');
+                onSubmit(departmentId, departmentName);
+            }
+
+            // Shows modal
+            $(departmentModal).modal('show');
+        }
+
+        var departmentModal = document.getElementById('department-modal');
+
+        // Adds onclick event to editDepartment buttons
+        var editDepartmentButtons = document.querySelectorAll('.edit-department-button');
+        editDepartmentButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowDepartmentModal(button, false, onEditDepartmentSubmit);
+
+                // Change modal's title
+                var departmentModalLabel = document.getElementById("department-modal-label");
+                departmentModalLabel.textContent = "Edit Department";
+            });
+        });
+
+        // Adds onclick event to addDepartment buttons
+        var addDepartmentButtons = document.querySelectorAll('.add-department-button');
+        addDepartmentButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowDepartmentModal(button, false, onAddDepartmentSubmit);
+
+                // Change modal's title
+                var departmentModalLabel = document.getElementById("department-modal-label");
+                departmentModalLabel.textContent = "Add Department";
+            });
+        });
+
+        // ------------------------ Sets up delete buttons and modal ------------------------
+        function fillAndShowDeleteConfirmationModal(button, onSubmit) {
+            var confirmationMessage = button.getAttribute('confirmation-message');
+            var confirmationMessageContainer = document.getElementById("delete-confirmation-message");
+            confirmationMessageContainer.textContent = confirmationMessage;
+
+            var confirmDeleteButton = document.getElementById('confirm-delete');
+            confirmDeleteButton.onclick = function () {
+                var id = button.getAttribute('id');
+                var name = button.getAttribute('name');
+                onSubmit(id, name);
+            }
+
+            // Shows modal
+            $(deleteConfirmationModal).modal('show');
+        }
+
+        var deleteConfirmationModal = document.getElementById('delete-confirmation-modal');
+
+        var deleteProductButtons = document.querySelectorAll('.delete-product-button');
+        deleteProductButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowDeleteConfirmationModal(button, onDeleteProductSubmit);
+            });
+        });
+
+        var deleteCategoryButtons = document.querySelectorAll('.delete-category-button');
+        deleteCategoryButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowDeleteConfirmationModal(button, onDeleteCategorySubmit);
+            });
+        });
+
+        var deleteDepartmentButtons = document.querySelectorAll('.delete-department-button');
+        deleteDepartmentButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                fillAndShowDeleteConfirmationModal(button, onDeleteDepartmentSubmit);
+            });
+        });
+
+        // --------------------------------- Button onclicks --------------------------------
+        function onEditProductSubmit(productId, categoryId, departmentId, oldProductName) {
+            var productNameTextArea = document.getElementById('product-name');
+            var productName = productNameTextArea.value;
+
+            var productQuantityInput = document.getElementById('product-quantity');
+            var productQuantity = productQuantityInput.value;
+
+            var productPriceInput = document.getElementById('product-price');
+            var productPrice = productPriceInput.value;
+
+            var productDetailsContainer = document.getElementById('product-details');
+            var productDetails = [];
+            for (var productDetailContainer of productDetailsContainer.children) {
+                var productDetailNameTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail name"]');
+
+                var productDetailDescriptionTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail description"]');
+
+                var productDetail = {
+                    name: productDetailNameTextArea.value,
+                    description: productDetailDescriptionTextArea.value,
+                };
+
+                productDetails.push(productDetail);
+            }
+
+            var productDescriptionsContainer = document.getElementById('product-descriptions');
+            var productDescriptions = [];
+            for (var productDescriptionContainer of productDescriptionsContainer.children) {
+                var productDescriptionTextArea = productDescriptionContainer.querySelector('textarea[placeholder="Product description"]');
+                productDescriptions.push(productDescriptionTextArea.value);
+            }
+
+            var productImagesContainer = document.getElementById('product-images');
+            var productImages = [];
+            var promises = []; // Array to hold promises for FileReader operations
+
+            for (var productImageContainer of productImagesContainer.children) {
+                var input = productImageContainer.querySelector("input[type=file]");
+                var imageFile = input.files[0];
+
+                if (imageFile) {
+                    var promise = new Promise(function (resolve, reject) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var imageData = e.target.result.split(',')[1]; // Extract base64 image data
+                            var productImage = {
+                                name: imageFile.name,
+                                data: imageData
+                            };
+                            productImages.push(productImage);
+                            resolve();
+                        };
+                        reader.readAsDataURL(imageFile);
+                    });
+                    promises.push(promise);
+                }
+            }
+
+            Promise.all(promises).then(function () {
+                var updateProductCommand = {
+                    id: productId,
+                    name: productName,
+                    details: productDetails,
+                    descriptions: productDescriptions,
+                    quantity: productQuantity,
+                    price: productPrice,
+                    images: productImages,
+                }
+
+                console.log(updateProductCommand);
+
+                sendRequest(
+                    "Products/" + productId,
+                    "PATCH",
+                    updateProductCommand,
+                    'Product "' + oldProductName + '" has been edited.'
+                );
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+
+        function onAddProductSubmit(productId, categoryId, departmentId, oldProductName) {
+            var productNameTextArea = document.getElementById('product-name');
+            var productName = productNameTextArea.value;
+
+            var productQuantityInput = document.getElementById('product-quantity');
+            var productQuantity = productQuantityInput.value;
+
+            var productPriceInput = document.getElementById('product-price');
+            var productPrice = productPriceInput.value;
+
+            var productDetailsContainer = document.getElementById('product-details');
+            var productDetails = [];
+            for (var productDetailContainer of productDetailsContainer.children) {
+                var productDetailNameTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail name"]');
+
+                var productDetailDescriptionTextArea = productDetailContainer.querySelector('textarea[placeholder="Detail description"]');
+
+                var productDetail = {
+                    name: productDetailNameTextArea.value,
+                    description: productDetailDescriptionTextArea.value,
+                };
+
+                productDetails.push(productDetail);
+            }
+
+            var productDescriptionsContainer = document.getElementById('product-descriptions');
+            var productDescriptions = [];
+            for (var productDescriptionContainer of productDescriptionsContainer.children) {
+                var productDescriptionTextArea = productDescriptionContainer.querySelector('textarea[placeholder="Product description"]');
+                productDescriptions.push(productDescriptionTextArea.value);
+            }
+
+            var productImagesContainer = document.getElementById('product-images');
+            var productImages = [];
+            var promises = []; // Array to hold promises for FileReader operations
+
+            for (var productImageContainer of productImagesContainer.children) {
+                var input = productImageContainer.querySelector("input[type=file]");
+                var imageFile = input.files[0];
+
+                if (imageFile) {
+                    var promise = new Promise(function (resolve, reject) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var imageData = e.target.result.split(',')[1]; // Extract base64 image data
+                            var productImage = {
+                                name: imageFile.name,
+                                data: imageData
+                            };
+                            productImages.push(productImage);
+                            resolve();
+                        };
+                        reader.readAsDataURL(imageFile);
+                    });
+                    promises.push(promise);
+                }
+            }
+
+            Promise.all(promises).then(function () {
+                var createProductCommand = {
+                    category: {
+                        id: categoryId
+                    },
+                    department: {
+                        id: departmentId
+                    },
+                    name: productName,
+                    details: productDetails,
+                    descriptions: productDescriptions,
+                    quantity: productQuantity,
+                    price: productPrice,
+                    images: productImages,
+                };
+                console.log(createProductCommand);
+                sendRequest(
+                    "Products",
+                    "POST",
+                    createProductCommand,
+                    'Product "' + productName + '" has been added.'
+                );
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+
+        function onEditCategorySubmit(categoryId, departmentId, oldCategoryName) {
+            var categoryNameTextArea = document.getElementById('category-name');
+            var categoryName = categoryNameTextArea.value;
+
+            var categoryDescriptionTextArea = document.getElementById('category-description');
+            var categoryDescription = categoryDescriptionTextArea.value;
+
+            var updateCategoryCommand = {
+                id: categoryId,
+                name: categoryName,
+                description: categoryDescription
+            };
+
+            sendRequest(
+                "Categories/" + categoryId,
+                "PATCH",
+                updateCategoryCommand,
+                'Category "' + oldCategoryName + '" has been edited.'
+            );
+        }
+
+        function onAddCategorySubmit(categoryId, departmentId, oldCategoryName) {
+            var categoryNameTextArea = document.getElementById('category-name');
+            var categoryName = categoryNameTextArea.value;
+
+            var categoryDescriptionTextArea = document.getElementById('category-description');
+            var categoryDescription = categoryDescriptionTextArea.value;
+
+            var createCategoryCommand = {
+                name: categoryName,
+                description: categoryDescription,
+                department: {
+                    id: departmentId
+                }
+            };
+
+            sendRequest(
+                "Categories",
+                "POST",
+                createCategoryCommand,
+                'Category "' + categoryName + '" has been added.'
+            );
+        }
+
+        function onEditDepartmentSubmit(departmentId, oldDepartmentName) {
+            var departmentNameTextArea = document.getElementById('department-name');
+            var departmentName = departmentNameTextArea.value;
+
+            var departmentDescriptionTextArea = document.getElementById('department-description');
+            var departmentDescription = departmentDescriptionTextArea.value;
+
+            var updateDepartmentCommand = {
+                id: departmentId,
+                name: departmentName,
+                description: departmentDescription
+            };
+
+            sendRequest(
+                "Departments/" + departmentId,
+                "PATCH",
+                updateDepartmentCommand,
+                'Department "' + oldDepartmentName + '" has been edited.'
+            );
+        }
+
+        function onAddDepartmentSubmit(departmentId, oldDepartmentName) {
+            var departmentNameTextArea = document.getElementById('department-name');
+            var departmentName = departmentNameTextArea.value;
+
+            var departmentDescriptionTextArea = document.getElementById('department-description');
+            var departmentDescription = departmentDescriptionTextArea.value;
+
+            var createDepartmentCommand = {
+                name: departmentName,
+                description: departmentDescription
+            };
+
+            sendRequest(
+                "Departments",
+                "POST",
+                createDepartmentCommand,
+                'Department "' + departmentName + '" has been added.'
+            );
+        }
+
+        function onDeleteProductSubmit(id, name) {
+            sendRequest(
+                "Products/" + id,
+                "DELETE",
+                "",
+                'Product "' + name + '" has been deleted.'
+            );
+        }
+
+        function onDeleteCategorySubmit(id, name) {
+            sendRequest(
+                "Categories/" + id,
+                "DELETE",
+                "",
+                'Category "' + name + '" has been deleted.'
+            );
+        }
+
+        function onDeleteDepartmentSubmit(id, name) {
+            sendRequest(
+                "Departments/" + id,
+                "DELETE",
+                "",
+                'Department "' + name + '" has been deleted.'
+            );
+        }
+        
+        // -------------------------------- Helper functions -------------------------------
+        function sendRequest(endpoint, method, body, successMessage) {
+            fetch('https://localhost:7067/api/'+endpoint, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        alert(response.status)
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.statusText;
+                })
+                .then(data => {
+                    console.log(data);
+                    alert(successMessage);
+                    refresh();
+                })
+                .catch(error => {
+                    // Handle errors
+                    alert("Oops something wrong happened. " + error);
+                    console.error('Create customer review error: ', error);
+                });
+        }
+        function refresh() {
+            // Stores the current scroll position
+            var scrollPosition = window.scrollY || window.pageYOffset;
+
+            // Refreshes the page
+            window.location.reload();
+
+            // Scroll to the stored scroll position after the page has been refreshed
+            window.onload = function () {
+                setTimeout(function () {
+                    window.scrollTo(0, scrollPosition);
+                }, 0);
+            };
+        }
+
+        // Function to convert Base64 string to Blob
+        function base64ToBlob(base64String) {
+            var byteCharacters = atob(base64String);
+            var byteNumbers = new Array(byteCharacters.length);
+            for (var i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            var byteArray = new Uint8Array(byteNumbers);
+            return new Blob([byteArray]);
+        }
+
+        // Function to convert Blob to File
+        function blobToFile(blob, fileName) {
+            var file = new File([blob], fileName, { type: 'image/jpeg' }); // Assuming JPEG format, adjust as needed
+            return file;
+        }
+    });
+ </script>

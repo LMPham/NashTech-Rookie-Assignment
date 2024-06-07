@@ -34,6 +34,9 @@ namespace Application.UseCases.Departments.Commands.DeleteDepartment
             // Checks if the Category exists. If not, throws an exception
             Guard.Against.NotFound(request.Id, department);
 
+            var categories = dbContext.Categories.Where(c => c.Department.Id == department.Id);
+            dbContext.Categories.RemoveRange(categories);
+
             dbContext.Departments.Remove(department);
 
             department.AddDomainEvent(new DepartmentDeletedEvent(department));

@@ -16,7 +16,7 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
         public List<CustomerReview>? CustomerReviews { get; set; }
         public int? Quantity { get; set; }
         public int? Price { get; init; }
-        //public string? Image { get; init; }
+        public List<Image>? Images { get; set; }
     }
 
     /// <summary>
@@ -44,10 +44,21 @@ namespace Application.UseCases.Products.Commands.UpdateProduct
 
             product.Name = request.Name ?? product.Name;
             product.Descriptions = request.Descriptions ?? product.Descriptions;
-            product.Details = request.Details ?? product.Details;
             product.CustomerReviews = request.CustomerReviews ?? product.CustomerReviews;
             product.Quantity = request.Quantity ?? product.Quantity;
             product.Price = request.Price ?? product.Price;
+            if (request.Details != null)
+            {
+                List<ProductDetail> productDetails = dbContext.ProductDetails.Where(pd => pd.ProductId == product.Id).ToList();
+                dbContext.ProductDetails.RemoveRange(productDetails);
+                product.Details = request.Details;
+            }
+            if (request.Images != null)
+            {
+                List<Image> productImages = dbContext.Images.Where(i => i.ProductId == product.Id).ToList();
+                dbContext.Images.RemoveRange(productImages);
+                product.Images = request.Images;
+            }
 
             product.AddDomainEvent(new ProductUpdatedEvent(product));
 

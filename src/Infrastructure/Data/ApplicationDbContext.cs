@@ -19,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<CustomerReview> CustomerReviews => Set<CustomerReview>();
         public DbSet<ProductDetail> ProductDetails => Set<ProductDetail>();
+        public DbSet<Image> Images => Set<Image>();
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

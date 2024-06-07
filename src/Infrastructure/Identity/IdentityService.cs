@@ -33,7 +33,33 @@ namespace Infrastructure.Identity
         }
 
         /// <summary>
-        /// Creates an  <see cref="ApplicationUser"/> with the specified
+        /// Finds and returns the mode of the user, if any, who has the specified
+        /// <paramref name="userId"/>.
+        /// </summary>
+        public async Task<string?> GetUserModeAsync(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            return user?.Mode;
+        }
+
+        /// <summary>
+        /// Updates the mode of the user, if any, who has the specified
+        /// <paramref name="userId"/>.
+        /// </summary>
+        public async Task UpdateUserModeAsync(string userId, string mode)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if(user != null)
+            {
+                user.Mode = mode;
+                await userManager.UpdateAsync(user);
+            }
+        }
+
+        /// <summary>
+        /// Creates an <see cref="ApplicationUser"/> with the specified
         /// <paramref name="userName"/> and <paramref name="password"/>,
         /// as an asynchronous operation.
         /// </summary>
@@ -100,5 +126,7 @@ namespace Infrastructure.Identity
 
             return result.ToApplicationResult();
         }
+
+
     }
 }

@@ -1,0 +1,62 @@
+﻿@*ManageCategoryCard's default view*@
+
+@model Category
+
+@{
+    var products = ViewData["products"] as List<Product>;
+}
+
+<div class="card my-4 border-3 primary-border-color">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-11">
+                <h5 class="card-title mb-2">@Model.Name</h5>
+                <p class="mb-2">Created by @Model.CreatedByUserName on @Model.Created.ToLocalTime().ToString("MMMM d, yyyy")</p>
+                <p class="mb-2">Last modified by @Model.LastModifiedByUserName on @Model.LastModified.ToLocalTime().ToString("MMMM d, yyyy")</p>
+            </div>
+
+            <div class="col-1 d-flex justify-content-end">
+                <button 
+                    class="btn primary-button manage-button round-right-border ms-2 edit-category-button" 
+                    type="button"
+                    department-id="@Model.Department.Id"
+                    category-id="@Model.Id"
+                    category-name="@Model.Name"
+                    category-description="@Model.Description"
+                >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+
+                <button 
+                    class="btn primary-button manage-button round-right-border ms-2 delete-category-button" 
+                    type="button"
+                    id="@Model.Id"
+                    name="@Model.Name"
+                    confirmation-message="Are you sure you want to delete category &quot;@Model.Name&quot;? All data of the category will be deleted. Deleted data cannot be restored.">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="row">
+            @if (products != null)
+            {
+                foreach (Product product in products)
+                {
+                    @await Component.InvokeAsync("ManageProductCard", product)
+                }
+            }
+        </div>
+
+        <div class="row">
+            <button 
+                class="btn primary-button round-right-border flex-grow-1 border-3 primary-border-color add-product-button" 
+                type="button"
+                category-id="@Model.Id"
+                department-id="@Model.Department.Id"
+            >
+                <span class="fs-6 fw-bold">Add Product</span>
+            </button>
+        </div>
+    </div>
+</div>

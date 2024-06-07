@@ -14,27 +14,34 @@
     <div class="col-4">
         <div class="row">
             <div class="col-2 ps-4 pe-0">
-                <div class="row mb-3">
-                    <img src="~/images/product.png" class="card card-img-top" alt="image">
-                </div>
-                <div class="row mb-3">
-                    <img src="~/images/product2.png" class="card card-img-top" alt="image">
-                </div>
-                <div class="row mb-3">
-                    <img src="~/images/product3.png" class="card card-img-top" alt="image">
-                </div>
-                <div class="row mb-3">
-                    <img src="~/images/product4.png" class="card card-img-top" alt="image">
-                </div>
-                <div class="row mb-3">
-                    <img src="~/images/product.png" class="card card-img-top" alt="image">
-                </div>
+                @if (Model.Images.Any())
+                {
+                    foreach(var image in Model.Images)
+                    {
+                        <div class="row mb-3">
+                            <img src="@ImageDataHelper.GetImageSource(image.Data)" class="card card-img-top" alt="image">
+                        </div>
+                    }
+                    
+                }
+                else
+                {
+                    <img src="#" class="card-img-top" alt="product-image">
+                }
             </div>
 
             @*Product image*@
             <div class="col-10 px-4">
                 <div class="image-container p-2">
-                    <img src="~/images/product.png" class="card-img-top" alt="image">
+                    @if (Model.Images.Any())
+                    {
+                        // Take the first image as the representative image
+                        <img src="@ImageDataHelper.GetImageSource(Model.Images.First().Data)" class="card-img-top" alt="product-image">
+                    }
+                    else
+                    {
+                        <img src="#" class="card-img-top" alt="product-image">
+                    }
                 </div>
             </div>
         </div>
@@ -44,35 +51,53 @@
         <div class="row justify-content-between">
             <div class="col-8">
                 @*Product name*@
-                <h4 class="secondary-text-color">@Model.Name</h4>
-                <div class="ms-auto text-warning">
-                    <span class="customer-review-score">@Model.ScoreSummary.AverageScore</span>
-                    @await Component.InvokeAsync("CustomerReviewScore", Model.ScoreSummary.AverageScore)
+                <div class="row">
+                    <h4 class="secondary-text-color">@Model.Name</h4>
+                    <div class="ms-auto text-warning">
+                        <span class="customer-review-score">@Model.ScoreSummary.AverageScore</span>
+                        @await Component.InvokeAsync("CustomerReviewScore", Model.ScoreSummary.AverageScore)
+                    </div>
                 </div>
 
-                <hr />
-                <p class="product-price">@price<sup>@currencySymbol</sup></p>
+                <hr/>
 
-                @*Product details*@
-                <h5>Product details</h5>
-                @foreach (var detail in Model.Details)
+                <div class="row">
+                    <p class="product-price">@price<sup>@currencySymbol</sup></p>
+
+                    @*Product details*@
+                    @if (Model.Details.Any())
+                    {
+                        <h5>Product details</h5>
+                        foreach (var detail in Model.Details)
+                        {
+                            <div class="col-4">
+                                <span><b>@detail.Name</b></span>
+                            </div>
+                            <div class="col-8">
+                                <span>@detail.Description</span>
+                            </div>
+                        }
+                    }
+                </div>
+
+                @if (Model.Descriptions.Any())
                 {
+                    <hr />
                     <div class="row">
-                        <div class="col-4">
-                            <span><b>@detail.Name</b></span>
-                        </div>
-                        <div class="col-8">
-                            <span>@detail.Description</span>
-                        </div>
+                        @*Product descriptions*@
+                        <h5>About this item</h5>
+                        <ul>
+                            @foreach (var description in Model.Descriptions)
+                            {
+                                <li>@description</li>
+                            }
+                        </ul>
                     </div>
                 }
-                
-                <hr />
             </div>
-
             @*Purchase descriptions*@
-            <form class="col-3 d-flex">
-                <div class="card flex-grow-1 round-border-l">
+            <form class="col-3">
+                <div class="card round-border-l">
                     <div class="card-body d-flex flex-column justify-content-start">
                         <p class="product-price">@price<sup>@currencySymbol</sup></p>
 
@@ -95,18 +120,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="row">
-            <div class="col-8">
-                @*Product descriptions*@
-                <h5>About this item</h5>
-                <ul>
-                    @foreach (var description in Model.Descriptions)
-                    {
-                        <li>@description</li>
-                    }
-                </ul>
-            </div>
         </div>
     </div>
 </div>

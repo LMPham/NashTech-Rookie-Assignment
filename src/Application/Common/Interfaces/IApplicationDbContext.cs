@@ -9,6 +9,8 @@
         DbSet<Category> Categories { get; }
         DbSet<Department> Departments { get; }
         DbSet<CustomerReview> CustomerReviews { get; }
+        DbSet<ProductDetail> ProductDetails { get; }
+        DbSet<Image> Images { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
