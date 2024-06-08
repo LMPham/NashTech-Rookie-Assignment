@@ -15,12 +15,15 @@
 <div class="card my-4 border-3 primary-border-color">
     <div class="card-body row justify-content-between">
         <div class="col-11">
-            <h6 class="card-title mb-2">@Model.Name</h6>
-            <div class="ms-auto text-warning">
-                <span class="customer-review-score">@scoreSummary.AverageScore</span>
-                @await Component.InvokeAsync("CustomerReviewScore", scoreSummary.AverageScore)
-                <span class="customer-review-score">@scoreSummary.TotalReviews reviews</span>
-            </div>
+            <a class="primary-hover" asp-controller="ProductDetails" asp-action="Index" asp-route-Id="@Model.Id">
+                <h6 class="card-title mb-2">@Model.Name</h6>
+            
+                <div class="ms-auto text-warning">
+                    <span class="customer-review-score">@scoreSummary.AverageScore</span>
+                    @await Component.InvokeAsync("CustomerReviewScore", scoreSummary.AverageScore)
+                    <span class="customer-review-score">@scoreSummary.TotalReviews reviews</span>
+                </div>
+            </a>
             <p class="mb-2">Created by @Model.CreatedByUserName on @Model.Created.ToLocalTime().ToString("MMMM d, yyyy")</p>
             <p class="mb-2">Last modified by @Model.LastModifiedByUserName on @Model.LastModified.ToLocalTime().ToString("MMMM d, yyyy")</p>
         </div>
