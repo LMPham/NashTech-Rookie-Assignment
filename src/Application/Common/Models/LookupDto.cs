@@ -1,4 +1,4 @@
-﻿using Application.UseCases.Products.Commands.GetProductsWithPagination;
+﻿using Application.UseCases.Products.Queries.GetProductsWithPagination;
 using AutoMapper;
 
 namespace Application.Common.Models

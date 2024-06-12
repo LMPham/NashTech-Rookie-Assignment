@@ -1,11 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
-namespace Application.UseCases.Departments.Commands.GetDepartment
+namespace Application.UseCases.Departments.Queries.GetDepartment
 {
     /// <summary>
     /// Request for getting an existing Department.
     /// </summary>
-    public class GetDepartmentCommand : IRequest<Department>
+    public class GetDepartmentQuery : IRequest<Department>
     {
         public required int Id { get; init; }
     }
@@ -13,16 +13,16 @@ namespace Application.UseCases.Departments.Commands.GetDepartment
     /// <summary>
     /// Request handler for getting an existing Department.
     /// </summary>
-    public class GetDepartmentCommandHandler : IRequestHandler<GetDepartmentCommand, Department>
+    public class GetDepartmentQueryHandler : IRequestHandler<GetDepartmentQuery, Department>
     {
         private readonly IApplicationDbContext dbContext;
 
-        public GetDepartmentCommandHandler(IApplicationDbContext _context)
+        public GetDepartmentQueryHandler(IApplicationDbContext _context)
         {
             dbContext = _context;
         }
 
-        public async Task<Department> Handle(GetDepartmentCommand request, CancellationToken cancellationToken)
+        public async Task<Department> Handle(GetDepartmentQuery request, CancellationToken cancellationToken)
         {
             var department = dbContext.Departments.Where(d => d.Id == request.Id).FirstOrDefault();
 

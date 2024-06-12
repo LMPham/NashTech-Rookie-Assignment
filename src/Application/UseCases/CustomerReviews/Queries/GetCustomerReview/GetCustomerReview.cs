@@ -2,26 +2,26 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
 
-namespace Application.UseCases.CustomerReviews.Commands.GetCustomerReview
+namespace Application.UseCases.CustomerReviews.Queries.GetCustomerReview
 {
     /// <summary>
     /// Request for getting an existing CustomerReview.
     /// </summary>
-    public class GetCustomerReviewCommand : IRequest<CustomerReview>
+    public class GetCustomerReviewQuery : IRequest<CustomerReview>
     {
         public required int Id { get; init; }
     }
 
-    public class GetCustomerReviewCommandHandler : IRequestHandler<GetCustomerReviewCommand, CustomerReview>
+    public class GetCustomerReviewQueryHandler : IRequestHandler<GetCustomerReviewQuery, CustomerReview>
     {
         private readonly IApplicationDbContext dbContext;
 
-        public GetCustomerReviewCommandHandler(IApplicationDbContext _context)
+        public GetCustomerReviewQueryHandler(IApplicationDbContext _context)
         {
             dbContext = _context;
         }
 
-        public async Task<CustomerReview> Handle(GetCustomerReviewCommand request, CancellationToken cancellationToken)
+        public async Task<CustomerReview> Handle(GetCustomerReviewQuery request, CancellationToken cancellationToken)
         {
             var customerReview = dbContext.CustomerReviews.Where(cr => cr.Id == request.Id).FirstOrDefault();
 

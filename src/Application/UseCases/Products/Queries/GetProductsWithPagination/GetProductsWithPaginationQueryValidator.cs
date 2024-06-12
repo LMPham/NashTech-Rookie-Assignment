@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
 
-namespace Application.UseCases.Products.Commands.GetProductsWithPagination
+namespace Application.UseCases.Products.Queries.GetProductsWithPagination
 {
-    public class GetProductsWithPaginationCommandValidator : AbstractValidator<GetProductsWithPaginationCommand>
+    public class GetProductsWithPaginationQueryValidator : AbstractValidator<GetProductsWithPaginationQuery>
     {
-        public GetProductsWithPaginationCommandValidator()
+        /// <summary>
+        /// Validator for getting Products with pagination.
+        /// </summary>
+        public GetProductsWithPaginationQueryValidator()
         {
             RuleFor(x => x.MinPrice)
                 .GreaterThanOrEqualTo(0).WithMessage("MinPrice cannot be negative.");

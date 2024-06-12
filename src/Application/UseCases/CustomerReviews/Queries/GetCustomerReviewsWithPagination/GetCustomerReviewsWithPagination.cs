@@ -3,12 +3,12 @@ using Application.Common.Mappings;
 using Application.Common.Models;
 using AutoMapper;
 
-namespace Application.UseCases.CustomerReviews.Commands.GetCustomerReviewsWithPagination
+namespace Application.UseCases.CustomerReviews.Queries.GetCustomerReviewsWithPagination
 {
     /// <summary>
     /// Request for getting CustomerReviews with pagination.
     /// </summary>
-    public class GetCustomerReviewsWithPaginationCommand : IRequest<PaginatedList<CustomerReview>>
+    public class GetCustomerReviewsWithPaginationQuery : IRequest<PaginatedList<CustomerReview>>
     {
         public int? ProductId { get; init; }
         public string? UserId { get; init; }
@@ -19,16 +19,16 @@ namespace Application.UseCases.CustomerReviews.Commands.GetCustomerReviewsWithPa
     /// <summary>
     /// Request handler for getting CustomerReviews with pagination.
     /// </summary>
-    public class GetCustomerReviewsWithPaginationCommandHandler : IRequestHandler<GetCustomerReviewsWithPaginationCommand, PaginatedList<CustomerReview>>
+    public class GetCustomerReviewsWithPaginationQueryHandler : IRequestHandler<GetCustomerReviewsWithPaginationQuery, PaginatedList<CustomerReview>>
     {
         private readonly IApplicationDbContext dbContext;
 
-        public GetCustomerReviewsWithPaginationCommandHandler(IApplicationDbContext _context)
+        public GetCustomerReviewsWithPaginationQueryHandler(IApplicationDbContext _context)
         {
             dbContext = _context;
         }
 
-        public async Task<PaginatedList<CustomerReview>> Handle(GetCustomerReviewsWithPaginationCommand request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<CustomerReview>> Handle(GetCustomerReviewsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             return await dbContext.CustomerReviews
                 .Where(cr =>

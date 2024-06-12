@@ -1,6 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.UseCases.Products.Commands.GetProductsWithPagination;
+using Application.UseCases.Products.Queries.GetProductsWithPagination;
 using AutoMapper;
 using Domain.Entities;
 using System.Reflection;

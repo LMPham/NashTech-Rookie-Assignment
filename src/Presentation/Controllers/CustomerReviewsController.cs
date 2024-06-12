@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.UseCases.CustomerReviews.Queries.GetCustomerReview;
+using Application.UseCases.CustomerReviews.Queries.GetCustomerReviewsWithPagination;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {

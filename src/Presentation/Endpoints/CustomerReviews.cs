@@ -1,4 +1,6 @@
-﻿namespace Presentation.Endpoints
+﻿using Application.UseCases.CustomerReviews.Queries.GetCustomerReviewsWithPagination;
+
+namespace Presentation.Endpoints
 {
     /// <summary>
     /// CustomerReviews API endpoint group for handling CustomerReview-related services.

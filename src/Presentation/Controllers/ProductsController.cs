@@ -1,4 +1,7 @@
-﻿namespace Presentation.Controllers
+﻿using Application.UseCases.Products.Queries.GetProduct;
+using Application.UseCases.Products.Queries.GetProductsWithPagination;
+
+namespace Presentation.Controllers
 {
     /// <summary>
     /// Controller for managing Products.

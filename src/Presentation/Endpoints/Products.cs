@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.Products.Commands.GetProduct;
+using Application.UseCases.Products.Queries.GetProductsWithPagination;
 
 namespace Presentation.Endpoints
 {

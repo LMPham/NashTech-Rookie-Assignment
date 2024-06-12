@@ -1,4 +1,5 @@
 using Application.UseCases.Departments.Commands.GetDepartment;
+using Application.UseCases.Products.Queries.GetProductsWithPagination;
 using AutoMapper;
 using System.Diagnostics;
 

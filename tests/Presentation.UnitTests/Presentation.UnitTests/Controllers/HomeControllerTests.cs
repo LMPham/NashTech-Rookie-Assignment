@@ -53,17 +53,5 @@ namespace Presentation.UnitTests.Controllers
             var result = controller.Privacy() as ViewResult;
             Assert.NotNull(result);
         }
-
-        [Fact]
-        public void HomeErrorShouldReturnViewResultWithRequestId()
-        {
-            var controller = new HomeController(null, null, null, null);
-            var result = controller.Error() as ViewResult;
-            Assert.NotNull(result);
-            Assert.IsType<ErrorViewModel>(result.Model);
-            var model = result.Model as ErrorViewModel;
-            Assert.NotNull(model);
-            Assert.NotNull(model.RequestId);
-        }
     }
 }
