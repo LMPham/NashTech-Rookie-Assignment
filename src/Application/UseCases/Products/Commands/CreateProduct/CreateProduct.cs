@@ -2,77 +2,76 @@
 using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 
-namespace Application.UseCases.Products.Commands.CreateProduct
+namespace Application.UseCases.Products.Commands.CreateProduct;
+
+/// <summary>
+/// Request to create a new Product.
+/// </summary>
+[Authorize(Roles = Roles.Administrator)]
+public record CreateProductCommand : IRequest<int>
 {
-    /// <summary>
-    /// Request to create a new Product.
-    /// </summary>
-    [Authorize(Roles = Roles.Administrator)]
-    public record CreateProductCommand : IRequest<int>
+    public required string Name { get; init; }
+    public required Department Department { get; init; }
+    public required Category Category { get; init; }
+    public List<string> Descriptions { get; init; } = [];
+    public List<ProductDetail> Details { get; init; } = [];
+    public List<CustomerReview> CustomerReviews { get; init; } = [];
+    public required int Quantity { get; init; }
+    public required int Price { get; init; }
+    public List<Image> Images { get; set; } = [];
+}
+
+/// <summary>
+/// Request handler for creating a new Product.
+/// </summary>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+{
+    private readonly IApplicationDbContext dbContext;
+
+    public CreateProductCommandHandler(IApplicationDbContext _dbContext)
     {
-        public required string Name { get; init; }
-        public required Department Department { get; init; }
-        public required Category Category { get; init; }
-        public List<string> Descriptions { get; init; } = [];
-        public List<ProductDetail> Details { get; init; } = [];
-        public List<CustomerReview> CustomerReviews { get; init; } = new List<CustomerReview>();
-        public required int Quantity { get; init; }
-        public required int Price { get; init; }
-        public List<Image> Images { get; set; } = [];
+        dbContext = _dbContext;
     }
 
     /// <summary>
-    /// Request handler for creating a new Product.
+    /// Creates a new Product and adds it into the database.
+    /// The new Product must be in a existing Department and
+    /// have an existing Category that is in the respective Department
     /// </summary>
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext dbContext;
+        // Checks if the Category and Department of the Product exists in the database.
+        var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
+        Guard.Against.NotFound(request.Category.Id, category);
 
-        public CreateProductCommandHandler(IApplicationDbContext _dbContext)
+        var department = dbContext.Departments.Where(d => d.Id == request.Department.Id).FirstOrDefault();
+        Guard.Against.NotFound(request.Department.Id, department);
+
+        // Checks if the Category is in the Department
+        if (!department.Categories.Contains(category))
         {
-            dbContext = _dbContext;
+            throw new BadRequestException();
         }
 
-        /// <summary>
-        /// Creates a new Product and adds it into the database.
-        /// The new Product must be in a existing Department and
-        /// have an existing Category that is in the respective Department
-        /// </summary>
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        var product = new Product
         {
-            // Checks if the Category and Department of the Product exists in the database.
-            var category = dbContext.Categories.Where(c => c.Id == request.Category.Id).FirstOrDefault();
-            Guard.Against.NotFound(request.Category.Id, category);
+            Name = request.Name,
+            Department = department,
+            Category = category,
+            Descriptions = request.Descriptions,
+            Details = request.Details,
+            CustomerReviews = request.CustomerReviews,
+            Quantity = request.Quantity,
+            Price = request.Price,
+            Images = request.Images,
+        };
 
-            var department = dbContext.Departments.Where(d => d.Id == request.Department.Id).FirstOrDefault();
-            Guard.Against.NotFound(request.Department.Id, department);
+        product.AddDomainEvent(new ProductCreatedEvent(product));
 
-            // Checks if the Category is in the Department
-            if (!department.Categories.Contains(category))
-            {
-                throw new BadRequestException();
-            }
+        department.Products.Add(product);
 
-            var product = new Product
-            {
-                Name = request.Name,
-                Department = department,
-                Category = category,
-                Descriptions = request.Descriptions,
-                Details = request.Details,
-                CustomerReviews = request.CustomerReviews,
-                Quantity = request.Quantity,
-                Price = request.Price,
-                Images = request.Images,
-            };
+        await dbContext.SaveChangesAsync(cancellationToken);
 
-            product.AddDomainEvent(new ProductCreatedEvent(product));
-
-            department.Products.Add(product);
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-
-            return product.Id;
-        }
+        return product.Id;
     }
 }

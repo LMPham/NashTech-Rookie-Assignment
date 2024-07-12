@@ -11,13 +11,7 @@ namespace Presentation.Endpoints
         public override void Map(WebApplication app)
         {
             app.MapGroup(this)
-                .MapGet(GetNumber)
                 .MapIdentityApi<ApplicationUser>();
-        }
-
-        public int GetNumber()
-        {
-            return 123456789;
         }
     }
 }

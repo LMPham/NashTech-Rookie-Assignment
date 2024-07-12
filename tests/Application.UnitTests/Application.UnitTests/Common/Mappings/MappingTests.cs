@@ -6,44 +6,43 @@ using Domain.Entities;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Application.UnitTests.Common.Mappings
+namespace Application.UnitTests.Common.Mappings;
+
+public class MappingTests
 {
-    public class MappingTests
+    private readonly IConfigurationProvider _configuration;
+    private readonly IMapper _mapper;
+
+    public MappingTests()
     {
-        private readonly IConfigurationProvider _configuration;
-        private readonly IMapper _mapper;
+        _configuration = new MapperConfiguration(config =>
+            config.AddMaps(Assembly.GetAssembly(typeof(IApplicationDbContext))));
 
-        public MappingTests()
-        {
-            _configuration = new MapperConfiguration(config =>
-                config.AddMaps(Assembly.GetAssembly(typeof(IApplicationDbContext))));
+        _mapper = _configuration.CreateMapper();
+    }
 
-            _mapper = _configuration.CreateMapper();
-        }
+    [Fact]
+    public void ShouldHaveValidConfiguration()
+    {
+        _configuration.AssertConfigurationIsValid();
+    }
 
-        [Fact]
-        public void ShouldHaveValidConfiguration()
-        {
-            _configuration.AssertConfigurationIsValid();
-        }
+    [Theory]
+    [InlineData(typeof(GetProductsWithPaginationQuery), typeof(LookupDto))]
+    [InlineData(typeof(Product), typeof(ProductDto))]
+    public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
+    {
+        var instance = GetInstanceOf(source);
 
-        [Theory]
-        [InlineData(typeof(GetProductsWithPaginationCommand), typeof(LookupDto))]
-        [InlineData(typeof(Product), typeof(ProductDto))]
-        public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
-        {
-            var instance = GetInstanceOf(source);
+        _mapper.Map(instance, source, destination);
+    }
 
-            _mapper.Map(instance, source, destination);
-        }
+    private object GetInstanceOf(Type type)
+    {
+        if (type.GetConstructor(Type.EmptyTypes) != null)
+            return Activator.CreateInstance(type)!;
 
-        private object GetInstanceOf(Type type)
-        {
-            if (type.GetConstructor(Type.EmptyTypes) != null)
-                return Activator.CreateInstance(type)!;
-
-            // Type without parameterless constructor
-            return RuntimeHelpers.GetUninitializedObject(type);
-        }
+        // Type without parameterless constructor
+        return RuntimeHelpers.GetUninitializedObject(type);
     }
 }

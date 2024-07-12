@@ -1,6 +1,4 @@
-﻿using Application.UseCases.CustomerReviews.Queries.GetCustomerReviewsWithPagination;
-
-namespace Presentation.Endpoints
+﻿namespace Presentation.Endpoints
 {
     /// <summary>
     /// CustomerReviews API endpoint group for handling CustomerReview-related services.
@@ -17,15 +15,15 @@ namespace Presentation.Endpoints
                 .MapDelete(DeleteCustomerReview, "{id}");
         }
 
-        public Task<PaginatedList<CustomerReview>> GetCustomerReviewsWithPagination(ISender sender, [AsParameters] GetCustomerReviewsWithPaginationCommand command)
+        public Task<PaginatedList<CustomerReview>> GetCustomerReviewsWithPagination(ISender sender, [AsParameters] GetCustomerReviewsWithPaginationQuery query)
         {
-            return sender.Send(command);
+            return sender.Send(query);
         }
 
         public Task<CustomerReview> GetCustomerReview(ISender sender, int id)
         {
-            var command = new GetCustomerReviewCommand { Id = id };
-            return sender.Send(command);
+            var query = new GetCustomerReviewQuery { Id = id };
+            return sender.Send(query);
         }
 
         public Task<int> CreateCustomerReview(ISender sender, CreateCustomerReviewCommand command)

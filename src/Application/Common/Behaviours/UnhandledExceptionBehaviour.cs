@@ -1,33 +1,32 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Application.Common.Behaviours
+namespace Application.Common.Behaviours;
+
+/// <summary>
+/// A pipeline behavior for logging unhandled exceptions for user requests.
+/// </summary>
+public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    /// <summary>
-    /// A pipeline behavior for logging unhandled exceptions for user requests.
-    /// </summary>
-    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+    private readonly ILogger<TRequest> logger;
+
+    public UnhandledExceptionBehaviour(ILogger<TRequest> _logger)
     {
-        private readonly ILogger<TRequest> logger;
+        logger = _logger;
+    }
 
-        public UnhandledExceptionBehaviour(ILogger<TRequest> _logger)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        try
         {
-            logger = _logger;
+            return await next();
         }
-
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                return await next();
-            }
-            catch (Exception ex)
-            {
-                var requestName = typeof(TRequest).Name;
+            var requestName = typeof(TRequest).Name;
 
-                logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
 
-                throw;
-            }
+            throw;
         }
     }
 }

@@ -1,41 +1,40 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 
-namespace Application.UseCases.CustomerReviews.Commands.DeleteCustomerReview
+namespace Application.UseCases.CustomerReviews.Commands.DeleteCustomerReview;
+
+/// <summary>
+/// Request to delete an existing CustomerReview.
+/// </summary>
+[Authorize]
+public class DeleteCustomerReviewCommand : IRequest
 {
-    /// <summary>
-    /// Request to delete an existing CustomerReview.
-    /// </summary>
-    [Authorize]
-    public class DeleteCustomerReviewCommand : IRequest
+    public required int Id { get; init; }
+}
+
+/// <summary>
+/// Request handler for deleting an existing CustomerReview.
+/// </summary>
+public class DeleteCustomerReviewCommandHandler : IRequestHandler<DeleteCustomerReviewCommand>
+{
+    private readonly IApplicationDbContext dbContext;
+
+    public DeleteCustomerReviewCommandHandler(IApplicationDbContext _dbContext)
     {
-        public required int Id { get; init; }
+        dbContext = _dbContext;
     }
 
-    /// <summary>
-    /// Request handler for deleting an existing CustomerReview.
-    /// </summary>
-    public class DeleteCustomerReviewCommandHandler : IRequestHandler<DeleteCustomerReviewCommand>
+    public async Task Handle(DeleteCustomerReviewCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext dbContext;
+        var customerReview = dbContext.CustomerReviews.Where(cr => cr.Id == request.Id).FirstOrDefault();
 
-        public DeleteCustomerReviewCommandHandler(IApplicationDbContext _dbContext)
-        {
-            dbContext = _dbContext;
-        }
+        // Checks if the CustomerReview exist. If not, throws an exception
+        Guard.Against.NotFound(request.Id, customerReview);
 
-        public async Task Handle(DeleteCustomerReviewCommand request, CancellationToken cancellationToken)
-        {
-            var customerReview = dbContext.CustomerReviews.Where(cr => cr.Id == request.Id).FirstOrDefault();
+        dbContext.CustomerReviews.Remove(customerReview);
 
-            // Checks if the CustomerReview exist. If not, throws an exception
-            Guard.Against.NotFound(request.Id, customerReview);
+        customerReview.AddDomainEvent(new CustomerReviewDeletedEvent(customerReview));
 
-            dbContext.CustomerReviews.Remove(customerReview);
-
-            customerReview.AddDomainEvent(new CustomerReviewDeletedEvent(customerReview));
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-        }
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

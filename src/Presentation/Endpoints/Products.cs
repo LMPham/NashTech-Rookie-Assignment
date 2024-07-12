@@ -1,7 +1,4 @@
-﻿using Application.UseCases.Products.Commands.GetProduct;
-using Application.UseCases.Products.Queries.GetProductsWithPagination;
-
-namespace Presentation.Endpoints
+﻿namespace Presentation.Endpoints
 {
     /// <summary>
     /// Product API endpoint group for handling Product-related services.
@@ -18,15 +15,15 @@ namespace Presentation.Endpoints
                 .MapDelete(DeleteProduct, "{id}");
         }
         
-        public Task<PaginatedList<ProductDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationCommand command)
+        public Task<PaginatedList<ProductDto>> GetProductsWithPagination(ISender sender, [AsParameters] GetProductsWithPaginationQuery query)
         {
-            return sender.Send(command);
+            return sender.Send(query);
         }
 
         public Task<ProductDto> GetProduct(ISender sender, int id)
         {
-            var command = new GetProductCommand { Id = id };
-            return sender.Send(command);
+            var query = new GetProductQuery { Id = id };
+            return sender.Send(query);
         }
 
         public Task<int> CreateProduct(ISender sender, CreateProductCommand command)

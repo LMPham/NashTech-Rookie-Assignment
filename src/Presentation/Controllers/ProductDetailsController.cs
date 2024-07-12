@@ -1,41 +1,38 @@
-﻿using Infrastructure.Identity;
+﻿namespace Presentation.Controllers;
 
-namespace Presentation.Controllers
+/// <summary>
+/// Controller for ProductDetails page.
+/// </summary>
+public class ProductDetailsController : Controller
 {
-    /// <summary>
-    /// Controller for ProductDetails page.
-    /// </summary>
-    public class ProductDetailsController : Controller
+    private readonly IMediator mediator;
+    private readonly IUser user;
+    private readonly IIdentityService identityService;
+
+    public ProductDetailsController(IMediator _mediator, IUser _user, IIdentityService _identityService)
     {
-        private readonly IMediator mediator;
-        private readonly IUser user;
-        private readonly IIdentityService identityService;
+        mediator = _mediator;
+        user = _user;
+        identityService = _identityService;
+    }
 
-        public ProductDetailsController(IMediator _mediator, IUser _user, IIdentityService _identityService)
+    [HttpGet]
+    [Route("[controller]/{id}")]
+    public async Task<IActionResult> Index([FromRoute] int id)
+    {
+        if (user.Id != null && IUser.Mode == null)
         {
-            mediator = _mediator;
-            user = _user;
-            identityService = _identityService;
+            IUser.Mode = await identityService.GetUserModeAsync(user.Id);
         }
 
-        [HttpGet]
-        [Route("[controller]/{id}")]
-        public async Task<IActionResult> Index([FromRoute] int id)
+        var product = await mediator.Send(new GetProductQuery { Id = id});
+
+        var model = new ProductDetailsIndexModel
         {
-            if (user.Id != null && IUser.Mode == null)
-            {
-                IUser.Mode = await identityService.GetUserModeAsync(user.Id);
-            }
+            Product = product,
+            User = user,
+        };
 
-            var product = await mediator.Send(new GetProductCommand { Id = id});
-
-            var model = new ProductDetailsIndexModel
-            {
-                Product = product,
-                User = user,
-            };
-
-            return View(model);
-        }
+        return View(model);
     }
 }

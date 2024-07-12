@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace Application.UseCases.Departments.Commands.UpdateDepartment
+namespace Application.UseCases.Departments.Commands.UpdateDepartment;
+
+public class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartmentCommand>
 {
-    public class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartmentCommand>
+    public UpdateDepartmentCommandValidator()
     {
-        public UpdateDepartmentCommandValidator()
-        {
-            //
-        }
+        //
     }
 }

@@ -1,49 +1,48 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 
-namespace Application.UseCases.Departments.Commands.UpdateDepartment
+namespace Application.UseCases.Departments.Commands.UpdateDepartment;
+
+/// <summary>
+/// Request to update an existing Department.
+/// </summary>
+[Authorize(Roles = Roles.Administrator)]
+public class UpdateDepartmentCommand : IRequest
 {
-    /// <summary>
-    /// Request to update an existing Department.
-    /// </summary>
-    [Authorize(Roles = Roles.Administrator)]
-    public class UpdateDepartmentCommand : IRequest
+    public required int Id { get; init; }
+    public string? Name { get; init; }
+    public string? Description { get; init; }
+}
+
+/// <summary>
+/// Request handler for updating an existing Department.
+/// </summary>
+public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCommand>
+{
+    private readonly IApplicationDbContext dbContext;
+
+    public UpdateDepartmentCommandHandler(IApplicationDbContext _dbContext)
     {
-        public required int Id { get; init; }
-        public string? Name { get; init; }
-        public string? Description { get; init; }
+        dbContext = _dbContext;
     }
 
     /// <summary>
-    /// Request handler for updating an existing Department.
+    /// Finds the corresponding Department and updates it.
+    /// Throws an exception if the Department does not exist.
     /// </summary>
-    public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCommand>
+    public async Task Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext dbContext;
+        var department = dbContext.Departments.Where(d => d.Id == request.Id).FirstOrDefault();
 
-        public UpdateDepartmentCommandHandler(IApplicationDbContext _dbContext)
-        {
-            dbContext = _dbContext;
-        }
+        // Checks if the department exist. If not, throws an exception
+        Guard.Against.NotFound(request.Id, department);
 
-        /// <summary>
-        /// Finds the corresponding Department and updates it.
-        /// Throws an exception if the Department does not exist.
-        /// </summary>
-        public async Task Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
-        {
-            var department = dbContext.Departments.Where(d => d.Id == request.Id).FirstOrDefault();
+        department.Name = request.Name ?? department.Name;
 
-            // Checks if the department exist. If not, throws an exception
-            Guard.Against.NotFound(request.Id, department);
+        department.Description = request.Description ?? department.Description;
 
-            department.Name = request.Name ?? department.Name;
+        department.AddDomainEvent(new DepartmentUpdatedEvent(department));
 
-            department.Description = request.Description ?? department.Description;
-
-            department.AddDomainEvent(new DepartmentUpdatedEvent(department));
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-        }
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

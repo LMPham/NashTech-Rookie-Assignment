@@ -1,7 +1,6 @@
-﻿namespace Application.Common.Exceptions
+﻿namespace Application.Common.Exceptions;
+
+public class BadRequestException : Exception
 {
-    public class BadRequestException : Exception
-    {
-        public BadRequestException() : base() { }
-    }
+    public BadRequestException() : base() { }
 }

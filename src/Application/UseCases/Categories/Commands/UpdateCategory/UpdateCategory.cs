@@ -1,50 +1,49 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 
-namespace Application.UseCases.Categories.Commands.UpdateCategory
-{
-    /// <summary>
-    /// Request to update an existing Category.
-    /// </summary>
-    [Authorize(Roles = Roles.Administrator)]
-    public class UpdateCategoryCommand : IRequest
-    {
-        public required int Id { get; init; }
-        public string? Name { get; init; }
-        public string? Description { get; init; }
+namespace Application.UseCases.Categories.Commands.UpdateCategory;
 
+/// <summary>
+/// Request to update an existing Category.
+/// </summary>
+[Authorize(Roles = Roles.Administrator)]
+public class UpdateCategoryCommand : IRequest
+{
+    public required int Id { get; init; }
+    public string? Name { get; init; }
+    public string? Description { get; init; }
+
+}
+
+/// <summary>
+/// Request handler for updating an existing Category.
+/// </summary>
+public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand>
+{
+    private readonly IApplicationDbContext dbContext;
+
+    public UpdateCategoryCommandHandler(IApplicationDbContext _dbContext)
+    {
+        dbContext = _dbContext;
     }
 
     /// <summary>
-    /// Request handler for updating an existing Category.
+    /// Finds the corresponding Category and updates it.
+    /// Throws an exception if the Category does not exist.
     /// </summary>
-    public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand>
+
+    public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext dbContext;
+        var category = dbContext.Categories.Where(c => c.Id == request.Id).FirstOrDefault();
 
-        public UpdateCategoryCommandHandler(IApplicationDbContext _dbContext)
-        {
-            dbContext = _dbContext;
-        }
+        // Checks if the Category exists. If not, throws an exception
+        Guard.Against.NotFound(request.Id, category);
 
-        /// <summary>
-        /// Finds the corresponding Category and updates it.
-        /// Throws an exception if the Category does not exist.
-        /// </summary>
+        category.Name = request.Name ?? category.Name;
+        category.Description = request.Description ?? category.Description;
 
-        public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var category = dbContext.Categories.Where(c => c.Id == request.Id).FirstOrDefault();
+        category.AddDomainEvent(new CategoryUpdatedEvent(category));
 
-            // Checks if the Category exists. If not, throws an exception
-            Guard.Against.NotFound(request.Id, category);
-
-            category.Name = request.Name ?? category.Name;
-            category.Description = request.Description ?? category.Description;
-
-            category.AddDomainEvent(new CategoryUpdatedEvent(category));
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-        }
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

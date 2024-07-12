@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "src\Presentation\Presentation.csproj", "{1A45D800-9582-4B26-BF36-E2EE16409CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests\Application.UnitTests.csproj", "{CBF36C7D-CA06-4242-B5CD-7956AE61C2E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests\Application.UnitTests.csproj", "{CBF36C7D-CA06-4242-B5CD-7956AE61C2E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.UnitTests", "tests\Presentation.UnitTests\Presentation.UnitTests\Presentation.UnitTests.csproj", "{57C4EF7D-5DD4-47AE-8088-323F2680CB0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.UnitTests", "tests\Presentation.UnitTests\Presentation.UnitTests\Presentation.UnitTests.csproj", "{57C4EF7D-5DD4-47AE-8088-323F2680CB0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

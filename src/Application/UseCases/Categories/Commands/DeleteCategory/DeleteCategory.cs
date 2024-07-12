@@ -1,44 +1,43 @@
 ﻿using Application.Common.Interfaces;
 using Ardalis.GuardClauses;
 
-namespace Application.UseCases.Categories.Commands.DeleteCategory
+namespace Application.UseCases.Categories.Commands.DeleteCategory;
+
+/// <summary>
+/// Request to delete an existing Category.
+/// </summary>
+[Authorize(Roles = Roles.Administrator)]
+public class DeleteCategoryCommand : IRequest
 {
-    /// <summary>
-    /// Request to delete an existing Category.
-    /// </summary>
-    [Authorize(Roles = Roles.Administrator)]
-    public class DeleteCategoryCommand : IRequest
+    public required int Id { get; init; }
+}
+
+/// <summary>
+/// Request handler for deleting an existing Category.
+/// </summary>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
+{
+    private readonly IApplicationDbContext dbContext;
+
+    public DeleteCategoryCommandHandler(IApplicationDbContext _dbContext)
     {
-        public required int Id { get; init; }
+       dbContext = _dbContext;
     }
 
     /// <summary>
-    /// Request handler for deleting an existing Category.
+    /// Finds the corresponding Category and removes it from the database.
     /// </summary>
-    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
+    public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        private readonly IApplicationDbContext dbContext;
+        var category = dbContext.Categories.Where(c => c.Id == request.Id).FirstOrDefault();
 
-        public DeleteCategoryCommandHandler(IApplicationDbContext _dbContext)
-        {
-           dbContext = _dbContext;
-        }
+        // Checks if the Category exists. If not, throws an exception
+        Guard.Against.NotFound(request.Id, category);
 
-        /// <summary>
-        /// Finds the corresponding Category and removes it from the database.
-        /// </summary>
-        public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var category = dbContext.Categories.Where(c => c.Id == request.Id).FirstOrDefault();
+        dbContext.Categories.Remove(category);
 
-            // Checks if the Category exists. If not, throws an exception
-            Guard.Against.NotFound(request.Id, category);
+        category.AddDomainEvent(new CategoryDeletedEvent(category));
 
-            dbContext.Categories.Remove(category);
-
-            category.AddDomainEvent(new CategoryDeletedEvent(category));
-
-            await dbContext.SaveChangesAsync(cancellationToken);
-        }
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
