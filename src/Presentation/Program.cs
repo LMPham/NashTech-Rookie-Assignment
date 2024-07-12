@@ -26,6 +26,14 @@ builder.Services.AddSwaggerGen();
 
 // Remove this when done testing
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policyBuilder => policyBuilder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -56,6 +64,7 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapEndpoints();
+app.UseCors("AllowAll");
 
 app.Run();
 
