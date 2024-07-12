@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react"
-import { AccountStatus } from "@features/auth/auth.type"
 import useGetMe from "@features/auth/useGetMe"
 import { BreadcrumbsContext } from "@libs/contexts/BreadcrumbsContext"
 import { useAuth } from "@libs/hooks/useAuth"
@@ -34,9 +33,6 @@ export default function NavBar() {
       try {
         const userInfo = data
         setValue(userInfo)
-        if (userInfo.accountStatus == AccountStatus.FirstTime) {
-          setOpenChangePasswordModal(true)
-        }
       } catch (error) {
         console.error("Failed to fetch user data:", error)
         setValue(null)
@@ -141,7 +137,8 @@ export default function NavBar() {
           open={openChangePasswordModal}
           onClose={() => handleClick(setOpenChangePasswordModal, false)}
           user={value}
-          FirstTime={value?.accountStatus === AccountStatus.FirstTime}
+          // FirstTime={value?.accountStatus === AccountStatus.FirstTime}
+          FirstTime={false}
         />
       </Toolbar>
     </AppBar>

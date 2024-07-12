@@ -43,8 +43,7 @@ export type CreateUserRequest = {
 // Additional types
 
 export enum RoleType {
-  Admin = "Admin",
-  Staff = "Staff",
+  Administrator = "Administrator",
 }
 
 export enum Gender {

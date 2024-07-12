@@ -19,7 +19,6 @@ export enum AccountStatus {
 
 export type AuthUser = {
   id: string
-  accountStatus: AccountStatus
   claims: Claim[]
 }
 

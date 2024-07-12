@@ -13,11 +13,12 @@ class AuthService extends HttpService {
   }
 
   login(data: LoginRequest): Promise<LoginResponse> {
-    return this.post("/login", data)
+    console.log(data)
+    return this.post("/Users/login", data)
   }
 
   getMe(): Promise<AuthUser> {
-    return this.get("/me")
+    return this.get("/Users/me")
   }
 
   updatePassword(data: UpdatePasswordRequest): Promise<void> {

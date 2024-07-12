@@ -3,6 +3,7 @@ import { userInfo } from "@/libs/jotai/userInfoAtom"
 import logo from "@assets/logo.svg"
 import authService from "@features/auth/auth.service"
 import useLogin from "@features/auth/useLogin"
+import { RoleType } from "@features/users/user.type"
 import { useAuth } from "@libs/hooks/useAuth"
 import { useShowHint } from "@libs/hooks/useShowHint"
 import VisibilityIcon from "@mui/icons-material/Visibility"
@@ -22,6 +23,15 @@ type FormValues = {
   username: string
   password: string
 }
+
+const isAdmin = (
+  claims: { type: string; value: string }[] | undefined
+): boolean =>
+  !!claims?.some(
+    (claim) =>
+      claim.type === "AuthRole" && claim.value === RoleType.Administrator
+  )
+
 export default function Login() {
   const auth = useAuth()
   const [value, setValue] = useAtom(userInfo)
@@ -55,8 +65,13 @@ export default function Login() {
   const handleSuccess = async () => {
     try {
       const userData = await authService.getMe()
-      setValue(userData)
-      console.log(value)
+      if (isAdmin(userData.claims)) {
+        setValue(userData)
+        console.log(value)
+      } else {
+        alert("Your account is not authorized to login")
+        auth.signOut()
+      }
     } catch (error) {
       console.error("Error during sign-in:", error)
     }
@@ -98,15 +113,15 @@ export default function Login() {
               <TextField
                 margin="normal"
                 fullWidth
-                id="username"
+                id="email"
                 defaultValue={state.value}
                 onChange={(e) => {
                   handleChange(e.target.value)
                   setModify("")
                 }}
                 onBlur={handleBlur}
-                label="Username"
-                autoComplete="username"
+                label="Email"
+                autoComplete="email"
                 autoFocus
               />
             )}
