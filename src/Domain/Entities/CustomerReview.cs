@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Entities
 {
     /// <summary>
     /// Customer review entity.
@@ -8,6 +10,7 @@
         public int Score { get; set; }
         public string Headline { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
+        [JsonIgnore]
         public Product Product { get; set; } = new Product();
 
     }

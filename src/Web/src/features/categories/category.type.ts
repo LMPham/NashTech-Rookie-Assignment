@@ -1,15 +1,8 @@
-import { BaseEntity } from "@/types/data"
+import { BaseEntity } from "@/types/data";
+import { Product } from "../products/product.type";
 
 export type Category = BaseEntity & {
-  name: string
-  prefix: string
-}
-
-export type ListCategories = {
-  categories: Category[]
-}
-
-export type CreateCategoryRequest = {
-  name: string
-  prefix: string
+    name: string
+    description: string
+    products: Product[]
 }

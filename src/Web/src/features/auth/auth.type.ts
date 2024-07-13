@@ -10,13 +10,6 @@ export type LoginResponse = {
   refreshToken: string
 }
 
-export enum AccountStatus {
-  FirstTime = "FirstTime",
-  Active = "Active",
-  Deactivated = "Deactivated",
-  None = "",
-}
-
 export type AuthUser = {
   id: string
   claims: Claim[]
@@ -27,8 +20,6 @@ export type Claim = {
   value: string
 }
 
-export type UpdatePasswordRequest = {
-  id: string
-  oldPassword: string
-  newPassword: string
+export enum RoleType {
+  Administrator = "Administrator",
 }

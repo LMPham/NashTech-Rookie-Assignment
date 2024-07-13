@@ -1,5 +1,6 @@
-import { BreadcrumbsContext } from "@libs/contexts/BreadcrumbsContext"
 import { useContext, useEffect } from "react"
+import useListDepartments from "@/features/departments/useListDepartments"
+import { BreadcrumbsContext } from "@libs/contexts/BreadcrumbsContext"
 
 import { RouteItem } from "@/types/data"
 
@@ -16,6 +17,8 @@ export default function Home() {
   useEffect(() => {
     context?.setBreadcrumbs(breadcrumb)
   }, [])
+
+  const { data, isLoading: listLoading } = useListDepartments()
 
   return <>Hello</>
 }

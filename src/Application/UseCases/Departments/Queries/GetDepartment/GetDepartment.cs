@@ -5,7 +5,7 @@ namespace Application.UseCases.Departments.Queries.GetDepartment;
 /// <summary>
 /// Request for getting an existing Department.
 /// </summary>
-public class GetDepartmentQuery : IRequest<Department>
+public record GetDepartmentQuery : IRequest<Department>
 {
     public required int Id { get; init; }
 }

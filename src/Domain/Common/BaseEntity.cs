@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace Domain.Common
@@ -11,7 +12,7 @@ namespace Domain.Common
         public T? Id { get; set; }
         private readonly List<BaseEvent> domainEvents = new();
 
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public IReadOnlyCollection<BaseEvent> DomainEvents => domainEvents.AsReadOnly();
 
         /// <summary>

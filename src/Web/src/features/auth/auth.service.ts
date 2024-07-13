@@ -3,8 +3,7 @@ import HttpService from "@libs/services/http.service"
 import {
   AuthUser,
   LoginRequest,
-  LoginResponse,
-  UpdatePasswordRequest,
+  LoginResponse
 } from "./auth.type"
 
 class AuthService extends HttpService {
@@ -19,10 +18,6 @@ class AuthService extends HttpService {
 
   getMe(): Promise<AuthUser> {
     return this.get("/Users/me")
-  }
-
-  updatePassword(data: UpdatePasswordRequest): Promise<void> {
-    return this.patch("/updatePassword", data)
   }
 }
 

@@ -1,4 +1,6 @@
-﻿namespace Presentation.Endpoints
+﻿using Application.UseCases.Departments.Queries.GetDepartments;
+
+namespace Presentation.Endpoints
 {
     /// <summary>
     /// Department API endpoint group for handling Department-related services.
@@ -8,9 +10,15 @@
         public override void Map(WebApplication app)
         {
             app.MapGroup(this)
+                .MapGet(GetDepartments)
                 .MapPost(CreateDepartment)
                 .MapPatch(UpdateDepartment, "{id}")
                 .MapDelete(DeleteDepartment, "{id}");
+        }
+
+        public Task<List<Department>> GetDepartments(ISender sender, [AsParameters] GetDepartmentsQuery query)
+        {
+            return sender.Send(query);
         }
 
         public Task<int> CreateDepartment(ISender sender, CreateDepartmentCommand command)

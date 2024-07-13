@@ -15,14 +15,12 @@ import { useAtom } from "jotai"
 
 import { RouteItem } from "@/types/data"
 
-import ChangePasswordModal from "../modals/change-password-modal"
 import ConfirmModal from "../modals/confirm-modal"
 
 export default function NavBar() {
   const context = useContext(BreadcrumbsContext)
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null)
   const [openLogoutConfirmModal, setOpenLogoutConfirmModal] = useState(false)
-  const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false)
   const auth = useAuth()
   const [value, setValue] = useAtom(userInfo)
   const open = Boolean(anchorElement)
@@ -104,13 +102,6 @@ export default function NavBar() {
               classes={{ paper: "rounded-lg shadow-lg" }}
             >
               <MenuItem
-                id="btn-change-password"
-                onClick={() => handleClick(setOpenChangePasswordModal, true)}
-                className="hover:bg-red-100"
-              >
-                Change Password
-              </MenuItem>
-              <MenuItem
                 id="btn-logout"
                 onClick={() => handleClick(setOpenLogoutConfirmModal, true)}
                 className="hover:bg-red-100"
@@ -132,13 +123,6 @@ export default function NavBar() {
           buttonCloseLabel="Cancel"
           onOk={() => handleLogout()}
           onClose={() => handleClick(setOpenLogoutConfirmModal, false)}
-        />
-        <ChangePasswordModal
-          open={openChangePasswordModal}
-          onClose={() => handleClick(setOpenChangePasswordModal, false)}
-          user={value}
-          // FirstTime={value?.accountStatus === AccountStatus.FirstTime}
-          FirstTime={false}
         />
       </Toolbar>
     </AppBar>

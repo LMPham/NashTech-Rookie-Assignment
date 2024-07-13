@@ -10,7 +10,7 @@ export default function SideBar() {
       <Box className="mb-12">
         <img loading="lazy" src={logo} alt="NashTech Logo" width={200} />
         <Typography className="!text-xl !font-bold !text-red-600">
-          Online Asset Management
+          NashTech Rookie Assignment
         </Typography>
       </Box>
       <Menu />

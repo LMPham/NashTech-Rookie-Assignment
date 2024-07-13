@@ -15,41 +15,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthenticatedUserIdImport } from './routes/_authenticated/user/$id'
-import { Route as AuthenticatedAssignmentIdImport } from './routes/_authenticated/assignment/$id'
-import { Route as AuthenticatedAssetIdImport } from './routes/_authenticated/asset/$id'
 
 // Create Virtual Routes
 
-const AuthenticatedUserIndexLazyImport = createFileRoute(
-  '/_authenticated/user/',
-)()
-const AuthenticatedReturningIndexLazyImport = createFileRoute(
-  '/_authenticated/returning/',
-)()
-const AuthenticatedReportIndexLazyImport = createFileRoute(
-  '/_authenticated/report/',
-)()
 const AuthenticatedHomeIndexLazyImport = createFileRoute(
   '/_authenticated/home/',
 )()
 const AuthenticatedForbiddenIndexLazyImport = createFileRoute(
   '/_authenticated/forbidden/',
-)()
-const AuthenticatedAssignmentIndexLazyImport = createFileRoute(
-  '/_authenticated/assignment/',
-)()
-const AuthenticatedAssetIndexLazyImport = createFileRoute(
-  '/_authenticated/asset/',
-)()
-const AuthenticatedUserNewIndexLazyImport = createFileRoute(
-  '/_authenticated/user/new/',
-)()
-const AuthenticatedAssignmentNewIndexLazyImport = createFileRoute(
-  '/_authenticated/assignment/new/',
-)()
-const AuthenticatedAssetNewIndexLazyImport = createFileRoute(
-  '/_authenticated/asset/new/',
 )()
 
 // Create/Update Routes
@@ -63,31 +36,6 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
-
-const AuthenticatedUserIndexLazyRoute = AuthenticatedUserIndexLazyImport.update(
-  {
-    path: '/user/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any,
-).lazy(() =>
-  import('./routes/_authenticated/user/index.lazy').then((d) => d.Route),
-)
-
-const AuthenticatedReturningIndexLazyRoute =
-  AuthenticatedReturningIndexLazyImport.update({
-    path: '/returning/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/returning/index.lazy').then((d) => d.Route),
-  )
-
-const AuthenticatedReportIndexLazyRoute =
-  AuthenticatedReportIndexLazyImport.update({
-    path: '/report/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/report/index.lazy').then((d) => d.Route),
-  )
 
 const AuthenticatedHomeIndexLazyRoute = AuthenticatedHomeIndexLazyImport.update(
   {
@@ -104,65 +52,6 @@ const AuthenticatedForbiddenIndexLazyRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any).lazy(() =>
     import('./routes/_authenticated/forbidden/index.lazy').then((d) => d.Route),
-  )
-
-const AuthenticatedAssignmentIndexLazyRoute =
-  AuthenticatedAssignmentIndexLazyImport.update({
-    path: '/assignment/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/assignment/index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const AuthenticatedAssetIndexLazyRoute =
-  AuthenticatedAssetIndexLazyImport.update({
-    path: '/asset/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/asset/index.lazy').then((d) => d.Route),
-  )
-
-const AuthenticatedUserIdRoute = AuthenticatedUserIdImport.update({
-  path: '/user/$id',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedAssignmentIdRoute = AuthenticatedAssignmentIdImport.update({
-  path: '/assignment/$id',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedAssetIdRoute = AuthenticatedAssetIdImport.update({
-  path: '/asset/$id',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedUserNewIndexLazyRoute =
-  AuthenticatedUserNewIndexLazyImport.update({
-    path: '/user/new/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/user/new/index.lazy').then((d) => d.Route),
-  )
-
-const AuthenticatedAssignmentNewIndexLazyRoute =
-  AuthenticatedAssignmentNewIndexLazyImport.update({
-    path: '/assignment/new/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/assignment/new/index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const AuthenticatedAssetNewIndexLazyRoute =
-  AuthenticatedAssetNewIndexLazyImport.update({
-    path: '/asset/new/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/asset/new/index.lazy').then((d) => d.Route),
   )
 
 // Populate the FileRoutesByPath interface
@@ -183,41 +72,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/asset/$id': {
-      id: '/_authenticated/asset/$id'
-      path: '/asset/$id'
-      fullPath: '/asset/$id'
-      preLoaderRoute: typeof AuthenticatedAssetIdImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/assignment/$id': {
-      id: '/_authenticated/assignment/$id'
-      path: '/assignment/$id'
-      fullPath: '/assignment/$id'
-      preLoaderRoute: typeof AuthenticatedAssignmentIdImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/user/$id': {
-      id: '/_authenticated/user/$id'
-      path: '/user/$id'
-      fullPath: '/user/$id'
-      preLoaderRoute: typeof AuthenticatedUserIdImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/asset/': {
-      id: '/_authenticated/asset/'
-      path: '/asset'
-      fullPath: '/asset'
-      preLoaderRoute: typeof AuthenticatedAssetIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/assignment/': {
-      id: '/_authenticated/assignment/'
-      path: '/assignment'
-      fullPath: '/assignment'
-      preLoaderRoute: typeof AuthenticatedAssignmentIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_authenticated/forbidden/': {
       id: '/_authenticated/forbidden/'
       path: '/forbidden'
@@ -232,48 +86,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeIndexLazyImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/report/': {
-      id: '/_authenticated/report/'
-      path: '/report'
-      fullPath: '/report'
-      preLoaderRoute: typeof AuthenticatedReportIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/returning/': {
-      id: '/_authenticated/returning/'
-      path: '/returning'
-      fullPath: '/returning'
-      preLoaderRoute: typeof AuthenticatedReturningIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/user/': {
-      id: '/_authenticated/user/'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof AuthenticatedUserIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/asset/new/': {
-      id: '/_authenticated/asset/new/'
-      path: '/asset/new'
-      fullPath: '/asset/new'
-      preLoaderRoute: typeof AuthenticatedAssetNewIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/assignment/new/': {
-      id: '/_authenticated/assignment/new/'
-      path: '/assignment/new'
-      fullPath: '/assignment/new'
-      preLoaderRoute: typeof AuthenticatedAssignmentNewIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/user/new/': {
-      id: '/_authenticated/user/new/'
-      path: '/user/new'
-      fullPath: '/user/new'
-      preLoaderRoute: typeof AuthenticatedUserNewIndexLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
   }
 }
 
@@ -282,19 +94,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
-    AuthenticatedAssetIdRoute,
-    AuthenticatedAssignmentIdRoute,
-    AuthenticatedUserIdRoute,
-    AuthenticatedAssetIndexLazyRoute,
-    AuthenticatedAssignmentIndexLazyRoute,
     AuthenticatedForbiddenIndexLazyRoute,
     AuthenticatedHomeIndexLazyRoute,
-    AuthenticatedReportIndexLazyRoute,
-    AuthenticatedReturningIndexLazyRoute,
-    AuthenticatedUserIndexLazyRoute,
-    AuthenticatedAssetNewIndexLazyRoute,
-    AuthenticatedAssignmentNewIndexLazyRoute,
-    AuthenticatedUserNewIndexLazyRoute,
   }),
 })
 
@@ -316,40 +117,9 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/asset/$id",
-        "/_authenticated/assignment/$id",
-        "/_authenticated/user/$id",
-        "/_authenticated/asset/",
-        "/_authenticated/assignment/",
         "/_authenticated/forbidden/",
-        "/_authenticated/home/",
-        "/_authenticated/report/",
-        "/_authenticated/returning/",
-        "/_authenticated/user/",
-        "/_authenticated/asset/new/",
-        "/_authenticated/assignment/new/",
-        "/_authenticated/user/new/"
+        "/_authenticated/home/"
       ]
-    },
-    "/_authenticated/asset/$id": {
-      "filePath": "_authenticated/asset/$id.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/assignment/$id": {
-      "filePath": "_authenticated/assignment/$id.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/user/$id": {
-      "filePath": "_authenticated/user/$id.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/asset/": {
-      "filePath": "_authenticated/asset/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/assignment/": {
-      "filePath": "_authenticated/assignment/index.lazy.tsx",
-      "parent": "/_authenticated"
     },
     "/_authenticated/forbidden/": {
       "filePath": "_authenticated/forbidden/index.lazy.tsx",
@@ -357,30 +127,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticated/home/": {
       "filePath": "_authenticated/home/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/report/": {
-      "filePath": "_authenticated/report/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/returning/": {
-      "filePath": "_authenticated/returning/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/user/": {
-      "filePath": "_authenticated/user/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/asset/new/": {
-      "filePath": "_authenticated/asset/new/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/assignment/new/": {
-      "filePath": "_authenticated/assignment/new/index.lazy.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/user/new/": {
-      "filePath": "_authenticated/user/new/index.lazy.tsx",
       "parent": "/_authenticated"
     }
   }
